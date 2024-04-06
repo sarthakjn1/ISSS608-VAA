@@ -1,0 +1,8 @@
+---
+title: "ISSS608-VAA"
+---
+
+Welcome to my learning journey of ISSS608 Visual Analytics and Applications
+
+```{usethis}
+```

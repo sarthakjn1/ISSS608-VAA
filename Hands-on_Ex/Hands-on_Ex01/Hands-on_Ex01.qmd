@@ -1,5 +1,6 @@
 ---
 title: "Hands-on Exercise 1"
+author: "Sarthak Nagapurkar"
 ---
 
 # Getting Started
@@ -37,4 +38,109 @@ ggplot(data=exam_data,
 ggplot(data=exam_data, 
        aes(x=RACE)) +
   geom_bar()
+```
+
+# Plotting a Dot plot
+
+In a dot plot, the width of a dot corresponds to the bin width (or maximum width, depending on the binning algorithm), and dots are stacked, with each dot representing one observation.
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x = MATHS)) +
+  geom_dotplot(dotsize = 0.5)
+```
+
+The `scale_y_continuous()` is used to turn off the y-axis, and *binwidth argument* is used to change the binwidth to 2.5.
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x = MATHS)) +
+  geom_dotplot(binwidth=2.5,         
+               dotsize = 0.5) +      
+  scale_y_continuous(NULL,           
+                     breaks = NULL)  
+```
+
+# Plotting a histogram
+
+Plot a histogram for Maths scores
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x = MATHS)) +
+  geom_histogram()       
+```
+
+Modify the geometric object by changing the geom() object
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS)) +
+  geom_histogram(bins=20,            
+                 color="black",      
+                 fill="light blue")  
+```
+
+Modify the geometric object by changing the aes() object
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS, 
+           fill = GENDER)) +
+  geom_histogram(bins=20, 
+                 color="grey30")
+```
+
+# Plotting the kernel estimate density plot
+
+The code below plots the distribution of Maths scores in a kernel density estimate plot.
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x = MATHS)) +
+  geom_density()           
+```
+
+The code chunk below plots two kernel density lines by using *colour* or *fill* arguments of *aes()*
+
+```{r}
+ggplot(data=exam_data,
+       aes(x = MATHS,colour=GENDER)) +
+  geom_density()
+```
+
+# Plotting a Boxplot
+
+```{r}
+ggplot(data=exam_data,
+       aes(y= MATHS,x = GENDER)) +
+  geom_boxplot()
+```
+
+The code chunk below plots the distribution of Maths scores by gender in notched plot instead of boxplot.
+
+```{r}
+ggplot(data=exam_data,
+       aes(y = MATHS,x = GENDER)) +
+  geom_boxplot(notch=TRUE)
+```
+
+# Plotting a Violin Plot
+
+The code below plot the distribution of Maths score by gender in violin plot.
+
+```{r}
+ggplot(data=exam_data,
+       aes(y=MATHS, x=GENDER)) + 
+  geom_violin()
+```
+
+# Plotting a Scatter Plot
+
+The code chunk below plots a scatterplot showing the Maths and English grades of pupils.
+
+```{r}
+ggplot(data=exam_data,
+       aes(x=MATHS, y=ENGLISH)) +
+  geom_point()
 ```

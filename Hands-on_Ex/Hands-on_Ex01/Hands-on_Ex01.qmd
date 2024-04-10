@@ -1,3 +1,11 @@
 ---
 title: "Hands-on Exercise 1"
 ---
+
+---
+
+---
+
+```{r}
+exam_data <- read_csv("C:/Users/DELL/Downloads/Hands-on_Ex1/data/Exam_data.csv")
+```

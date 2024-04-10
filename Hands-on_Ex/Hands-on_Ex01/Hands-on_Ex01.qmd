@@ -2,11 +2,39 @@
 title: "Hands-on Exercise 1"
 ---
 
----
+# Getting Started
 
----
+## Installing and loading R packages
 
 ```{r}
-install.packages('readr')
+pacman::p_load(tidyverse)
+```
+
+## Importing the data
+
+```{r}
 exam_data <- read_csv("C:/Users/DELL/Downloads/Hands-on_Ex1/data/Exam_data.csv")
+```
+
+```{r}
+ggplot(data=exam_data)
+```
+
+The aesthetic mappings take attributes of the data and and use them to influence visual characteristics, such as position, colour, size, shape, or transparency. Each visual characteristic can thus encode an aspect of the data and be used to convey information.
+
+All aesthetics of a plot are specified in the [`aes()`](https://ggplot2.tidyverse.org/reference/aes.html) function call
+
+Code chunk below adds the aesthetic element into the plot.
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x= MATHS))
+```
+
+# Plotting a Bar chart
+
+```{r}
+ggplot(data=exam_data, 
+       aes(x=RACE)) +
+  geom_bar()
 ```

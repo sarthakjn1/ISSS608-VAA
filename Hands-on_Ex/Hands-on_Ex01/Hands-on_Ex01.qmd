@@ -144,3 +144,130 @@ ggplot(data=exam_data,
        aes(x=MATHS, y=ENGLISH)) +
   geom_point()
 ```
+
+## Combining Boxplots and Scatter plots
+
+The code chunk below plots the data points on the boxplots by using both `geom_boxplot()` and `geom_point()`.
+
+```{r}
+ggplot(data=exam_data,
+       aes(y=MATHS, x=GENDER)) +
+  geom_point(position="jitter", size=0.5) + 
+  geom_boxplot()
+```
+
+# Working with stat
+
+## **Working with stat - the *stat_summary()* method**
+
+The code chunk below adds mean values by using [`stat_summary()`](https://ggplot2.tidyverse.org/reference/stat_summary.html) function and overriding the default geom.
+
+```{r}
+ggplot(data=exam_data,
+       aes(y=MATHS, x=GENDER)) +
+  geom_boxplot() +
+  stat_summary(geom= "point",
+               fun= "mean",
+               colour= "red",
+               size= 4)
+```
+
+##  **Working with stat - the `geom()` method**
+
+The code chunk below adding mean values by using `geom_()` function and overriding the default stat.
+
+```{r}
+ggplot(data=exam_data,
+       aes(y=MATHS, x=GENDER)) +
+  geom_boxplot() + 
+  geom_point(stat="summary",
+             fun= "mean",
+             colour= "red",
+             size= 4)
+```
+
+## Adding a best fit curve on a scatter plot
+
+The scatterplot below shows the relationship of Maths and English grades of pupils. The interpretability of this graph can be improved by adding a best fit curve.In the code chunk below, [`geom_smooth()`](https://ggplot2.tidyverse.org/reference/geom_smooth.html) is used to plot a best fit curve on the scatterplot.
+
+```{r}
+ggplot(data=exam_data,
+       aes(y= ENGLISH, x= MATHS)) +
+  geom_point() +
+  geom_smooth(linewidth=0.5)
+```
+
+The default smoothing method is loess. The default smoothing method can be overridden as shown below.
+
+```{r}
+ggplot(data= exam_data,
+       aes(y= ENGLISH, x= MATHS)) +
+  geom_point() +
+  geom_smooth(method= lm,
+              linewidth= 0.5)
+```
+
+# Working with facets
+
+## **Working with `facet_wrap()`**
+
+[`facet_wrap`](https://ggplot2.tidyverse.org/reference/facet_wrap.html) wraps a 1d sequence of panels into 2d. This is generally a better use of screen space than facet_grid because most displays are roughly rectangular. The code chunk below plots a trellis plot using `facet-wrap()`.
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = MATHS)) +
+  geom_histogram(bins = 25) +
+  facet_wrap(~ CLASS)
+```
+
+## Working with facet_grid()
+
+[`facet_grid()`](https://ggplot2.tidyverse.org/reference/facet_grid.html) forms a matrix of panels defined by row and column facetting variables. It is most useful when you have two discrete variables, and all combinations of the variables exist in the data. The code chunk below plots a trellis plot using `facet_grid()`.
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = MATHS)) + 
+  geom_histogram(bins = 25) + 
+  facet_grid(~ CLASS)
+```
+
+# Working with Coordinate
+
+By the default, the bar chart of ggplot2 is in vertical form.
+
+```{r}
+ggplot(data = exam_data,
+       aes(x=RACE)) +
+  geom_bar()
+```
+
+The code chunk below flips the horizontal bar chart into vertical bar chart by using `coord_flip()`.
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = RACE)) + 
+  geom_bar() +
+  coord_flip()
+```
+
+## Changing the x and y-axis range
+
+The scatter plot below is slightly misleading because the y-axis and x-axis range are not equal.
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = MATHS, y = ENGLISH)) +
+  geom_point() +
+  geom_smooth(method = lm, linewidth=0.5)
+```
+
+The code chunk below fixed both the y-axis and x-axis range from 0-100.
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = MATHS, y = ENGLISH)) +
+  geom_point() +
+  geom_smooth(method = lm, linewidth=0.5) +
+  coord_cartesian(xlim = c(0, 100),
+                  ylim = c(0, 100))
+```

@@ -47,6 +47,8 @@ As you can see that the code chunk is relatively simple if R Graphics is used.
 
 # A Layered Grammar of Graphics
 
+The elements of Grammar of Graphics are as follows.
+
 -   **Data**: The dataset being plotted.
 
 -   **Aesthetics** take attributes of the data and use them to influence visual characteristics, such as position, colours, size, shape, or transparency.
@@ -360,3 +362,9 @@ ggplot(data = exam_data,
   coord_flip() +
   theme_minimal()
 ```
+
+# References
+
+-   Hadley Wickham (2023) [**ggplot2: Elegant Graphics for Data Analysis**](https://ggplot2-book.org/). Online 3rd edition.
+-   Winston Chang (2013) [**R Graphics Cookbook 2nd edition**](https://r-graphics.org/). Online version.
+-   Healy, Kieran (2019) [**Data Visualization: A practical introduction**](https://socviz.co/). Online version

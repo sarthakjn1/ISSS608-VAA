@@ -180,16 +180,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#installing-and-loading-r-packages" id="toc-installing-and-loading-r-packages" class="nav-link" data-scroll-target="#installing-and-loading-r-packages">Installing and loading R packages</a></li>
   <li><a href="#importing-the-data" id="toc-importing-the-data" class="nav-link" data-scroll-target="#importing-the-data">Importing the data</a></li>
   </ul></li>
+  <li><a href="#introducing-ggplot" id="toc-introducing-ggplot" class="nav-link" data-scroll-target="#introducing-ggplot">Introducing ggplot</a>
+  <ul class="collapse">
   <li><a href="#r-graphics-vs-ggplot" id="toc-r-graphics-vs-ggplot" class="nav-link" data-scroll-target="#r-graphics-vs-ggplot">R graphics vs ggplot</a></li>
+  </ul></li>
+  <li><a href="#a-layered-grammar-of-graphics" id="toc-a-layered-grammar-of-graphics" class="nav-link" data-scroll-target="#a-layered-grammar-of-graphics">A Layered Grammar of Graphics</a></li>
+  <li><a href="#working-with-data" id="toc-working-with-data" class="nav-link" data-scroll-target="#working-with-data">Working with Data</a></li>
+  <li><a href="#working-with-aesthetics" id="toc-working-with-aesthetics" class="nav-link" data-scroll-target="#working-with-aesthetics">Working with Aesthetics</a></li>
+  <li><a href="#working-with-geometric-objects" id="toc-working-with-geometric-objects" class="nav-link" data-scroll-target="#working-with-geometric-objects">Working with Geometric objects</a>
+  <ul class="collapse">
   <li><a href="#plotting-a-bar-chart" id="toc-plotting-a-bar-chart" class="nav-link" data-scroll-target="#plotting-a-bar-chart">Plotting a Bar chart</a></li>
   <li><a href="#plotting-a-dot-plot" id="toc-plotting-a-dot-plot" class="nav-link" data-scroll-target="#plotting-a-dot-plot">Plotting a Dot plot</a></li>
   <li><a href="#plotting-a-histogram" id="toc-plotting-a-histogram" class="nav-link" data-scroll-target="#plotting-a-histogram">Plotting a histogram</a></li>
   <li><a href="#plotting-the-kernel-estimate-density-plot" id="toc-plotting-the-kernel-estimate-density-plot" class="nav-link" data-scroll-target="#plotting-the-kernel-estimate-density-plot">Plotting the kernel estimate density plot</a></li>
   <li><a href="#plotting-a-boxplot" id="toc-plotting-a-boxplot" class="nav-link" data-scroll-target="#plotting-a-boxplot">Plotting a Boxplot</a></li>
   <li><a href="#plotting-a-violin-plot" id="toc-plotting-a-violin-plot" class="nav-link" data-scroll-target="#plotting-a-violin-plot">Plotting a Violin Plot</a></li>
-  <li><a href="#plotting-a-scatter-plot" id="toc-plotting-a-scatter-plot" class="nav-link" data-scroll-target="#plotting-a-scatter-plot">Plotting a Scatter Plot</a>
-  <ul class="collapse">
-  <li><a href="#combining-boxplots-and-scatter-plots" id="toc-combining-boxplots-and-scatter-plots" class="nav-link" data-scroll-target="#combining-boxplots-and-scatter-plots">Combining Boxplots and Scatter plots</a></li>
+  <li><a href="#plotting-a-scatter-plot" id="toc-plotting-a-scatter-plot" class="nav-link" data-scroll-target="#plotting-a-scatter-plot">Plotting a Scatter Plot</a></li>
+  <li><a href="#combining-geom-objects-boxplots-and-scatter-plots" id="toc-combining-geom-objects-boxplots-and-scatter-plots" class="nav-link" data-scroll-target="#combining-geom-objects-boxplots-and-scatter-plots">Combining geom objects: Boxplots and Scatter plots</a></li>
   </ul></li>
   <li><a href="#working-with-stat" id="toc-working-with-stat" class="nav-link" data-scroll-target="#working-with-stat">Working with stat</a>
   <ul class="collapse">
@@ -247,7 +254,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="importing-the-data" class="level2">
 <h2 class="anchored" data-anchor-id="importing-the-data">Importing the data</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>exam_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"C:/Users/DELL/Downloads/Hands-on_Ex1/data/Exam_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>exam_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/Exam_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Rows: 322 Columns: 7
 ── Column specification ────────────────────────────────────────────────────────
@@ -261,8 +268,10 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 </div>
 </section>
 </section>
-<section id="r-graphics-vs-ggplot" class="level1">
-<h1>R graphics vs ggplot</h1>
+<section id="introducing-ggplot" class="level1">
+<h1>Introducing ggplot</h1>
+<section id="r-graphics-vs-ggplot" class="level2">
+<h2 class="anchored" data-anchor-id="r-graphics-vs-ggplot">R graphics vs ggplot</h2>
 <p>First, let us compare how R Graphics, the core graphical functions of Base R and ggplot plot a simple histogram.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">R graphics</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">ggplot2</a></li></ul>
@@ -291,12 +300,32 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 </div>
 </div>
 </div>
+<p>As you can see that the code chunk is relatively simple if R Graphics is used.</p>
+</section>
+</section>
+<section id="a-layered-grammar-of-graphics" class="level1">
+<h1>A Layered Grammar of Graphics</h1>
+<ul>
+<li><p><strong>Data</strong>: The dataset being plotted.</p></li>
+<li><p><strong>Aesthetics</strong> take attributes of the data and use them to influence visual characteristics, such as position, colours, size, shape, or transparency.</p></li>
+<li><p><strong>Geometrics</strong>: The visual elements used for our data, such as point, bar or line.</p></li>
+<li><p><strong>Facets</strong> split the data into subsets to create multiple variations of the same graph (paneling, multiple plots).</p></li>
+<li><p><strong>Statistics</strong>, statiscal transformations that summarise data (e.g.&nbsp;mean, confidence intervals).</p></li>
+<li><p><strong>Coordinate systems</strong> define the plane on which data are mapped on the graphic.</p></li>
+<li><p><strong>Themes</strong> modify all non-data components of a plot, such as main title, sub-title, y-aixs title, or legend background.</p></li>
+</ul>
+</section>
+<section id="working-with-data" class="level1">
+<h1>Working with Data</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Hands-on_Ex01_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+</section>
+<section id="working-with-aesthetics" class="level1">
+<h1>Working with Aesthetics</h1>
 <p>The aesthetic mappings take attributes of the data and and use them to influence visual characteristics, such as position, colour, size, shape, or transparency. Each visual characteristic can thus encode an aspect of the data and be used to convey information.</p>
 <p>All aesthetics of a plot are specified in the <a href="https://ggplot2.tidyverse.org/reference/aes.html"><code>aes()</code></a> function call</p>
 <p>Code chunk below adds the aesthetic element into the plot.</p>
@@ -308,8 +337,10 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 </div>
 </div>
 </section>
-<section id="plotting-a-bar-chart" class="level1">
-<h1>Plotting a Bar chart</h1>
+<section id="working-with-geometric-objects" class="level1">
+<h1>Working with Geometric objects</h1>
+<section id="plotting-a-bar-chart" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-a-bar-chart">Plotting a Bar chart</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x=</span>RACE)) <span class="sc">+</span></span>
@@ -319,8 +350,8 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 </div>
 </div>
 </section>
-<section id="plotting-a-dot-plot" class="level1">
-<h1>Plotting a Dot plot</h1>
+<section id="plotting-a-dot-plot" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-a-dot-plot">Plotting a Dot plot</h2>
 <p>In a dot plot, the width of a dot corresponds to the bin width (or maximum width, depending on the binning algorithm), and dots are stacked, with each dot representing one observation.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
@@ -347,8 +378,8 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 </div>
 </div>
 </section>
-<section id="plotting-a-histogram" class="level1">
-<h1>Plotting a histogram</h1>
+<section id="plotting-a-histogram" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-a-histogram">Plotting a histogram</h2>
 <p>Plot a histogram for Maths scores</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
@@ -384,8 +415,8 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 </div>
 </div>
 </section>
-<section id="plotting-the-kernel-estimate-density-plot" class="level1">
-<h1>Plotting the kernel estimate density plot</h1>
+<section id="plotting-the-kernel-estimate-density-plot" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-the-kernel-estimate-density-plot">Plotting the kernel estimate density plot</h2>
 <p>The code below plots the distribution of Maths scores in a kernel density estimate plot.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data, </span>
@@ -405,8 +436,8 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 </div>
 </div>
 </section>
-<section id="plotting-a-boxplot" class="level1">
-<h1>Plotting a Boxplot</h1>
+<section id="plotting-a-boxplot" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-a-boxplot">Plotting a Boxplot</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y=</span> MATHS,<span class="at">x =</span> GENDER)) <span class="sc">+</span></span>
@@ -425,8 +456,8 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 </div>
 </div>
 </section>
-<section id="plotting-a-violin-plot" class="level1">
-<h1>Plotting a Violin Plot</h1>
+<section id="plotting-a-violin-plot" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-a-violin-plot">Plotting a Violin Plot</h2>
 <p>The code below plot the distribution of Maths score by gender in violin plot.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data,</span>
@@ -437,8 +468,8 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 </div>
 </div>
 </section>
-<section id="plotting-a-scatter-plot" class="level1">
-<h1>Plotting a Scatter Plot</h1>
+<section id="plotting-a-scatter-plot" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-a-scatter-plot">Plotting a Scatter Plot</h2>
 <p>The code chunk below plots a scatterplot showing the Maths and English grades of pupils.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data,</span>
@@ -448,8 +479,9 @@ dbl (3): ENGLISH, MATHS, SCIENCE
 <p><img src="Hands-on_Ex01_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<section id="combining-boxplots-and-scatter-plots" class="level2">
-<h2 class="anchored" data-anchor-id="combining-boxplots-and-scatter-plots">Combining Boxplots and Scatter plots</h2>
+</section>
+<section id="combining-geom-objects-boxplots-and-scatter-plots" class="level2">
+<h2 class="anchored" data-anchor-id="combining-geom-objects-boxplots-and-scatter-plots">Combining geom objects: Boxplots and Scatter plots</h2>
 <p>The code chunk below plots the data points on the boxplots by using both&nbsp;<code>geom_boxplot()</code>&nbsp;and&nbsp;<code>geom_point()</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>exam_data,</span>

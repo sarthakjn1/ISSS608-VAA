@@ -18,7 +18,7 @@
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html",
     "title": "Hands-on Exercise 1",
     "section": "",
-    "text": "pacman::p_load(tidyverse)\n\n\n\n\n\nexam_data &lt;- read_csv(\"C:/Users/DELL/Downloads/Hands-on_Ex1/data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+    "text": "pacman::p_load(tidyverse)\n\n\n\n\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#installing-and-loading-r-packages",
@@ -32,7 +32,7 @@
     "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#importing-the-data",
     "title": "Hands-on Exercise 1",
     "section": "",
-    "text": "exam_data &lt;- read_csv(\"C:/Users/DELL/Downloads/Hands-on_Ex1/data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
+    "text": "exam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#combining-boxplots-and-scatter-plots",
@@ -82,5 +82,68 @@
     "title": "Hands-on Exercise 1",
     "section": "Changing the x and y-axis range",
     "text": "Changing the x and y-axis range\nThe scatter plot below is slightly misleading because the y-axis and x-axis range are not equal.\n\nggplot(data = exam_data,\n       aes(x = MATHS, y = ENGLISH)) +\n  geom_point() +\n  geom_smooth(method = lm, linewidth=0.5)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\nThe code chunk below fixed both the y-axis and x-axis range from 0-100.\n\nggplot(data = exam_data,\n       aes(x = MATHS, y = ENGLISH)) +\n  geom_point() +\n  geom_smooth(method = lm, linewidth=0.5) +\n  coord_cartesian(xlim = c(0, 100),\n                  ylim = c(0, 100))\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#r-graphics-vs-ggplot",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#r-graphics-vs-ggplot",
+    "title": "Hands-on Exercise 1",
+    "section": "R graphics vs ggplot",
+    "text": "R graphics vs ggplot\nFirst, let us compare how R Graphics, the core graphical functions of Base R and ggplot plot a simple histogram.\n\nR graphicsggplot2\n\n\n\nhist(exam_data$MATHS)\n\n\n\n\n\n\n\nggplot(data = exam_data,\n       aes(x = MATHS)) +\n  geom_histogram(bins = 10,\n                 boundary = 100,\n                 colour = \"black\",\n                 fill = \"grey\") +\n  ggtitle(\"Distribution of Maths scores\")\n\n\n\n\n\n\n\nAs you can see that the code chunk is relatively simple if R Graphics is used."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-bar-chart",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-bar-chart",
+    "title": "Hands-on Exercise 1",
+    "section": "Plotting a Bar chart",
+    "text": "Plotting a Bar chart\n\nggplot(data=exam_data, \n       aes(x=RACE)) +\n  geom_bar()"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-dot-plot",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-dot-plot",
+    "title": "Hands-on Exercise 1",
+    "section": "Plotting a Dot plot",
+    "text": "Plotting a Dot plot\nIn a dot plot, the width of a dot corresponds to the bin width (or maximum width, depending on the binning algorithm), and dots are stacked, with each dot representing one observation.\n\nggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot(dotsize = 0.5)\n\nBin width defaults to 1/30 of the range of the data. Pick better value with\n`binwidth`.\n\n\n\n\n\nThe scale_y_continuous() is used to turn off the y-axis, and binwidth argument is used to change the binwidth to 2.5.\n\nggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_dotplot(binwidth=2.5,         \n               dotsize = 0.5) +      \n  scale_y_continuous(NULL,           \n                     breaks = NULL)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-histogram",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-histogram",
+    "title": "Hands-on Exercise 1",
+    "section": "Plotting a histogram",
+    "text": "Plotting a histogram\nPlot a histogram for Maths scores\n\nggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_histogram()       \n\n`stat_bin()` using `bins = 30`. Pick better value with `binwidth`.\n\n\n\n\n\nModify the geometric object by changing the geom() object\n\nggplot(data=exam_data, \n       aes(x= MATHS)) +\n  geom_histogram(bins=20,            \n                 color=\"black\",      \n                 fill=\"light blue\")  \n\n\n\n\nModify the geometric object by changing the aes() object\n\nggplot(data=exam_data, \n       aes(x= MATHS, \n           fill = GENDER)) +\n  geom_histogram(bins=20, \n                 color=\"grey30\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-the-kernel-estimate-density-plot",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-the-kernel-estimate-density-plot",
+    "title": "Hands-on Exercise 1",
+    "section": "Plotting the kernel estimate density plot",
+    "text": "Plotting the kernel estimate density plot\nThe code below plots the distribution of Maths scores in a kernel density estimate plot.\n\nggplot(data=exam_data, \n       aes(x = MATHS)) +\n  geom_density()           \n\n\n\n\nThe code chunk below plots two kernel density lines by using colour or fill arguments of aes()\n\nggplot(data=exam_data,\n       aes(x = MATHS,colour=GENDER)) +\n  geom_density()"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-boxplot",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-boxplot",
+    "title": "Hands-on Exercise 1",
+    "section": "Plotting a Boxplot",
+    "text": "Plotting a Boxplot\n\nggplot(data=exam_data,\n       aes(y= MATHS,x = GENDER)) +\n  geom_boxplot()\n\n\n\n\nThe code chunk below plots the distribution of Maths scores by gender in notched plot instead of boxplot.\n\nggplot(data=exam_data,\n       aes(y = MATHS,x = GENDER)) +\n  geom_boxplot(notch=TRUE)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-violin-plot",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-violin-plot",
+    "title": "Hands-on Exercise 1",
+    "section": "Plotting a Violin Plot",
+    "text": "Plotting a Violin Plot\nThe code below plot the distribution of Maths score by gender in violin plot.\n\nggplot(data=exam_data,\n       aes(y=MATHS, x=GENDER)) + \n  geom_violin()"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-scatter-plot",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#plotting-a-scatter-plot",
+    "title": "Hands-on Exercise 1",
+    "section": "Plotting a Scatter Plot",
+    "text": "Plotting a Scatter Plot\nThe code chunk below plots a scatterplot showing the Maths and English grades of pupils.\n\nggplot(data=exam_data,\n       aes(x=MATHS, y=ENGLISH)) +\n  geom_point()"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#combining-geom-objects-boxplots-and-scatter-plots",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#combining-geom-objects-boxplots-and-scatter-plots",
+    "title": "Hands-on Exercise 1",
+    "section": "Combining geom objects: Boxplots and Scatter plots",
+    "text": "Combining geom objects: Boxplots and Scatter plots\nThe code chunk below plots the data points on the boxplots by using both geom_boxplot() and geom_point().\n\nggplot(data=exam_data,\n       aes(y=MATHS, x=GENDER)) +\n  geom_point(position=\"jitter\", size=0.5) + \n  geom_boxplot()"
   }
 ]

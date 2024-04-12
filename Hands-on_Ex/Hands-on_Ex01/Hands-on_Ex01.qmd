@@ -14,12 +14,60 @@ pacman::p_load(tidyverse)
 ## Importing the data
 
 ```{r}
-exam_data <- read_csv("C:/Users/DELL/Downloads/Hands-on_Ex1/data/Exam_data.csv")
+exam_data <- read_csv("data/Exam_data.csv")
 ```
+
+# Introducing ggplot
+
+## R graphics vs ggplot
+
+First, let us compare how R Graphics, the core graphical functions of Base R and ggplot plot a simple histogram.
+
+::: panel-tabset
+## R graphics
+
+```{r}
+hist(exam_data$MATHS)
+```
+
+## ggplot2
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = MATHS)) +
+  geom_histogram(bins = 10,
+                 boundary = 100,
+                 colour = "black",
+                 fill = "grey") +
+  ggtitle("Distribution of Maths scores")
+```
+:::
+
+As you can see that the code chunk is relatively simple if R Graphics is used.
+
+# A Layered Grammar of Graphics
+
+-   **Data**: The dataset being plotted.
+
+-   **Aesthetics** take attributes of the data and use them to influence visual characteristics, such as position, colours, size, shape, or transparency.
+
+-   **Geometrics**: The visual elements used for our data, such as point, bar or line.
+
+-   **Facets** split the data into subsets to create multiple variations of the same graph (paneling, multiple plots).
+
+-   **Statistics**, statiscal transformations that summarise data (e.g. mean, confidence intervals).
+
+-   **Coordinate systems** define the plane on which data are mapped on the graphic.
+
+-   **Themes** modify all non-data components of a plot, such as main title, sub-title, y-aixs title, or legend background.
+
+# Working with Data
 
 ```{r}
 ggplot(data=exam_data)
 ```
+
+# Working with Aesthetics
 
 The aesthetic mappings take attributes of the data and and use them to influence visual characteristics, such as position, colour, size, shape, or transparency. Each visual characteristic can thus encode an aspect of the data and be used to convey information.
 
@@ -32,7 +80,9 @@ ggplot(data=exam_data,
        aes(x= MATHS))
 ```
 
-# Plotting a Bar chart
+# Working with Geometric objects
+
+## Plotting a Bar chart
 
 ```{r}
 ggplot(data=exam_data, 
@@ -40,7 +90,7 @@ ggplot(data=exam_data,
   geom_bar()
 ```
 
-# Plotting a Dot plot
+## Plotting a Dot plot
 
 In a dot plot, the width of a dot corresponds to the bin width (or maximum width, depending on the binning algorithm), and dots are stacked, with each dot representing one observation.
 
@@ -61,7 +111,7 @@ ggplot(data=exam_data,
                      breaks = NULL)  
 ```
 
-# Plotting a histogram
+## Plotting a histogram
 
 Plot a histogram for Maths scores
 
@@ -91,7 +141,7 @@ ggplot(data=exam_data,
                  color="grey30")
 ```
 
-# Plotting the kernel estimate density plot
+## Plotting the kernel estimate density plot
 
 The code below plots the distribution of Maths scores in a kernel density estimate plot.
 
@@ -109,7 +159,7 @@ ggplot(data=exam_data,
   geom_density()
 ```
 
-# Plotting a Boxplot
+## Plotting a Boxplot
 
 ```{r}
 ggplot(data=exam_data,
@@ -125,7 +175,7 @@ ggplot(data=exam_data,
   geom_boxplot(notch=TRUE)
 ```
 
-# Plotting a Violin Plot
+## Plotting a Violin Plot
 
 The code below plot the distribution of Maths score by gender in violin plot.
 
@@ -135,7 +185,7 @@ ggplot(data=exam_data,
   geom_violin()
 ```
 
-# Plotting a Scatter Plot
+## Plotting a Scatter Plot
 
 The code chunk below plots a scatterplot showing the Maths and English grades of pupils.
 
@@ -145,7 +195,7 @@ ggplot(data=exam_data,
   geom_point()
 ```
 
-## Combining Boxplots and Scatter plots
+## Combining geom objects: Boxplots and Scatter plots
 
 The code chunk below plots the data points on the boxplots by using both `geom_boxplot()` and `geom_point()`.
 
@@ -172,7 +222,7 @@ ggplot(data=exam_data,
                size= 4)
 ```
 
-##  **Working with stat - the `geom()` method**
+## **Working with stat - the `geom()` method**
 
 The code chunk below adding mean values by using `geom_()` function and overriding the default stat.
 
@@ -270,4 +320,43 @@ ggplot(data = exam_data,
   geom_smooth(method = lm, linewidth=0.5) +
   coord_cartesian(xlim = c(0, 100),
                   ylim = c(0, 100))
+```
+
+# Working with themes
+
+Themes control elements of the graph not related to the data. For example:
+
+-   background colour
+-   size of fonts
+-   gridlines
+-   colour of labels
+
+The code chunk below plot a horizontal bar chart using `theme_gray()`.
+
+```{r}
+ggplot(data= exam_data,
+       aes(x = RACE)) +
+  geom_bar() +
+  coord_flip() +
+  theme_gray()
+```
+
+A horizontal bar chart plotted using `theme_classic()`.
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = RACE)) +
+  geom_bar() + 
+  coord_flip() + 
+  theme_classic()
+```
+
+A horizontal bar chart plotted using `theme_minimal()`.
+
+```{r}
+ggplot(data = exam_data,
+       aes(x = RACE)) +
+  geom_bar() +
+  coord_flip() +
+  theme_minimal()
 ```

@@ -1,0 +1,15 @@
+---
+title: "In-class Exercise 1"
+author: "Sarthak Nagapurkar"
+date: "April 13, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+  freeze: true
+---
+
+```{r}
+pacman::p_load(tidyverse)
+```

@@ -145,5 +145,19 @@
     "title": "Hands-on Exercise 1",
     "section": "Combining geom objects: Boxplots and Scatter plots",
     "text": "Combining geom objects: Boxplots and Scatter plots\nThe code chunk below plots the data points on the boxplots by using both geom_boxplot() and geom_point().\n\nggplot(data=exam_data,\n       aes(y=MATHS, x=GENDER)) +\n  geom_point(position=\"jitter\", size=0.5) + \n  geom_boxplot()"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
+    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
+    "title": "In-class Exercise 1",
+    "section": "",
+    "text": "In the code chunk below, p_load() of pacman package is used to load tidyverse family of packages.\n\npacman::p_load(tidyverse)\n\n\nrealis &lt;- read_csv(\"data/realis2019.csv\")\n\n\nrealis.csv &lt;- read.csv(\"data/realis2019.csv\")\n\n\nggplot(data = realis,\n       aes(x = `Unit Price ($ psm)`)) +\n  geom_histogram()"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
+    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
+    "title": "In-class Exercise 1",
+    "section": "",
+    "text": "In the code chunk below, p_load() of pacman package is used to load tidyverse family of packages.\n\npacman::p_load(tidyverse)\n\n\nrealis &lt;- read_csv(\"data/realis2019.csv\")\n\n\nrealis.csv &lt;- read.csv(\"data/realis2019.csv\")\n\n\nggplot(data = realis,\n       aes(x = `Unit Price ($ psm)`)) +\n  geom_histogram()"
   }
 ]

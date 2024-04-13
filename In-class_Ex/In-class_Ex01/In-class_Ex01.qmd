@@ -13,3 +13,17 @@ execute:
 ```{r}
 pacman::p_load(tidyverse)
 ```
+
+
+```{r}
+realis <- read_csv("data/realis2019.csv")
+```
+
+
+```{r}
+realis.csv <- read.csv("data/realis2019.csv")
+```
+
+```{r}
+ggplot(data = )
+```

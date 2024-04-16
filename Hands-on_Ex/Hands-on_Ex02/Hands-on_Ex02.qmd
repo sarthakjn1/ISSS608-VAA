@@ -1,0 +1,109 @@
+---
+title: "Hands-on Exercise 2"
+author: "Sarthak Nagapurkar"
+date: "April 17, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+  freeze: true
+---
+
+# Getting Started
+
+## **Installing and loading the required libraries**
+
+```{r}
+pacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse)
+```
+
+## Importing the data
+
+The code chunk below imports *exam_data.csv* into R environment by using [*read_csv()*](https://readr.tidyverse.org/reference/read_delim.html) function of [**readr**](https://readr.tidyverse.org/) package. **readr** is one of the tidyverse package.
+
+```{r}
+exam_data <- read_csv("data/Exam_data.csv")
+```
+
+# Beyond ggplot2 Annotation: ggrepel
+
+One of the challenge in plotting statistical graph is annotation, especially with large number of data points.
+
+::: panel-tabset
+## The plot
+
+```{r}
+#| echo: false
+ggplot(data = exam_data,
+       aes(x = MATHS,
+           y = ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm,
+              size=0.5) +
+  geom_label(aes(label = ID),
+             hjust = 0.5,
+             vjust = -0.5) + 
+  coord_cartesian(xlim = c(0,100),
+                  ylim = c(0,100)) + 
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+## The code
+
+```{r}
+#| eval: false
+ggplot(data = exam_data,
+       aes(x = MATHS,
+           y = ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm,
+              size=0.5) +
+  geom_label(aes(label = ID),
+             hjust = 0.5,
+             vjust = -0.5) + 
+  coord_cartesian(xlim = c(0,100),
+                  ylim = c(0,100)) + 
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+:::
+
+## Working with ggrepel
+
+We simply replace `geom_text()` by [`geom_text_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.html) and `geom_label()` by [`geom_label_repel`](https://ggrepel.slowkow.com/reference/geom_text_repel.html)
+
+::: panel-tabset
+## The plot
+
+```{r}
+#| echo: false
+ggplot(data = exam_data,
+       aes(x = MATHS,
+           y = ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm,
+              size=0.5) +
+  geom_label_repel(aes(label = ID),
+             fontface="bold") + 
+  coord_cartesian(xlim = c(0,100),
+                  ylim = c(0,100)) + 
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+
+## The code
+
+```{r}
+#| eval: false
+ggplot(data = exam_data,
+       aes(x = MATHS,
+           y = ENGLISH)) +
+  geom_point() +
+  geom_smooth(method=lm,
+              size=0.5) +
+  geom_label_repel(aes(label = ID),
+             fontface="bold") + 
+  coord_cartesian(xlim = c(0,100),
+                  ylim = c(0,100)) + 
+  ggtitle("English scores versus Maths scores for Primary 3")
+```
+:::

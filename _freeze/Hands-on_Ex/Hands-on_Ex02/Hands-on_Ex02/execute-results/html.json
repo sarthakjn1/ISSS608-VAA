@@ -1,0 +1,16 @@
+{
+  "hash": "033465f071588967d10ae040eedef2a3",
+  "result": {
+    "markdown": "---\ntitle: \"Hands-on Exercise 2\"\nauthor: \"Sarthak Nagapurkar\"\ndate: \"April 17, 2024\"\ndate-modified: \"last-modified\"\nexecute: \n  eval: true\n  echo: true\n  warning: false\n  freeze: true\n---\n\n\n# Getting Started\n\n## **Installing and loading the required libraries**\n\n\n::: {.cell}\n\n```{.r .cell-code}\npacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse)\n```\n:::\n\n\n## Importing the data\n\nThe code chunk below imports *exam_data.csv* into R environment by using [*read_csv()*](https://readr.tidyverse.org/reference/read_delim.html) function of [**readr**](https://readr.tidyverse.org/) package. **readr** is one of the tidyverse package.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nexam_data <- read_csv(\"data/Exam_data.csv\")\n```\n:::\n\n\n# Beyond ggplot2 Annotation: ggrepel\n\nOne of the challenge in plotting statistical graph is annotation, especially with large number of data points.\n\n::: panel-tabset\n## The plot\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](Hands-on_Ex02_files/figure-html/unnamed-chunk-3-1.png){width=672}\n:::\n:::\n\n\n## The code\n\n\n::: {.cell}\n\n```{.r .cell-code}\nggplot(data = exam_data,\n       aes(x = MATHS,\n           y = ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm,\n              size=0.5) +\n  geom_label(aes(label = ID),\n             hjust = 0.5,\n             vjust = -0.5) + \n  coord_cartesian(xlim = c(0,100),\n                  ylim = c(0,100)) + \n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n```\n:::\n\n:::\n\n## Working with ggrepel\n\nWe simply replace `geom_text()` by [`geom_text_repel()`](https://ggrepel.slowkow.com/reference/geom_text_repel.html) and `geom_label()` by [`geom_label_repel`](https://ggrepel.slowkow.com/reference/geom_text_repel.html)\n\n::: panel-tabset\n## The plot\n\n\n::: {.cell}\n::: {.cell-output-display}\n![](Hands-on_Ex02_files/figure-html/unnamed-chunk-5-1.png){width=672}\n:::\n:::\n\n\n## The code\n\n\n::: {.cell}\n\n```{.r .cell-code}\nggplot(data = exam_data,\n       aes(x = MATHS,\n           y = ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm,\n              size=0.5) +\n  geom_label_repel(aes(label = ID),\n             fontface=\"bold\") + \n  coord_cartesian(xlim = c(0,100),\n                  ylim = c(0,100)) + \n  ggtitle(\"English scores versus Maths scores for Primary 3\")\n```\n:::\n\n:::\n",
+    "supporting": [
+      "Hands-on_Ex02_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

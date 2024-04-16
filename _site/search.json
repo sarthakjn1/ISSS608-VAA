@@ -159,5 +159,33 @@
     "title": "In-class Exercise 1",
     "section": "",
     "text": "In the code chunk below, p_load() of pacman package is used to load tidyverse family of packages.\n\npacman::p_load(tidyverse)\n\n\nrealis &lt;- read_csv(\"data/realis2019.csv\")\n\n\nrealis.csv &lt;- read.csv(\"data/realis2019.csv\")\n\n\nggplot(data = realis,\n       aes(x = `Unit Price ($ psm)`)) +\n  geom_histogram()"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
+    "title": "Hands-on Exercise 2",
+    "section": "",
+    "text": "pacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse)\n\n\n\n\nThe code chunk below imports exam_data.csv into R environment by using read_csv() function of readr package. readr is one of the tidyverse package.\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#installing-and-loading-the-required-libraries",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#installing-and-loading-the-required-libraries",
+    "title": "Hands-on Exercise 2",
+    "section": "",
+    "text": "pacman::p_load(ggrepel, patchwork, ggthemes, hrbrthemes, tidyverse)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#importing-the-data",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#importing-the-data",
+    "title": "Hands-on Exercise 2",
+    "section": "",
+    "text": "The code chunk below imports exam_data.csv into R environment by using read_csv() function of readr package. readr is one of the tidyverse package.\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggrepel",
+    "href": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html#working-with-ggrepel",
+    "title": "Hands-on Exercise 2",
+    "section": "Working with ggrepel",
+    "text": "Working with ggrepel\nWe simply replace geom_text() by geom_text_repel() and geom_label() by geom_label_repel\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\nggplot(data = exam_data,\n       aes(x = MATHS,\n           y = ENGLISH)) +\n  geom_point() +\n  geom_smooth(method=lm,\n              size=0.5) +\n  geom_label_repel(aes(label = ID),\n             fontface=\"bold\") + \n  coord_cartesian(xlim = c(0,100),\n                  ylim = c(0,100)) + \n  ggtitle(\"English scores versus Maths scores for Primary 3\")"
   }
 ]

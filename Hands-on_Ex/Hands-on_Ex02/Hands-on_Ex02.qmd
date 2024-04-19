@@ -475,7 +475,7 @@ patchwork & theme_economist()
 ```
 :::
 
-## **Reference**
+# **Reference**
 
 -   [Patchwork R package goes nerd viral](https://www.littlemissdata.com/blog/patchwork)
 -   [ggrepel](https://ggrepel.slowkow.com/)

@@ -1,5 +1,7 @@
 ---
 title: "ISSS608-VAA"
+author: "Sarthak Nagapurkar"
+date-modified: "last-modified"
 ---
 
 Welcome to my learning journey of ISSS608 Visual Analytics and Applications

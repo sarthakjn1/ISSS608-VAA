@@ -13,7 +13,7 @@ execute:
 ## Loading R packages
 
 ```{r}
-pacman::p_load(tidyverse, ggdist, ggthemes)
+pacman::p_load(tidyverse, ggdist, ggridges, colorspace, ggthemes)
 ```
 
 ## Reading data
@@ -21,3 +21,5 @@ pacman::p_load(tidyverse, ggdist, ggthemes)
 ```{r}
 exam_data <- read_csv("data/Exam_data.csv")
 ```
+
+## Visualizing Distribution

@@ -284,14 +284,14 @@
     "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
     "title": "In-class Exercise 2",
     "section": "",
-    "text": "pacman::p_load(tidyverse, ggdist, ggthemes)"
+    "text": "pacman::p_load(tidyverse, ggdist, ggridges, colorspace, ggthemes)"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#loading-r-packages",
     "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#loading-r-packages",
     "title": "In-class Exercise 2",
     "section": "",
-    "text": "pacman::p_load(tidyverse, ggdist, ggthemes)"
+    "text": "pacman::p_load(tidyverse, ggdist, ggridges, colorspace, ggthemes)"
   },
   {
     "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#reading-data",

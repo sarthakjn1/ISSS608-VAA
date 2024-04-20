@@ -23,3 +23,13 @@ exam_data <- read_csv("data/Exam_data.csv")
 ```
 
 ## Visualizing Distribution
+
+```{r}
+ggplot(exam_data,
+       aes(x = ENGLISH)) +
+  geom_density(
+    color = "#1696d2",
+    adjust = 0.65,
+    alpha = 0.6
+  )
+```

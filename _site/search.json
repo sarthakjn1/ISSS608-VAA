@@ -299,5 +299,12 @@
     "title": "In-class Exercise 2",
     "section": "Reading data",
     "text": "Reading data\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#visualizing-distribution",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#visualizing-distribution",
+    "title": "In-class Exercise 2",
+    "section": "Visualizing Distribution",
+    "text": "Visualizing Distribution\n\nggplot(exam_data,\n       aes(x = ENGLISH)) +\n  geom_density(\n    color = \"#1696d2\",\n    adjust = 0.65,\n    alpha = 0.6\n  )"
   }
 ]

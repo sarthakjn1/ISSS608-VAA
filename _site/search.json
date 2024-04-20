@@ -243,5 +243,40 @@
     "title": "Hands-on Exercise 2",
     "section": "Reference",
     "text": "Reference\n\nPatchwork R package goes nerd viral\nggrepel\nggthemes\nhrbrthemes\nggplot tips: Arranging plots\nggplot2 Theme Elements Demonstration\nggplot2 Theme Elements Reference Sheet"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
+    "title": "Take-home Exercise 1",
+    "section": "",
+    "text": "There are two major residential property market in Singapore, namely public and private housing. Public housing aims to meet the basic need of the general public with monthly household income less than or equal to S$14,000. For families with monthly household income more than S$14,000, they need to turn to the private residential market.\n\n\n\nAssuming the role of a graphical editor of a median company, this post aims to reveal the insights from private residential market and sub-markets of Singapore for the 1st quarter of 2024.\n\n\n\nTo accomplish the task, transaction data of REALIS will be used. A complete set of the private residential property transaction data from 1st January 2023 to 31st March 2024 will be used.\n\n\n\nThe data is processed by using appropriate tidyverse family of packages and the statistical graphics are prepared using ggplot2 and its extensions."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#overview",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#overview",
+    "title": "Take-home Exercise 1",
+    "section": "",
+    "text": "There are two major residential property market in Singapore, namely public and private housing. Public housing aims to meet the basic need of the general public with monthly household income less than or equal to S$14,000. For families with monthly household income more than S$14,000, they need to turn to the private residential market.\n\n\n\nAssuming the role of a graphical editor of a median company, this post aims to reveal the insights from private residential market and sub-markets of Singapore for the 1st quarter of 2024.\n\n\n\nTo accomplish the task, transaction data of REALIS will be used. A complete set of the private residential property transaction data from 1st January 2023 to 31st March 2024 will be used.\n\n\n\nThe data is processed by using appropriate tidyverse family of packages and the statistical graphics are prepared using ggplot2 and its extensions."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#loading-packages",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#loading-packages",
+    "title": "Take-home Exercise 1",
+    "section": "2 Loading Packages",
+    "text": "2 Loading Packages\n\npacman::p_load(ggrepel, patchwork, ggthemes, ggridges, hrbrthemes, tidyverse)"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#reading-data",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#reading-data",
+    "title": "Take-home Exercise 1",
+    "section": "3 Reading Data",
+    "text": "3 Reading Data\n\nrealis_data_2023Q1 &lt;- read_csv(\"data/ResidentialTransaction20240308160536.csv\")\nrealis_data_2023Q2 &lt;- read_csv(\"data/ResidentialTransaction20240308160736.csv\")\nrealis_data_2023Q3 &lt;- read_csv(\"data/ResidentialTransaction20240308161009.csv\")\nrealis_data_2023Q4 &lt;- read_csv(\"data/ResidentialTransaction20240308161109.csv\")\nrealis_data_2024Q1 &lt;- read_csv(\"data/ResidentialTransaction20240414220633.csv\")\nrealis_data &lt;- rbind(realis_data_2023Q1, realis_data_2023Q2, realis_data_2023Q3, realis_data_2023Q4, realis_data_2024Q1)\n\n\n3.1 Identify Duplicates\n\nsum(duplicated(realis_data))\n\n[1] 0\n\n\n\n\n3.2 Identify Missing Values\n\nsum(is.na(realis_data))\n\n[1] 6\n\n\n\n\n3.3 Filter Private Housing Data\n\nrealis_private &lt;- filter(realis_data, `Purchaser Address Indicator` == \"Private\")\nrealis_private_2024Q1 &lt;- filter(realis_data_2024Q1, `Purchaser Address Indicator` == \"Private\")"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#visualising-data",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#visualising-data",
+    "title": "Take-home Exercise 1",
+    "section": "4 Visualising data",
+    "text": "4 Visualising data\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\np1 &lt;- ggplot(data = realis_private_2024Q1,\n             aes(colour = `Type of Area`,x = `Unit Price ($ PSF)`)) +\n  geom_density(alpha = 0.3) +\n  facet_wrap(~ `Type of Sale`, scales = \"free_y\", nrow = 3)\np2 &lt;- ggplot(data = realis_private_2024Q1,\n       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`)) +\n  geom_boxplot() +\n  #stat_summary(geom = \"point\", fun = \"mean\", size=3, colour = \"red\")\n  + coord_cartesian(ylim=c(500,7000))\np3 &lt;- ggplot(data = realis_private__2024Q1,\n       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`,fill = `Type of Area`)) + \n  geom_boxplot()\np2 / (p1 | p3)\n\n\n\n\n\nThe plotThe code\n\n\n\np1 &lt;- ggplot(data = realis_private_2024Q1,\n             aes(x = `Planning Region`, fill= `Type of Sale`)) +\n  geom_bar()\np2 &lt;- ggplot(data = realis_private_2024Q1,\n       aes(x = `Unit Price ($ PSF)`,\n           y = `Planning Region`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +\n  scale_fill_viridis_c(name = \"Tail probability\", direction = -1) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", calc_ecdf = TRUE)\np3 &lt;- ggplot(data = realis_private_2024Q1,\n       aes(x = `Unit Price ($ PSF)`,\n           y = `Property Type`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +\n  scale_fill_viridis_c(name = \"Tail probability\", direction = -1) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", calc_ecdf = TRUE)\n(p1 / p2) / p3"
   }
 ]

@@ -1,0 +1,11 @@
+---
+title: "In-class Exercise 2"
+author: "Sarthak Nagapurkar"
+date: "April 20, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+  freeze: true
+---

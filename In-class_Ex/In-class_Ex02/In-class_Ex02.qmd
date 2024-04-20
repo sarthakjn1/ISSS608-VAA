@@ -9,3 +9,15 @@ execute:
   warning: false
   freeze: true
 ---
+
+## Loading R packages
+
+```{r}
+pacman::p_load(tidyverse, ggdist, ggthemes)
+```
+
+## Reading data
+
+```{r}
+exam_data <- read_csv("data/Exam_data.csv")
+```

@@ -278,5 +278,26 @@
     "title": "Take-home Exercise 1",
     "section": "4 Visualising data",
     "text": "4 Visualising data\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\np1 &lt;- ggplot(data = realis_private_2024Q1,\n             aes(colour = `Type of Area`,x = `Unit Price ($ PSF)`)) +\n  geom_density(alpha = 0.3) +\n  facet_wrap(~ `Type of Sale`, scales = \"free_y\", nrow = 3)\np2 &lt;- ggplot(data = realis_private_2024Q1,\n       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`)) +\n  geom_boxplot() +\n  #stat_summary(geom = \"point\", fun = \"mean\", size=3, colour = \"red\")\n  + coord_cartesian(ylim=c(500,7000))\np3 &lt;- ggplot(data = realis_private__2024Q1,\n       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`,fill = `Type of Area`)) + \n  geom_boxplot()\np2 / (p1 | p3)\n\n\n\n\n\nThe plotThe code\n\n\n\np1 &lt;- ggplot(data = realis_private_2024Q1,\n             aes(x = `Planning Region`, fill= `Type of Sale`)) +\n  geom_bar()\np2 &lt;- ggplot(data = realis_private_2024Q1,\n       aes(x = `Unit Price ($ PSF)`,\n           y = `Planning Region`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +\n  scale_fill_viridis_c(name = \"Tail probability\", direction = -1) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", calc_ecdf = TRUE)\np3 &lt;- ggplot(data = realis_private_2024Q1,\n       aes(x = `Unit Price ($ PSF)`,\n           y = `Property Type`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +\n  scale_fill_viridis_c(name = \"Tail probability\", direction = -1) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", calc_ecdf = TRUE)\n(p1 / p2) / p3"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
+    "title": "In-class Exercise 2",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, ggdist, ggthemes)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#loading-r-packages",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#loading-r-packages",
+    "title": "In-class Exercise 2",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, ggdist, ggthemes)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#reading-data",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#reading-data",
+    "title": "In-class Exercise 2",
+    "section": "Reading data",
+    "text": "Reading data\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")"
   }
 ]

@@ -1,0 +1,14 @@
+{
+  "hash": "49807ddcdd9195502a3103ef00b34caa",
+  "result": {
+    "markdown": "---\ntitle: \"In-class Exercise 2\"\nauthor: \"Sarthak Nagapurkar\"\ndate: \"April 20, 2024\"\ndate-modified: \"last-modified\"\nexecute: \n  eval: true\n  echo: true\n  warning: false\n  freeze: true\n---\n\n\n## Loading R packages\n\n\n::: {.cell}\n\n```{.r .cell-code}\npacman::p_load(tidyverse, ggdist, ggthemes)\n```\n:::\n\n\n## Reading data\n\n\n::: {.cell}\n\n```{.r .cell-code}\nexam_data <- read_csv(\"data/Exam_data.csv\")\n```\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

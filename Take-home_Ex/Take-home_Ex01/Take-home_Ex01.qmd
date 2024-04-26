@@ -210,7 +210,7 @@ p1
 
 ***Observation:*** Based on the plot, we see that the median and mode of the distributions clearly indicate that properties in the Central region are most expensive in terms of Unit Price (\$ PSM) in terms of types of New Sale and Resale. The Sub sale properties in the Western region have a higher median unit price than the ones in all other regions. Also the Subsale median price here is higher than the New Sale median price. This needs to be investigated further. Properties in the North region are the least expensive based on the median prices for New sale and Resale. Deeper dive based on median and mode shows that purchasing a new property in the northern region might actually be cheaper than purchasing a resale property in the Central, Western or North-eastern region. There is a higher variation in the price of properties in the price of properties in the central region compared to all other regions.
 
-### 5 Summary
+## 5 Summary
 
 Our analysis of the private property market for Singapore based on Regions, Type of Sale, Area of Sale, yielded several insights. Overall, our analysis revealed uneven distributions of unit prices with different regions, type of sale, area of sale. Our analysis also revealed how many properties of each property type were sold in 2024 Q1 compared to 2023 Q1 and other quarters.
 
@@ -240,7 +240,7 @@ Recommendations for future research:
 
 By addressing these areas, future research can provide a more comprehensive understanding of the various factors that contribute to price variation and customer behavior.
 
-### **6 References and inspiration**
+## **6 References and inspiration**
 
 -   [URA releases flash estimate of 1st Quarter 2024 private residential property price index](https://www.ura.gov.sg/Corporate/Media-Room/Media-Releases/pr24-11)
 

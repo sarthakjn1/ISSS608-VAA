@@ -196,9 +196,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#identify-duplicates" id="toc-identify-duplicates" class="nav-link" data-scroll-target="#identify-duplicates">3.1 Identify Duplicates</a></li>
   <li><a href="#identify-missing-values" id="toc-identify-missing-values" class="nav-link" data-scroll-target="#identify-missing-values">3.2 Identify Missing Values</a></li>
+  </ul></li>
+  <li><a href="#deriving-insights-based-on-visual-analysis" id="toc-deriving-insights-based-on-visual-analysis" class="nav-link" data-scroll-target="#deriving-insights-based-on-visual-analysis">4 <strong>Deriving insights based on Visual Analysis</strong></a>
+  <ul class="collapse">
   <li><a href="#number-of-properties-sold-for-each-type-with-previous-quarters." id="toc-number-of-properties-sold-for-each-type-with-previous-quarters." class="nav-link" data-scroll-target="#number-of-properties-sold-for-each-type-with-previous-quarters.">4.1 Number of Properties sold for each type with previous quarters.</a></li>
   <li><a href="#visualizing-distribution-of-unit-price-of-properties-based-on-type-of-sale-and-type-of-area." id="toc-visualizing-distribution-of-unit-price-of-properties-based-on-type-of-sale-and-type-of-area." class="nav-link" data-scroll-target="#visualizing-distribution-of-unit-price-of-properties-based-on-type-of-sale-and-type-of-area.">4.2 Visualizing distribution of Unit Price of properties based on Type of Sale and Type of Area.</a></li>
   <li><a href="#distribution-of-property-prices-across-regions-in-singapore" id="toc-distribution-of-property-prices-across-regions-in-singapore" class="nav-link" data-scroll-target="#distribution-of-property-prices-across-regions-in-singapore">4.3 Distribution of Property Prices across regions in Singapore</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">5 Summary</a></li>
+  <li><a href="#references-and-inspiration" id="toc-references-and-inspiration" class="nav-link" data-scroll-target="#references-and-inspiration"><strong>6 References and inspiration</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -311,6 +316,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
+</section>
+<section id="deriving-insights-based-on-visual-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="deriving-insights-based-on-visual-analysis">4 <strong>Deriving insights based on Visual Analysis</strong></h2>
 <section id="number-of-properties-sold-for-each-type-with-previous-quarters." class="level3">
 <h3 class="anchored" data-anchor-id="number-of-properties-sold-for-each-type-with-previous-quarters.">4.1 Number of Properties sold for each type with previous quarters.</h3>
 <p>As our objective is to analyse property market in 2024 Q1, let us first compare the number of properties sold for each property type. We attempt to answer the questions: “Have the number of properties sold increased or decreased compared to the same period previous year? What about the previous quarter?”</p>
@@ -406,13 +414,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="st">`</span><span class="at">Unit Price ($ PSM)</span><span class="st">`</span>, <span class="at">fill=</span><span class="st">`</span><span class="at">Type of Sale</span><span class="st">`</span>), <span class="at">alpha =</span> <span class="fl">0.5</span> ) <span class="sc">+</span></span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
 <span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="at">label=</span> <span class="st">"Distribution of Price of properties with Regions in Signapore and Type of Sale"</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="at">label=</span> <span class="st">"Distribution of Price of properties with Regions in Signapore and Type of Sale for 2024 Q1"</span>)</span>
 <span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>p1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div>
 </div>
-<p><strong><em>Observation:</em></strong> Based on the plot, we see that the median and mode of the distributions clearly indicate thatproperties in the Central region are most expensive in terms of Unit Price ($ PSM) in terms of types of New Sale and Resale. The Sub sale properties in the Western region have a higher median unit price than the ones in all other regions. Also the Subsale median price here is higher than the New Sale median price. This needs to be investigated further. Properties in the North region are the least expensive based on the median prices for New sale and Resale. Deeper dive shows that purchasing a new property in the northern region might actually be cheaper than purchasing a resale property in the Central, Western or North-eastern region. There is a higher variation in the price of properties in the price of properties in the central region compared to all other regions.</p>
+<p><strong><em>Observation:</em></strong> Based on the plot, we see that the median and mode of the distributions clearly indicate that properties in the Central region are most expensive in terms of Unit Price ($ PSM) in terms of types of New Sale and Resale. The Sub sale properties in the Western region have a higher median unit price than the ones in all other regions. Also the Subsale median price here is higher than the New Sale median price. This needs to be investigated further. Properties in the North region are the least expensive based on the median prices for New sale and Resale. Deeper dive based on median and mode shows that purchasing a new property in the northern region might actually be cheaper than purchasing a resale property in the Central, Western or North-eastern region. There is a higher variation in the price of properties in the price of properties in the central region compared to all other regions.</p>
+</section>
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary">5 Summary</h3>
+<p>Our analysis of the private property market for Singapore based on Regions, Type of Sale, Area of Sale, yielded several insights. Overall, our analysis revealed uneven distributions of unit prices with different regions, type of sale, area of sale. Our analysis also revealed how many properties of each property type were sold in 2024 Q1 compared to 2023 Q1 and other quarters.</p>
+<p>Key Findings:</p>
+<ul>
+<li><p>There is an improvement in scores with increased time spent on homework, although the benefits diminish beyond a certain point.</p></li>
+<li><p>Male students tend to achieve slightly higher scores than females.</p></li>
+<li><p>The type of school and student-teacher ratios did not show consistent trends in relation to student performance.</p></li>
+<li><p>A lower educational attainment by fathers seems to slightly inversely affect student outcomes.</p></li>
+<li><p>Father’s unemployment shows a more significant positive correlation with student scores compared to mother’s unemployment.</p></li>
+<li><p>Second-generation immigrants are generally outperforming their peers across all subjects.</p></li>
+<li><p>Student performance is noticeably influenced by home access to basic educational resources, with varying impacts depending on the type of resource.</p></li>
+</ul>
+<p>Recommendations for future research:</p>
+<ul>
+<li><p><strong>Confirmatory data analysis:</strong> Future studies should incorporate statistical tests to validate the findings from this exploratory data analysis and establish more definitive correlations and causation.</p></li>
+<li><p><strong>Exploring Additional Variables</strong>: A more exhaustive analysis that includes a wider range of variables could yield deeper insights into private property market. Understanding factors that drive prices of properties could help gain more insights and recommend a property to a particular class of purchasers based on demographics the appropriate property type.</p></li>
+<li><p><strong>Understanding customer demographics:</strong> Understanding the customer demographics like age, income, gender, educational purpose will help reveal what type of customers will purchase a specific type of property in a region and how they would react to changes in market prices.</p></li>
+</ul>
+<p>By addressing these areas, future research can provide a more comprehensive understanding of the various factors that contribute to price variation and customer behavior.</p>
+</section>
+<section id="references-and-inspiration" class="level3">
+<h3 class="anchored" data-anchor-id="references-and-inspiration"><strong>6 References and inspiration</strong></h3>
+<ul>
+<li><p><a href="https://www.ura.gov.sg/Corporate/Media-Room/Media-Releases/pr24-11">URA releases flash estimate of 1st Quarter 2024 private residential property price index</a></p></li>
+<li><p><a href="https://www.businesstimes.com.sg/property/unsold-private-housing-stock-rise-ahead-ramp-new-launches-2024">Unsold private housing stock on the rise ahead of ramp-up in new launches in 2024</a></p></li>
+<li><p><a href="https://www.channelnewsasia.com/singapore/hdb-resale-private-home-prices-rise-waiting-period-property-analysts-4233876">HDB resale prices rise 1.7%; private home prices up 1.5% in first quarter: Flash estimates</a></p></li>
+</ul>
 
 
 </section>

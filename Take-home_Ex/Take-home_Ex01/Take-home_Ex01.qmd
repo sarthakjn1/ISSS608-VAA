@@ -76,6 +76,8 @@ realis_data <- realis_data %>%
 sum(is.na(realis_data))
 ```
 
+## 4 **Deriving insights based on Visual Analysis**
+
 ### 4.1 Number of Properties sold for each type with previous quarters.
 
 As our objective is to analyse property market in 2024 Q1, let us first compare the number of properties sold for each property type. We attempt to answer the questions: "Have the number of properties sold increased or decreased compared to the same period previous year? What about the previous quarter?"
@@ -238,4 +240,10 @@ Recommendations for future research:
 
 By addressing these areas, future research can provide a more comprehensive understanding of the various factors that contribute to price variation and customer behavior.
 
-# **8 References and inspiration**
+### **6 References and inspiration**
+
+-   [URA releases flash estimate of 1st Quarter 2024 private residential property price index](https://www.ura.gov.sg/Corporate/Media-Room/Media-Releases/pr24-11)
+
+-   [Unsold private housing stock on the rise ahead of ramp-up in new launches in 2024](https://www.businesstimes.com.sg/property/unsold-private-housing-stock-rise-ahead-ramp-new-launches-2024)
+
+-   [HDB resale prices rise 1.7%; private home prices up 1.5% in first quarter: Flash estimates](https://www.channelnewsasia.com/singapore/hdb-resale-private-home-prices-rise-waiting-period-property-analysts-4233876)

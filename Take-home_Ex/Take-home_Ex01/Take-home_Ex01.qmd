@@ -31,7 +31,7 @@ The data is processed by using appropriate **tidyverse** family of packages an
 ## 2 Loading Packages
 
 ```{r}
-pacman::p_load(ggrepel, patchwork, ggthemes, ggridges, hrbrthemes, colorspace,ggdist, tidyr, tidyverse)
+pacman::p_load(ggrepel, patchwork, ggthemes, ggridges, hrbrthemes, colorspace,ggdist, tidyr, tidyverse, htmltools)
 ```
 
 ## 3 Reading Data
@@ -68,41 +68,54 @@ sum(is.na(realis_data))
 
 ```
 
+**Removing the identified records with missing values.**
+
 ```{r}
 realis_data <- realis_data %>% 
   drop_na()
 sum(is.na(realis_data))
 ```
 
-## 4 Visualising data
+### 4.1 Number of Properties sold for each type with previous quarters.
 
-```{r}
-realis_private_qoq <- realis_data %>%
-group_by(Quarter) %>%
-  summarize(Market = sum(`Transacted Price ($)`))
+As our objective is to analyse property market in 2024 Q1, let us first compare the number of properties sold for each property type. We attempt to answer the questions: "Have the number of properties sold increased or decreased compared to the same period previous year? What about the previous quarter?"
 
-```
-
-```{r}
-realis_private_qoq_type <- realis_data %>%
-group_by(Quarter,`Type of Sale`) %>%
-  summarize(Market = sum(`Transacted Price ($)`),.groups = 'drop')
-realis_private_qoq_type
-```
-
-```{r}
-realis_private_qoq <- realis_private_qoq %>% mutate(PercentDiff = (`Market` - lag(`Market`)) / lag(`Market`) * 100)
-realis_private_qoq_type <- realis_private_qoq %>% mutate(PercentDiff = (`Market` - lag(`Market`)) / lag(`Market`) * 100)
-```
+We do this by creating faceted bar chart. First the `ggplot()`, `geom_plot()` are used to create a bar chart indicating number of properties of each type of sale(Sub Sale, Resale, New Sale) sold. Then we use the facet_wrap() function and passing in Property type to generate the faceted bar chart. The `ggtitle()`, `theme()`, `xlab()`, and `ylab()` functions in the **ggplot2** package are then used to make aesthetic adjustments to the plot.
 
 ::: panel-tabset
 ## The plot
 
 ```{r}
+#| echo: false 
+ggplot(realis_data,        
+       aes(x = Quarter, fill =`Type of Sale`)) +   
+  geom_bar() +   
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  facet_wrap(~`Property Type`,scales = "free_y") +  
+  ggtitle(label = "Number of properties sold for each type per quarter") +    ylab("Number of properties sold") + xlab("Quarter")
 ```
 
-## The code
+## `The code`
+
+```{r}
+# | eval: false 
+ggplot(realis_data, aes(x = Quarter, fill =`Type of Sale`)) + 
+  geom_bar() +  
+  theme_minimal() + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  
+  facet_wrap(~`Property Type`,scales = "free_y") + 
+  ggtitle(label = "Number of properties sold for each type per quarter") +    ylab("Number of properties sold") + xlab("Quarter")
+```
 :::
+
+***Observation:*** Based on the plot we observe that, for semi-detached houses and terrace houses the number of properties sold in 2024 Q1 is almost same as the same period last year(2023 Q1) with slight increase compared to 2023-Q4. For executive condos there has been a significant jump of almost 300 in number of properties sold in 2024-Q1 compared to 2023-Q1. This rise can be attributed to more number of new sales as the resale and sub sales almost remained the same. For detached houses, the number of properties dropped from roughly 60 to 40. The drop was majorly due to fewer number of Resale properties sold. For Condos the number of properties in 2024-Q1 dropped to around 1900 compared to 2200 in 2023-Q1. The drop was majorly due to lower new sales. For Apartments, there was a slight rise in number of properties sold compared to 2023-Q1 due to higher new sales.
+
+### 4.2 Visualizing distribution of Unit Price of properties based on Type of Sale and Type of Area.
+
+As our objective is to analyse property market in 2024 Q1, let us compare the unit price of properties based on the type of area and the type of sale. We attempt to answer the questions: "Are properties on land more expensive as compared to strata? How about comparison of prices within subsale, resale and new sales"
+
+We do this by creating half eye plot. First the `ggplot()`, `stat_halfeye(), geom_boxplot()` are used to create a half eye plot and boxplot of price of properties with each type of sale. We use type of Area as fill to see how area plays a part. The `ggtitle()`, `theme()`, `xlab()`, and `ylab()` functions in the **ggplot2** package are then used to make aesthetic adjustments to the plot.
 
 ::: panel-tabset
 ## The plot
@@ -110,100 +123,119 @@ realis_private_qoq_type <- realis_private_qoq %>% mutate(PercentDiff = (`Market`
 ```{r}
 #| echo: false
 p1 <- ggplot(data = realis_data_2024Q1,
-             aes(colour = `Type of Area`,x = `Unit Price ($ PSF)`)) +
-  geom_density(alpha = 0.3) +
-  facet_wrap(~ `Type of Sale`, scales = "free_y", nrow = 3)
-p2 <- ggplot(data = realis_data_2024Q1,
-       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`)) +
-  geom_boxplot() +
-  #stat_summary(geom = "point", fun = "mean",, colour = "red") +
-  coord_cartesian(ylim=c(500,7000))
-p3 <- ggplot(data = realis_data_2024Q1,
-       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`,fill = `Type of Area`)) + 
-  geom_boxplot()
-p2 / (p1 | p3)
+             aes(y = `Type of Sale`,x = `Unit Price ($ PSM)`, fill = `Type of Area`)) +
+  stat_halfeye(adjust = 5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA,alpha = 0.5) +
+  geom_boxplot(width = .20,
+               outlier.shape = NA,alpha = 0.5) +
+  ggtitle(label= "Distribution of Price of properties with Type of Area and Type of Sale") + theme_minimal()
+p1
 ```
 
 ## The code
 
 ```{r}
 #| eval: false
-p1 <- ggplot(data = realis_data,
-             aes(colour = `Type of Area`,x = `Unit Price ($ PSF)`)) +
-  geom_density(alpha = 0.3) +
-  facet_wrap(~ `Type of Sale`, scales = "free_y", nrow = 3)
-p2 <- ggplot(data = realis_data,
-       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`)) +
-  geom_boxplot() +
-  #stat_summary(geom = "point", fun = "mean", size=3, colour = "red")
-  coord_cartesian(ylim=c(500,7000))
-p3 <- ggplot(data = realis_data,
-       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`,fill = `Type of Area`)) +
-  geom_boxplot()
-p2 / (p1 | p3)
-```
-:::
-
-::: panel-tabset
-## The plot
-
-```{r}
-p1 <- ggplot(data = realis_data,
-             aes(x = `Planning Region`, fill= `Type of Sale`)) +
-  geom_bar()
-p2 <- ggplot(data = realis_data,
-       aes(x = `Unit Price ($ PSF)`,
-           y = `Quarter`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +
-  scale_fill_viridis_c(name = "Tail probability", direction = -1) +
-  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
-  facet_wrap(~`Property Type`)
-p3 <- ggplot(data = realis_data,
-       aes(x = `Unit Price ($ PSF)`,
-           y = `Property Type`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +
-  scale_fill_viridis_c(name = "Tail probability", direction = -1) +
-  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE)
-(p1 / p2) 
-```
-
-## The code
-:::
-
-::: panel-tabset
-## The plot
-
-```{r}
-ggplot(realis_data,
-       aes(x = Quarter,y = count, fill =`Type of Sale`)) +
-  geom_bar() +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  facet_wrap(~`Property Type`,scales = "free_y") + 
-  geom_text(aes(label = count))
-```
-
-## The code
-:::
-
-::: panel-tabset
-## The plot
-
-```{r}
-ggplot(realis_data_2024Q1, 
-       aes(x = `Planning Region`, 
-           y = `Unit Price ($ PSM)`)) +
-  stat_halfeye(adjust = 0.5,
+p1 <- ggplot(data = realis_data_2024Q1,
+             aes(y = `Type of Sale`,x = `Unit Price ($ PSM)`, fill = `Type of Area`)) +
+  stat_halfeye(adjust = 5,
                justification = -0.2,
                .width = 0,
-               point_colour = NA) +
+               point_colour = NA,alpha = 0.5) +
   geom_boxplot(width = .20,
-               outlier.shape = NA) +
-  stat_dots(side = "left", 
-            justification = 1.2, 
-            binwidth = .5,
-            dotsize = 3.5) +
-  coord_flip() +
+               outlier.shape = NA,alpha = 0.5) +
+  ggtitle(label= "Distribution of Price of properties with Type of Area and Type of Sale") + 
   theme_minimal()
+p1
+```
+:::
+
+***Observation:*** Based on the plot, we see that the median and mode of the distrbutions clearly indicate thatNew Sales are the most expensive followed by Sub Sale and Resales being the least expensive in terms of buying property. Sub sale properties are available only on Strata. In general, the median unit price of properties on land is higher than median unit price of properties on strata. This holds both for New Sales as well as Resales. The median unit price of New Sales for strata is higher than both strata and land properties for Resale. There are properties priced above 25000 \$ PSM on Strata for New sale. These properties are more expensive than the ones on land for New sale.
+
+### 4.3 Distribution of Property Prices across regions in Singapore
+
+As our objective is to analyse property market in 2024 Q1, let us compare the unit price of properties across regions in Singapore and the type of sale. We attempt to answer the questions: "Which regions are the most expensive and least expensive in terms of unit prices to buy properties in? How do the unit prices compare across regions and type of sale?"
+
+We do this by creating half eye plot. First the `ggplot()`, `stat_halfeye(), geom_boxplot()` are used to create a half eye plot and boxplot of price of properties with different regions. We use Type of Sale as fill to see how prices vary with type of sale. The `ggtitle()`, `theme()`, `xlab()`, and `ylab()` functions in the **ggplot2** package are then used to make aesthetic adjustments to the plot.
+
+::: panel-tabset
+## The plot
+
+```{r}
+#| echo: false
+options(repr.plot.width = 40, repr.plot.height = 100)
+p1 <- ggplot(realis_data_2024Q1, 
+       aes(x = `Planning Region`, 
+           y = `Unit Price ($ PSM)`, fill=`Type of Sale`)) +
+  stat_halfeye(adjust = 7,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA,
+               alpha = 0.5) +
+  geom_boxplot(width = .50,
+               outlier.shape = NA, aes(x = `Planning Region`, 
+           y = `Unit Price ($ PSM)`, fill=`Type of Sale`), alpha = 0.5 ) +
+  coord_flip() +
+  theme_minimal() +
+  ggtitle(label= "Distribution of Price of properties with Type of Area and Type of Sale for 2024 Q1")
+p1
 ```
 
 ## The code
+
+```{r}
+#| eval: false
+options(repr.plot.width = 40, repr.plot.height = 100)
+p1 <- ggplot(realis_data_2024Q1, 
+       aes(x = `Planning Region`, 
+           y = `Unit Price ($ PSM)`, fill=`Type of Sale`)) +
+  stat_halfeye(adjust = 7,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA,
+               alpha = 0.5) +
+  geom_boxplot(width = .50,
+               outlier.shape = NA, aes(x = `Planning Region`, 
+           y = `Unit Price ($ PSM)`, fill=`Type of Sale`), alpha = 0.5 ) +
+  coord_flip() +
+  theme_minimal() +
+  ggtitle(label= "Distribution of Price of properties with Regions in Signapore and Type of Sale for 2024 Q1")
+p1
+```
 :::
+
+***Observation:*** Based on the plot, we see that the median and mode of the distributions clearly indicate that properties in the Central region are most expensive in terms of Unit Price (\$ PSM) in terms of types of New Sale and Resale. The Sub sale properties in the Western region have a higher median unit price than the ones in all other regions. Also the Subsale median price here is higher than the New Sale median price. This needs to be investigated further. Properties in the North region are the least expensive based on the median prices for New sale and Resale. Deeper dive based on median and mode shows that purchasing a new property in the northern region might actually be cheaper than purchasing a resale property in the Central, Western or North-eastern region. There is a higher variation in the price of properties in the price of properties in the central region compared to all other regions.
+
+### 5 Summary
+
+Our analysis of the private property market for Singapore based on Regions, Type of Sale, Area of Sale, yielded several insights. Overall, our analysis revealed uneven distributions of unit prices with different regions, type of sale, area of sale. Our analysis also revealed how many properties of each property type were sold in 2024 Q1 compared to 2023 Q1 and other quarters.
+
+Key Findings:
+
+-   There is an improvement in scores with increased time spent on homework, although the benefits diminish beyond a certain point.
+
+-   Male students tend to achieve slightly higher scores than females.
+
+-   The type of school and student-teacher ratios did not show consistent trends in relation to student performance.
+
+-   A lower educational attainment by fathers seems to slightly inversely affect student outcomes.
+
+-   Father’s unemployment shows a more significant positive correlation with student scores compared to mother’s unemployment.
+
+-   Second-generation immigrants are generally outperforming their peers across all subjects.
+
+-   Student performance is noticeably influenced by home access to basic educational resources, with varying impacts depending on the type of resource.
+
+Recommendations for future research:
+
+-   **Confirmatory data analysis:** Future studies should incorporate statistical tests to validate the findings from this exploratory data analysis and establish more definitive correlations and causation.
+
+-   **Exploring Additional Variables**: A more exhaustive analysis that includes a wider range of variables could yield deeper insights into private property market. Understanding factors that drive prices of properties could help gain more insights and recommend a property to a particular class of purchasers based on demographics the appropriate property type.
+
+-   **Understanding customer demographics:** Understanding the customer demographics like age, income, gender, educational purpose will help reveal what type of customers will purchase a specific type of property in a region and how they would react to changes in market prices.
+
+By addressing these areas, future research can provide a more comprehensive understanding of the various factors that contribute to price variation and customer behavior.
+
+# **8 References and inspiration**

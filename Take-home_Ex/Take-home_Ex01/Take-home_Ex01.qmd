@@ -216,19 +216,17 @@ Our analysis of the private property market for Singapore based on Regions, Type
 
 Key Findings:
 
--   There is an improvement in scores with increased time spent on homework, although the benefits diminish beyond a certain point.
+-   There has been a gradual reduction in number of properties of Detached houses sold in every quarter. The reason behind this needs to be investigated.
 
--   Male students tend to achieve slightly higher scores than females.
+-   The number of properties of executive condos sold has grown significantly in 2024 Q1 as compared to 2023 Q1. A deeper study into the reasoning could reveal further insights.
 
--   The type of school and student-teacher ratios did not show consistent trends in relation to student performance.
+-   Unit Prices of properties on Land are higher as compared to prices on Strata in 2024 Q1.
 
--   A lower educational attainment by fathers seems to slightly inversely affect student outcomes.
+-   Unit Prices for New Sales are higher than Sub sales which in turn are higher than resales in 2024 Q1.
 
--   Father’s unemployment shows a more significant positive correlation with student scores compared to mother’s unemployment.
+-   Unit Prices of properties are highest in Central Region whereas they are lowest in the North region. Sub sale prices in the Western Region are surprisingly higher than New Sales in the region and highest overall among other regions.
 
--   Second-generation immigrants are generally outperforming their peers across all subjects.
-
--   Student performance is noticeably influenced by home access to basic educational resources, with varying impacts depending on the type of resource.
+-   There is a correlation between prices of private properties across various regions, across various types of sale and type of area of the property.
 
 Recommendations for future research:
 

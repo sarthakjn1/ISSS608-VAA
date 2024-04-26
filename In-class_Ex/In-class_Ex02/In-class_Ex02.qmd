@@ -33,3 +33,45 @@ ggplot(exam_data,
     alpha = 0.6
   )
 ```
+
+## Alternative Design
+
+```{r}
+median_eng <- median(exam_data$ENGLISH)
+mean_eng <- mean(exam_data$ENGLISH)
+std_eng <- sd(exam_data$ENGLISH)
+ggplot(exam_data,
+       aes(x = ENGLISH)) +
+  geom_density(
+    color = "#1696d2",
+    adjust = 0.65,
+    alpha = 0.6) +
+  stat_function(
+    fun = dnorm,
+    args= list(mean = mean_eng,
+               sd = std_eng),
+    col = "grey30",
+    size = 0.8) +
+  geom_vline(
+    aes(xintercept = mean_eng),
+    colour = "#4d5887",
+    linewidth = 0.6,
+    linetype = "dashed") +
+  annotate(geom = "text",
+           x = mean_eng - 8,
+           y = 0.04,
+           label = paste0("Mean ENGLISH: ",
+                          round((mean_eng), 2)),
+           color = "#4d5887") +
+  geom_vline(
+    aes(xintercept = median_eng),
+    colour = "#4d4677",
+    linewidth = 0.6,
+    linetype = "dashed") +
+  annotate(geom = "text",
+           x = mean_eng + 8,
+           y = 0.04,
+           label = paste0("Median ENGLISH: ",
+                          round((median_eng), 2)),
+           color = "#4d4677")
+```

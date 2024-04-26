@@ -31,7 +31,7 @@ The data is processed by using appropriate **tidyverse** family of packages an
 ## 2 Loading Packages
 
 ```{r}
-pacman::p_load(ggrepel, patchwork, ggthemes, ggridges, hrbrthemes, tidyverse)
+pacman::p_load(ggrepel, patchwork, ggthemes, ggridges, hrbrthemes, colorspace,ggdist, tidyr, tidyverse)
 ```
 
 ## 3 Reading Data
@@ -52,6 +52,7 @@ realis_data_2024Q1 <- mutate(realis_data_2024Q1, Quarter='2024-Q1')
 
 ```{r}
 realis_data <- rbind(realis_data_2023Q1, realis_data_2023Q2, realis_data_2023Q3, realis_data_2023Q4, realis_data_2024Q1)
+realis_data$Month <- substr(realis_data$`Sale Date`,3,6)
 ```
 
 ### 3.1 Identify Duplicates
@@ -73,24 +74,17 @@ realis_data <- realis_data %>%
 sum(is.na(realis_data))
 ```
 
-### 3.3 Filter Private Housing Data
-
-```{r}
-realis_private <- filter(realis_data, `Purchaser Address Indicator` == "Private")
-realis_private_2024Q1 <- filter(realis_data_2024Q1, `Purchaser Address Indicator` == "Private")
-```
-
 ## 4 Visualising data
 
 ```{r}
-realis_private_qoq <- realis_private %>%
+realis_private_qoq <- realis_data %>%
 group_by(Quarter) %>%
   summarize(Market = sum(`Transacted Price ($)`))
 
 ```
 
 ```{r}
-realis_private_qoq_type <- realis_private %>%
+realis_private_qoq_type <- realis_data %>%
 group_by(Quarter,`Type of Sale`) %>%
   summarize(Market = sum(`Transacted Price ($)`),.groups = 'drop')
 realis_private_qoq_type
@@ -105,12 +99,6 @@ realis_private_qoq_type <- realis_private_qoq %>% mutate(PercentDiff = (`Market`
 ## The plot
 
 ```{r}
-p1 <- ggplot(data = realis_private,
-       aes(x = Quarter, y = `Unit Price ($ PSF)`)) +
-  geom_boxplot()
-p2 <- ggplot(data = realis_private,
-       aes(x = Quarter,y = `Transacted Price ($)`))
-p1 / p2
 ```
 
 ## The code
@@ -121,16 +109,16 @@ p1 / p2
 
 ```{r}
 #| echo: false
-p1 <- ggplot(data = realis_private_2024Q1,
+p1 <- ggplot(data = realis_data_2024Q1,
              aes(colour = `Type of Area`,x = `Unit Price ($ PSF)`)) +
   geom_density(alpha = 0.3) +
   facet_wrap(~ `Type of Sale`, scales = "free_y", nrow = 3)
-p2 <- ggplot(data = realis_private_2024Q1,
+p2 <- ggplot(data = realis_data_2024Q1,
        aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`)) +
   geom_boxplot() +
   #stat_summary(geom = "point", fun = "mean",, colour = "red") +
   coord_cartesian(ylim=c(500,7000))
-p3 <- ggplot(data = realis_private_2024Q1,
+p3 <- ggplot(data = realis_data_2024Q1,
        aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`,fill = `Type of Area`)) + 
   geom_boxplot()
 p2 / (p1 | p3)
@@ -140,17 +128,17 @@ p2 / (p1 | p3)
 
 ```{r}
 #| eval: false
-p1 <- ggplot(data = realis_private_2024Q1,
+p1 <- ggplot(data = realis_data,
              aes(colour = `Type of Area`,x = `Unit Price ($ PSF)`)) +
   geom_density(alpha = 0.3) +
   facet_wrap(~ `Type of Sale`, scales = "free_y", nrow = 3)
-p2 <- ggplot(data = realis_private_2024Q1,
+p2 <- ggplot(data = realis_data,
        aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`)) +
   geom_boxplot() +
   #stat_summary(geom = "point", fun = "mean", size=3, colour = "red")
-  + coord_cartesian(ylim=c(500,7000))
-p3 <- ggplot(data = realis_private__2024Q1,
-       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`,fill = `Type of Area`)) + 
+  coord_cartesian(ylim=c(500,7000))
+p3 <- ggplot(data = realis_data,
+       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`,fill = `Type of Area`)) +
   geom_boxplot()
 p2 / (p1 | p3)
 ```
@@ -160,25 +148,62 @@ p2 / (p1 | p3)
 ## The plot
 
 ```{r}
-p1 <- ggplot(data = realis_private_2024Q1,
+p1 <- ggplot(data = realis_data,
              aes(x = `Planning Region`, fill= `Type of Sale`)) +
   geom_bar()
-p2 <- ggplot(data = realis_private_2024Q1,
+p2 <- ggplot(data = realis_data,
        aes(x = `Unit Price ($ PSF)`,
-           y = `Planning Region`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +
+           y = `Quarter`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +
   scale_fill_viridis_c(name = "Tail probability", direction = -1) +
-  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE)
-p3 <- ggplot(data = realis_private_2024Q1,
+  stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE) +
+  facet_wrap(~`Property Type`)
+p3 <- ggplot(data = realis_data,
        aes(x = `Unit Price ($ PSF)`,
            y = `Property Type`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +
   scale_fill_viridis_c(name = "Tail probability", direction = -1) +
   stat_density_ridges(geom = "density_ridges_gradient", calc_ecdf = TRUE)
-(p1 / p2) / p3
+(p1 / p2) 
 ```
 
 ## The code
 :::
 
-```{r}
+::: panel-tabset
+## The plot
 
+```{r}
+ggplot(realis_data,
+       aes(x = Quarter,y = count, fill =`Type of Sale`)) +
+  geom_bar() +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~`Property Type`,scales = "free_y") + 
+  geom_text(aes(label = count))
 ```
+
+## The code
+:::
+
+::: panel-tabset
+## The plot
+
+```{r}
+ggplot(realis_data_2024Q1, 
+       aes(x = `Planning Region`, 
+           y = `Unit Price ($ PSM)`)) +
+  stat_halfeye(adjust = 0.5,
+               justification = -0.2,
+               .width = 0,
+               point_colour = NA) +
+  geom_boxplot(width = .20,
+               outlier.shape = NA) +
+  stat_dots(side = "left", 
+            justification = 1.2, 
+            binwidth = .5,
+            dotsize = 3.5) +
+  coord_flip() +
+  theme_minimal()
+```
+
+## The code
+:::

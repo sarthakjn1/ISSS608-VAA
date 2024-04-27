@@ -146,6 +146,8 @@ ggplotly(gg)
 ```
 :::
 
+Notice that although `show.legend = FALSE` argument was used, the legend still appears on the plot. To overcome this problem, `theme(legend.position='none')` should be used as shown in the plot and code chunk below.
+
 ::: panel-tabset
 ## The plot
 

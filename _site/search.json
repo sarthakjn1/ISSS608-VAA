@@ -1,17 +1,178 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "ISSS608-VAA",
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
+    "title": "Take-home Exercise 1",
     "section": "",
-    "text": "Welcome to my learning journey of ISSS608 Visual Analytics and Applications"
+    "text": "There are two major residential property market in Singapore, namely public and private housing. Public housing aims to meet the basic need of the general public with monthly household income less than or equal to S$14,000. For families with monthly household income more than S$14,000, they need to turn to the private residential market.\n\n\n\nAssuming the role of a graphical editor of a median company, this post aims to reveal the insights from private residential market and sub-markets of Singapore for the 1st quarter of 2024.\n\n\n\nTo accomplish the task, transaction data of REALIS will be used. A complete set of the private residential property transaction data from 1st January 2023 to 31st March 2024 will be used.\n\n\n\nThe data is processed by using appropriate tidyverse family of packages and the statistical graphics are prepared using ggplot2 and its extensions."
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#overview",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#overview",
+    "title": "Take-home Exercise 1",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
+    "text": "There are two major residential property market in Singapore, namely public and private housing. Public housing aims to meet the basic need of the general public with monthly household income less than or equal to S$14,000. For families with monthly household income more than S$14,000, they need to turn to the private residential market.\n\n\n\nAssuming the role of a graphical editor of a median company, this post aims to reveal the insights from private residential market and sub-markets of Singapore for the 1st quarter of 2024.\n\n\n\nTo accomplish the task, transaction data of REALIS will be used. A complete set of the private residential property transaction data from 1st January 2023 to 31st March 2024 will be used.\n\n\n\nThe data is processed by using appropriate tidyverse family of packages and the statistical graphics are prepared using ggplot2 and its extensions."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#loading-packages",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#loading-packages",
+    "title": "Take-home Exercise 1",
+    "section": "2 Loading Packages",
+    "text": "2 Loading Packages\n\npacman::p_load(ggrepel, patchwork, ggthemes, ggridges, hrbrthemes, colorspace,ggdist, tidyr, tidyverse, htmltools)"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#reading-data",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#reading-data",
+    "title": "Take-home Exercise 1",
+    "section": "3 Reading Data",
+    "text": "3 Reading Data\n\nrealis_data_2023Q1 &lt;- read_csv(\"data/ResidentialTransaction20240308160536.csv\")\nrealis_data_2023Q1 &lt;- mutate(realis_data_2023Q1, Quarter='2023-Q1')\nrealis_data_2023Q2 &lt;- read_csv(\"data/ResidentialTransaction20240308160736.csv\")\nrealis_data_2023Q2 &lt;- mutate(realis_data_2023Q2, Quarter='2023-Q2')\nrealis_data_2023Q3 &lt;- read_csv(\"data/ResidentialTransaction20240308161009.csv\")\nrealis_data_2023Q3 &lt;- mutate(realis_data_2023Q3, Quarter='2023-Q3')\nrealis_data_2023Q4 &lt;- read_csv(\"data/ResidentialTransaction20240308161109.csv\")\nrealis_data_2023Q4 &lt;- mutate(realis_data_2023Q4, Quarter='2023-Q4')\nrealis_data_2024Q1 &lt;- read_csv(\"data/ResidentialTransaction20240414220633.csv\")\nrealis_data_2024Q1 &lt;- mutate(realis_data_2024Q1, Quarter='2024-Q1')\n\n\nrealis_data &lt;- rbind(realis_data_2023Q1, realis_data_2023Q2, realis_data_2023Q3, realis_data_2023Q4, realis_data_2024Q1)\nrealis_data$Month &lt;- substr(realis_data$`Sale Date`,3,6)\n\n\n3.1 Identify Duplicates\n\nsum(duplicated(realis_data))\n\n[1] 0\n\n\n\n\n3.2 Identify Missing Values\n\nsum(is.na(realis_data))\n\n[1] 6\n\n\nRemoving the identified records with missing values.\n\nrealis_data &lt;- realis_data %&gt;% \n  drop_na()\nsum(is.na(realis_data))\n\n[1] 0"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#deriving-insights-based-on-visual-analysis",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#deriving-insights-based-on-visual-analysis",
+    "title": "Take-home Exercise 1",
+    "section": "4 Deriving insights based on Visual Analysis",
+    "text": "4 Deriving insights based on Visual Analysis\n\n4.1 Number of Properties sold for each type with previous quarters.\nAs our objective is to analyse property market in 2024 Q1, let us first compare the number of properties sold for each property type. We attempt to answer the questions: “Have the number of properties sold increased or decreased compared to the same period previous year? What about the previous quarter?”\nWe do this by creating faceted bar chart. First the ggplot(), geom_plot() are used to create a bar chart indicating number of properties of each type of sale(Sub Sale, Resale, New Sale) sold. Then we use the facet_wrap() function and passing in Property type to generate the faceted bar chart. The ggtitle(), theme(), xlab(), and ylab() functions in the ggplot2 package are then used to make aesthetic adjustments to the plot.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n# | eval: false \nggplot(realis_data, aes(x = Quarter, fill =`Type of Sale`)) + \n  geom_bar() +  \n  theme_minimal() + \n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  \n  facet_wrap(~`Property Type`,scales = \"free_y\") + \n  ggtitle(label = \"Number of properties sold for each type per quarter\") +    ylab(\"Number of properties sold\") + xlab(\"Quarter\")\n\n\n\n\n\n\n\nObservation: Based on the plot we observe that, for semi-detached houses and terrace houses the number of properties sold in 2024 Q1 is almost same as the same period last year(2023 Q1) with slight increase compared to 2023-Q4. For executive condos there has been a significant jump of almost 300 in number of properties sold in 2024-Q1 compared to 2023-Q1. This rise can be attributed to more number of new sales as the resale and sub sales almost remained the same. For detached houses, the number of properties dropped from roughly 60 to 40. The drop was majorly due to fewer number of Resale properties sold. For Condos the number of properties in 2024-Q1 dropped to around 1900 compared to 2200 in 2023-Q1. The drop was majorly due to lower new sales. For Apartments, there was a slight rise in number of properties sold compared to 2023-Q1 due to higher new sales.\n\n\n4.2 Visualizing distribution of Unit Price of properties based on Type of Sale and Type of Area.\nAs our objective is to analyse property market in 2024 Q1, let us compare the unit price of properties based on the type of area and the type of sale. We attempt to answer the questions: “Are properties on land more expensive as compared to strata? How about comparison of prices within subsale, resale and new sales”\nWe do this by creating half eye plot. First the ggplot(), stat_halfeye(), geom_boxplot() are used to create a half eye plot and boxplot of price of properties with each type of sale. We use type of Area as fill to see how area plays a part. The ggtitle(), theme(), xlab(), and ylab() functions in the ggplot2 package are then used to make aesthetic adjustments to the plot.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\np1 &lt;- ggplot(data = realis_data_2024Q1,\n             aes(y = `Type of Sale`,x = `Unit Price ($ PSM)`, fill = `Type of Area`)) +\n  stat_halfeye(adjust = 5,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA,alpha = 0.5) +\n  geom_boxplot(width = .20,\n               outlier.shape = NA,alpha = 0.5) +\n  ggtitle(label= \"Distribution of Price of properties with Type of Area and Type of Sale\") + \n  theme_minimal()\np1\n\n\n\n\nObservation: Based on the plot, we see that the median and mode of the distrbutions clearly indicate thatNew Sales are the most expensive followed by Sub Sale and Resales being the least expensive in terms of buying property. Sub sale properties are available only on Strata. In general, the median unit price of properties on land is higher than median unit price of properties on strata. This holds both for New Sales as well as Resales. The median unit price of New Sales for strata is higher than both strata and land properties for Resale. There are properties priced above 25000 $ PSM on Strata for New sale. These properties are more expensive than the ones on land for New sale.\n\n\n4.3 Distribution of Property Prices across regions in Singapore\nAs our objective is to analyse property market in 2024 Q1, let us compare the unit price of properties across regions in Singapore and the type of sale. We attempt to answer the questions: “Which regions are the most expensive and least expensive in terms of unit prices to buy properties in? How do the unit prices compare across regions and type of sale?”\nWe do this by creating half eye plot. First the ggplot(), stat_halfeye(), geom_boxplot() are used to create a half eye plot and boxplot of price of properties with different regions. We use Type of Sale as fill to see how prices vary with type of sale. The ggtitle(), theme(), xlab(), and ylab() functions in the ggplot2 package are then used to make aesthetic adjustments to the plot.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\noptions(repr.plot.width = 40, repr.plot.height = 100)\np1 &lt;- ggplot(realis_data_2024Q1, \n       aes(x = `Planning Region`, \n           y = `Unit Price ($ PSM)`, fill=`Type of Sale`)) +\n  stat_halfeye(adjust = 7,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA,\n               alpha = 0.5) +\n  geom_boxplot(width = .50,\n               outlier.shape = NA, aes(x = `Planning Region`, \n           y = `Unit Price ($ PSM)`, fill=`Type of Sale`), alpha = 0.5 ) +\n  coord_flip() +\n  theme_minimal() +\n  ggtitle(label= \"Distribution of Price of properties with Regions in Signapore and Type of Sale for 2024 Q1\")\np1\n\n\n\n\nObservation: Based on the plot, we see that the median and mode of the distributions clearly indicate that properties in the Central region are most expensive in terms of Unit Price ($ PSM) in terms of types of New Sale and Resale. The Sub sale properties in the Western region have a higher median unit price than the ones in all other regions. Also the Subsale median price here is higher than the New Sale median price. This needs to be investigated further. Properties in the North region are the least expensive based on the median prices for New sale and Resale. Deeper dive based on median and mode shows that purchasing a new property in the northern region might actually be cheaper than purchasing a resale property in the Central, Western or North-eastern region. There is a higher variation in the price of properties in the price of properties in the central region compared to all other regions."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#summary",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#summary",
+    "title": "Take-home Exercise 1",
+    "section": "5 Summary",
+    "text": "5 Summary\nOur analysis of the private property market for Singapore based on Regions, Type of Sale, Area of Sale, yielded several insights. Overall, our analysis revealed uneven distributions of unit prices with different regions, type of sale, area of sale. Our analysis also revealed how many properties of each property type were sold in 2024 Q1 compared to 2023 Q1 and other quarters.\nKey Findings:\n\nThere has been a gradual reduction in number of properties of Detached houses sold in every quarter. The reason behind this needs to be investigated.\nThe number of properties of executive condos sold has grown significantly in 2024 Q1 as compared to 2023 Q1. A deeper study into the reasoning could reveal further insights.\nUnit Prices of properties on Land are higher as compared to prices on Strata in 2024 Q1.\nUnit Prices for New Sales are higher than Sub sales which in turn are higher than resales in 2024 Q1.\nUnit Prices of properties are highest in Central Region whereas they are lowest in the North region. Sub sale prices in the Western Region are surprisingly higher than New Sales in the region and highest overall among other regions.\nThere is a correlation between prices of private properties across various regions, across various types of sale and type of area of the property.\n\nRecommendations for future research:\n\nConfirmatory data analysis: Future studies should incorporate statistical tests to validate the findings from this exploratory data analysis and establish more definitive correlations and causation.\nExploring Additional Variables: A more exhaustive analysis that includes a wider range of variables could yield deeper insights into private property market. Understanding factors that drive prices of properties could help gain more insights and recommend a property to a particular class of purchasers based on demographics the appropriate property type.\nUnderstanding customer demographics: Understanding the customer demographics like age, income, gender, educational purpose will help reveal what type of customers will purchase a specific type of property in a region and how they would react to changes in market prices.\n\nBy addressing these areas, future research can provide a more comprehensive understanding of the various factors that contribute to price variation in private property market in Singapore and customer behavior."
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#references-and-inspiration",
+    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#references-and-inspiration",
+    "title": "Take-home Exercise 1",
+    "section": "6 References and inspiration",
+    "text": "6 References and inspiration\n\nURA releases flash estimate of 1st Quarter 2024 private residential property price index\nUnsold private housing stock on the rise ahead of ramp-up in new launches in 2024\nHDB resale prices rise 1.7%; private home prices up 1.5% in first quarter: Flash estimates"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
+    "title": "In-class Exercise 2",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, ggdist, ggridges, colorspace, ggthemes)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#loading-r-packages",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#loading-r-packages",
+    "title": "In-class Exercise 2",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, ggdist, ggridges, colorspace, ggthemes)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#reading-data",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#reading-data",
+    "title": "In-class Exercise 2",
+    "section": "Reading data",
+    "text": "Reading data\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#visualizing-distribution",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#visualizing-distribution",
+    "title": "In-class Exercise 2",
+    "section": "Visualizing Distribution",
+    "text": "Visualizing Distribution\n\nggplot(exam_data,\n       aes(x = ENGLISH)) +\n  geom_density(\n    color = \"#1696d2\",\n    adjust = 0.65,\n    alpha = 0.6\n  )"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#alternative-design",
+    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#alternative-design",
+    "title": "In-class Exercise 2",
+    "section": "Alternative Design",
+    "text": "Alternative Design\n\nmedian_eng &lt;- median(exam_data$ENGLISH)\nmean_eng &lt;- mean(exam_data$ENGLISH)\nstd_eng &lt;- sd(exam_data$ENGLISH)\nggplot(exam_data,\n       aes(x = ENGLISH)) +\n  geom_density(\n    color = \"#1696d2\",\n    adjust = 0.65,\n    alpha = 0.6) +\n  stat_function(\n    fun = dnorm,\n    args= list(mean = mean_eng,\n               sd = std_eng),\n    col = \"grey30\",\n    size = 0.8) +\n  geom_vline(\n    aes(xintercept = mean_eng),\n    colour = \"#4d5887\",\n    linewidth = 0.6,\n    linetype = \"dashed\") +\n  annotate(geom = \"text\",\n           x = mean_eng - 8,\n           y = 0.04,\n           label = paste0(\"Mean ENGLISH: \",\n                          round((mean_eng), 2)),\n           color = \"#4d5887\") +\n  geom_vline(\n    aes(xintercept = median_eng),\n    colour = \"#4d4677\",\n    linewidth = 0.6,\n    linetype = \"dashed\") +\n  annotate(geom = \"text\",\n           x = mean_eng + 8,\n           y = 0.04,\n           label = paste0(\"Median ENGLISH: \",\n                          round((median_eng), 2)),\n           color = \"#4d4677\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html",
+    "title": "Hands-on Exercise 3: Part B",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to create animated data visualisation by using gganimate and plotly r packages. At the same time, we will also (i) reshape data by using tidyr package, and (ii) process, wrangle and transform data by using dplyr package.\n\n\nWhen creating animations, the plot does not actually move. Instead, many individual plots are built and then stitched together as movie frames, just like an old-school flip book or cartoon. Each frame is a different plot when conveying motion, which is built using some relevant subset of the aggregate data. The subset drives the flow of the animation when stitched back together.\n\n\n\n\nBefore we dive into the steps for creating an animated statistical graph, it’s important to understand some of the key concepts and terminology related to this type of visualization.\n\nFrame: In an animated line graph, each frame represents a different point in time or a different category. When the frame changes, the data points on the graph are updated to reflect the new data.\nAnimation Attributes: The animation attributes are the settings that control how the animation behaves. For example, you can specify the duration of each frame, the easing function used to transition between frames, and whether to start the animation from the current frame or from the beginning."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#overview",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#overview",
+    "title": "Hands-on Exercise 3: Part B",
+    "section": "",
+    "text": "In this hands-on exercise, we will learn how to create animated data visualisation by using gganimate and plotly r packages. At the same time, we will also (i) reshape data by using tidyr package, and (ii) process, wrangle and transform data by using dplyr package.\n\n\nWhen creating animations, the plot does not actually move. Instead, many individual plots are built and then stitched together as movie frames, just like an old-school flip book or cartoon. Each frame is a different plot when conveying motion, which is built using some relevant subset of the aggregate data. The subset drives the flow of the animation when stitched back together.\n\n\n\n\nBefore we dive into the steps for creating an animated statistical graph, it’s important to understand some of the key concepts and terminology related to this type of visualization.\n\nFrame: In an animated line graph, each frame represents a different point in time or a different category. When the frame changes, the data points on the graph are updated to reflect the new data.\nAnimation Attributes: The animation attributes are the settings that control how the animation behaves. For example, you can specify the duration of each frame, the easing function used to transition between frames, and whether to start the animation from the current frame or from the beginning."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#getting-started",
+    "title": "Hands-on Exercise 3: Part B",
+    "section": "4.2 Getting Started",
+    "text": "4.2 Getting Started\n\n4.2.1 Loading the R packages\n\npacman::p_load(readxl, gifski, gapminder,\n               plotly, gganimate, tidyverse)\n\n\n\n4.2.2 Importing the data\nIn this hands-on exercise, the Data worksheet from GlobalPopulation Excel workbook will be used.\nThe code below imports Data worksheet from GlobalPopulation Excel workbook by using appropriate R package from tidyverse family.\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate(across(col, as.factor)) %&gt;%\n  mutate(Year = as.integer(Year))"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#animated-data-visualisation-gganimate-methods",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#animated-data-visualisation-gganimate-methods",
+    "title": "Hands-on Exercise 3: Part B",
+    "section": "4.3 Animated Data Visualisation: gganimate methods",
+    "text": "4.3 Animated Data Visualisation: gganimate methods\ngganimate extends the grammar of graphics as implemented by ggplot2 to include the description of animation. It does this by providing a range of new grammar classes that can be added to the plot object in order to customise how it should change with time.\n\ntransition_*() defines how the data should be spread out and how it relates to itself across time.\nview_*() defines how the positional scales should change along the animation.\nshadow_*() defines how data from other points in time should be presented in the given point in time.\nenter_*()/exit_*() defines how new data should appear and how old data should disappear during the course of the animation.\nease_aes() defines how different aesthetics should be eased during transitions.\n\n\n4.3.1 Building a static population bubble plot\nIn the code chunk below, the basic ggplot2 functions are used to create a static bubble plot.\n\nggplot(globalPop,\n       aes(x = Old, y = Young, \n                      size = Population, \n                      colour = Country)) +\n  geom_point(alpha = 0.7, \n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(title = 'Year: {frame_time}', \n       x = '% Aged', \n       y = '% Young') \n\n\n\n\n\n\n4.3.2 Building the animated bubble plot\nIn the code chunk below,\n\ntransition_time() of gganimate is used to create transition through distinct states in time (i.e. Year).\nease_aes() is used to control easing of aesthetics. The default is linear. Other methods are: quadratic, cubic, quartic, quintic, sine, circular, exponential, elastic, back, and bounce.\n\n\nggplot(globalPop,\n       aes(x = Old, y = Young,\n           size = Population, colour = Country)) +\n  geom_point(alpha = 0.7, show.legend = FALSE) +\n  scale_colour_manual(values= country_colors) +\n  scale_size(range = c(2,12)) +\n  labs(title = 'Year:{frame_time}',\n       x = '% Aged',\n       y = '% Young') +\n  transition_time(Year) +\n  ease_aes('linear')"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#animated-data-visualisation-plotly",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#animated-data-visualisation-plotly",
+    "title": "Hands-on Exercise 3: Part B",
+    "section": "4.4 Animated Data Visualisation: plotly",
+    "text": "4.4 Animated Data Visualisation: plotly\nIn Plotly R package, both ggplotly() and plot_ly() support key frame animations through the frame argument/aesthetic. They also support an ids argument/aesthetic to ensure smooth transitions between objects with the same id (which helps facilitate object constancy).\n\n4.4.1 Building an animated bubble plot: ggplotly() method\nIn this sub-section, you will learn how to create an animated bubble plot by using ggplotly() method.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n\ngg &lt;- ggplot(globalPop,\n             aes(x = Old, y = Young,\n                 size = Population,\n                 colour = Country)) +\n  geom_point(aes(size = Population,\n                 frame = Year),\n             alpha = 0.7,\n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2,12)) +\n  labs(x = '% Aged', \n       y = '% Young')\nggplotly(gg)\n\n\n\n\nNotice that although show.legend = FALSE argument was used, the legend still appears on the plot. To overcome this problem, theme(legend.position='none') should be used as shown in the plot and code chunk below.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n\ngg &lt;- ggplot(globalPop, \n       aes(x = Old, \n           y = Young, \n           size = Population, \n           colour = Country)) +\n  geom_point(aes(size = Population,\n                 frame = Year),\n             alpha = 0.7) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(x = '% Aged', \n       y = '% Young') + \n  theme(legend.position='none')\n\nggplotly(gg)\n\n\n\n\n\n\n4.4.2 Building an animated bubble plot: plot_ly() method\nIn this sub-section, you will learn how to create an animated bubble plot by using plot_ly() method.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n\nbp &lt;- globalPop %&gt;%\n  plot_ly(x = ~Old,\n          y = ~Young,\n          size = ~Population,\n          color = ~Continent,\n          sizes = c(2,100),\n          frame = ~Year,\n          text = ~Country,\n          hoverinfo = \"text\",\n          type = 'scatter',\n          mode = 'markers') %&gt;%\n          layout(show.legend = FALSE)\nbp"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#reference",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#reference",
+    "title": "Hands-on Exercise 3: Part B",
+    "section": "4.5 Reference",
+    "text": "4.5 Reference\n\nGetting Started\nBuilding an animation step-by-step with gganimate.\nCreating a composite gif with multiple gganimate panels"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html",
+    "title": "Hands-on Exercise 3",
+    "section": "",
+    "text": "In this hands-on exercise, you will learn how to create interactive data visualisation by using functions provided by ggiraph and plotlyr packages."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#learning-outcome",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#learning-outcome",
+    "title": "Hands-on Exercise 3",
+    "section": "",
+    "text": "In this hands-on exercise, you will learn how to create interactive data visualisation by using functions provided by ggiraph and plotlyr packages."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#getting-started",
+    "title": "Hands-on Exercise 3",
+    "section": "3.2 Getting Started",
+    "text": "3.2 Getting Started\nFirst, write a code chunk to check, install and launch the following R packages:\n\npacman::p_load(ggiraph, plotly, patchwork, DT, tidyverse)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#importing-data",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#importing-data",
+    "title": "Hands-on Exercise 3",
+    "section": "3.3 Importing Data",
+    "text": "3.3 Importing Data\nIn this section, Exam_data.csv provided will be used. Using read_csv() of readr package, import Exam_data.csv into R.\nThe code chunk below read_csv() of readr package is used to import Exam_data.csv data file into R and save it as an tibble data frame called exam_data.\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactive-data-visualisation---ggiraph-methods",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactive-data-visualisation---ggiraph-methods",
+    "title": "Hands-on Exercise 3",
+    "section": "3.4 Interactive Data Visualisation - ggiraph methods",
+    "text": "3.4 Interactive Data Visualisation - ggiraph methods\nggiraph is an htmlwidget and a ggplot2 extension. It allows ggplot graphics to be interactive.\nInteractive is made with ggplot geometries that can understand three arguments:\n\nTooltip: a column of data-sets that contain tooltips to be displayed when the mouse is over elements.\nOnclick: a column of data-sets that contain a JavaScript function to be executed when elements are clicked.\nData_id: a column of data-sets that contain an id to be associated with elements.\n\nIf it used within a shiny application, elements associated with an id (data_id) can be selected and manipulated on client and server sides. Refer to this article for more detail explanation.\n\n3.4.1 Tooltip effect with tooltip aesthetic\nBelow shows a typical code chunk to plot an interactive statistical graph by using ggiraph package. Notice that the code chunk consists of two parts. First, an ggplot object will be created. Next, girafe() of ggiraph will be used to create an interactive svg object.\n\np &lt;- ggplot(data = exam_data,\n            aes(x = MATHS)) +\n  geom_dotplot_interactive(\n    aes(tooltip = ID),\n    stackgroups = TRUE,\n    binwidth = 1,\n    method = \"histodot\") +\n  scale_y_continuous(NULL, breaks= NULL)\ngirafe(\n  ggobj = p,\n  width_svg = 6,\n  height_svg = 6*0.618\n)\n\nNotice that two steps are involved. First, an interactive version of ggplot2 geom (i.e. geom_dotplot_interactive()) will be used to create the basic graph. Then, girafe() will be used to generate an svg object to be displayed on an html page."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity",
+    "title": "Hands-on Exercise 3",
+    "section": "3.5 Interactivity",
+    "text": "3.5 Interactivity\nBy hovering the mouse pointer on an data point of interest, the student’s ID will be displayed.\n\n\n\n\n\n\n\n3.5.1 Displaying multiple information on tooltip\nThe content of the tooltip can be customised by including a list object as shown in the code chunk below.\n\nexam_data$tooltip &lt;- c(paste0(     \n  \"Name = \", exam_data$ID,         \n  \"\\n Class = \", exam_data$CLASS))\np &lt;- ggplot(data=exam_data,\n            aes(x=MATHS)) +\n  geom_dotplot_interactive(\n    aes(tooltip = exam_data$tooltip),\n    stackgroups = TRUE,\n    binwidth = 1,\n    method = \"histodot\"\n  ) + \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p,\n  width_svg = 8,\n  height_svg = 8*0.618 \n)\n\nThe first three lines of codes in the code chunk create a new field called tooltip. At the same time, it populates text in ID and CLASS fields into the newly created field. Next, this newly created field is used as tooltip field as shown in the code of line 7."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity-1",
+    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity-1",
+    "title": "Hands-on Exercise 3",
+    "section": "3.6 Interactivity",
+    "text": "3.6 Interactivity\nBy hovering the mouse pointer on an data point of interest, the student’s ID and Class will be displayed.\n\n\n\n\n\n\n\n3.6.1 Customising Tooltip style\nCode chunk below uses opts_tooltip() of ggiraph to customize tooltip rendering by add css declarations.\n\ntooltip_css &lt;- \"background-color:white;font-style:bold;\n color:black;\"\nexam_data$tooltip &lt;- c(paste0(     \n  \"Name = \", exam_data$ID,         \n  \"\\n Class = \", exam_data$CLASS))\np &lt;- ggplot(data=exam_data,\n            aes(x=MATHS)) +\n  geom_dotplot_interactive(\n    aes(tooltip = exam_data$tooltip),\n    stackgroups = TRUE,\n    binwidth = 1,\n    method = \"histodot\"\n  ) + \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p,\n  width_svg = 8,\n  height_svg = 8*0.618,\n  options = list(\n      opts_tooltip(\n        css = tooltip_css))\n)\n\nNotice that the background colour of the tooltip is black and the font colour is white and bold."
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html",
@@ -33,55 +194,6 @@
     "title": "Hands-on Exercise 1",
     "section": "",
     "text": "exam_data &lt;- read_csv(\"data/Exam_data.csv\")\n\nRows: 322 Columns: 7\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (4): ID, CLASS, GENDER, RACE\ndbl (3): ENGLISH, MATHS, SCIENCE\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#combining-boxplots-and-scatter-plots",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#combining-boxplots-and-scatter-plots",
-    "title": "Hands-on Exercise 1",
-    "section": "Combining Boxplots and Scatter plots",
-    "text": "Combining Boxplots and Scatter plots\nThe code chunk below plots the data points on the boxplots by using both geom_boxplot() and geom_point().\n\nggplot(data=exam_data,\n       aes(y=MATHS, x=GENDER)) +\n  geom_point(position=\"jitter\", size=0.5) + \n  geom_boxplot()"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-stat_summary-method",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-stat_summary-method",
-    "title": "Hands-on Exercise 1",
-    "section": "Working with stat - the stat_summary() method",
-    "text": "Working with stat - the stat_summary() method\nThe code chunk below adds mean values by using stat_summary() function and overriding the default geom.\n\nggplot(data=exam_data,\n       aes(y=MATHS, x=GENDER)) +\n  geom_boxplot() +\n  stat_summary(geom= \"point\",\n               fun= \"mean\",\n               colour= \"red\",\n               size= 4)"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#adding-a-best-fit-curve-on-a-scatter-plot",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#adding-a-best-fit-curve-on-a-scatter-plot",
-    "title": "Hands-on Exercise 1",
-    "section": "Adding a best fit curve on a scatter plot",
-    "text": "Adding a best fit curve on a scatter plot\nThe scatterplot below shows the relationship of Maths and English grades of pupils. The interpretability of this graph can be improved by adding a best fit curve.In the code chunk below, geom_smooth() is used to plot a best fit curve on the scatterplot.\n\nggplot(data=exam_data,\n       aes(y= ENGLISH, x= MATHS)) +\n  geom_point() +\n  geom_smooth(linewidth=0.5)\n\n`geom_smooth()` using method = 'loess' and formula = 'y ~ x'\n\n\n\n\n\nThe default smoothing method is loess. The default smoothing method can be overridden as shown below.\n\nggplot(data= exam_data,\n       aes(y= ENGLISH, x= MATHS)) +\n  geom_point() +\n  geom_smooth(method= lm,\n              linewidth= 0.5)\n\n`geom_smooth()` using formula = 'y ~ x'"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-geom-method",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-geom-method",
-    "title": "Hands-on Exercise 1",
-    "section": "Working with stat - the geom() method",
-    "text": "Working with stat - the geom() method\nThe code chunk below adding mean values by using geom_() function and overriding the default stat.\n\nggplot(data=exam_data,\n       aes(y=MATHS, x=GENDER)) +\n  geom_boxplot() + \n  geom_point(stat=\"summary\",\n             fun= \"mean\",\n             colour= \"red\",\n             size= 4)"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_wrap",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_wrap",
-    "title": "Hands-on Exercise 1",
-    "section": "Working with facet_wrap()",
-    "text": "Working with facet_wrap()\nfacet_wrap wraps a 1d sequence of panels into 2d. This is generally a better use of screen space than facet_grid because most displays are roughly rectangular. The code chunk below plots a trellis plot using facet-wrap().\n\nggplot(data = exam_data,\n       aes(x = MATHS)) +\n  geom_histogram(bins = 25) +\n  facet_wrap(~ CLASS)"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_grid",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_grid",
-    "title": "Hands-on Exercise 1",
-    "section": "Working with facet_grid()",
-    "text": "Working with facet_grid()\nfacet_grid() forms a matrix of panels defined by row and column facetting variables. It is most useful when you have two discrete variables, and all combinations of the variables exist in the data. The code chunk below plots a trellis plot using facet_grid().\n\nggplot(data = exam_data,\n       aes(x = MATHS)) + \n  geom_histogram(bins = 25) + \n  facet_grid(~ CLASS)"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#changing-the-x-and-y-axis-range",
-    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#changing-the-x-and-y-axis-range",
-    "title": "Hands-on Exercise 1",
-    "section": "Changing the x and y-axis range",
-    "text": "Changing the x and y-axis range\nThe scatter plot below is slightly misleading because the y-axis and x-axis range are not equal.\n\nggplot(data = exam_data,\n       aes(x = MATHS, y = ENGLISH)) +\n  geom_point() +\n  geom_smooth(method = lm, linewidth=0.5)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\nThe code chunk below fixed both the y-axis and x-axis range from 0-100.\n\nggplot(data = exam_data,\n       aes(x = MATHS, y = ENGLISH)) +\n  geom_point() +\n  geom_smooth(method = lm, linewidth=0.5) +\n  coord_cartesian(xlim = c(0, 100),\n                  ylim = c(0, 100))\n\n`geom_smooth()` using formula = 'y ~ x'"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#r-graphics-vs-ggplot",
@@ -147,18 +259,53 @@
     "text": "Combining geom objects: Boxplots and Scatter plots\nThe code chunk below plots the data points on the boxplots by using both geom_boxplot() and geom_point().\n\nggplot(data=exam_data,\n       aes(y=MATHS, x=GENDER)) +\n  geom_point(position=\"jitter\", size=0.5) + \n  geom_boxplot()"
   },
   {
-    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
-    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
-    "title": "In-class Exercise 1",
-    "section": "",
-    "text": "In the code chunk below, p_load() of pacman package is used to load tidyverse family of packages.\n\npacman::p_load(tidyverse)\n\n\nrealis &lt;- read_csv(\"data/realis2019.csv\")\n\n\nrealis.csv &lt;- read.csv(\"data/realis2019.csv\")\n\n\nggplot(data = realis,\n       aes(x = `Unit Price ($ psm)`)) +\n  geom_histogram()"
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-stat_summary-method",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-stat_summary-method",
+    "title": "Hands-on Exercise 1",
+    "section": "Working with stat - the stat_summary() method",
+    "text": "Working with stat - the stat_summary() method\nThe code chunk below adds mean values by using stat_summary() function and overriding the default geom.\n\nggplot(data=exam_data,\n       aes(y=MATHS, x=GENDER)) +\n  geom_boxplot() +\n  stat_summary(geom= \"point\",\n               fun= \"mean\",\n               colour= \"red\",\n               size= 4)"
   },
   {
-    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
-    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
-    "title": "In-class Exercise 1",
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-geom-method",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-stat---the-geom-method",
+    "title": "Hands-on Exercise 1",
+    "section": "Working with stat - the geom() method",
+    "text": "Working with stat - the geom() method\nThe code chunk below adding mean values by using geom_() function and overriding the default stat.\n\nggplot(data=exam_data,\n       aes(y=MATHS, x=GENDER)) +\n  geom_boxplot() + \n  geom_point(stat=\"summary\",\n             fun= \"mean\",\n             colour= \"red\",\n             size= 4)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#adding-a-best-fit-curve-on-a-scatter-plot",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#adding-a-best-fit-curve-on-a-scatter-plot",
+    "title": "Hands-on Exercise 1",
+    "section": "Adding a best fit curve on a scatter plot",
+    "text": "Adding a best fit curve on a scatter plot\nThe scatterplot below shows the relationship of Maths and English grades of pupils. The interpretability of this graph can be improved by adding a best fit curve.In the code chunk below, geom_smooth() is used to plot a best fit curve on the scatterplot.\n\nggplot(data=exam_data,\n       aes(y= ENGLISH, x= MATHS)) +\n  geom_point() +\n  geom_smooth(linewidth=0.5)\n\n`geom_smooth()` using method = 'loess' and formula = 'y ~ x'\n\n\n\n\n\nThe default smoothing method is loess. The default smoothing method can be overridden as shown below.\n\nggplot(data= exam_data,\n       aes(y= ENGLISH, x= MATHS)) +\n  geom_point() +\n  geom_smooth(method= lm,\n              linewidth= 0.5)\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_wrap",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_wrap",
+    "title": "Hands-on Exercise 1",
+    "section": "Working with facet_wrap()",
+    "text": "Working with facet_wrap()\nfacet_wrap wraps a 1d sequence of panels into 2d. This is generally a better use of screen space than facet_grid because most displays are roughly rectangular. The code chunk below plots a trellis plot using facet-wrap().\n\nggplot(data = exam_data,\n       aes(x = MATHS)) +\n  geom_histogram(bins = 25) +\n  facet_wrap(~ CLASS)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_grid",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#working-with-facet_grid",
+    "title": "Hands-on Exercise 1",
+    "section": "Working with facet_grid()",
+    "text": "Working with facet_grid()\nfacet_grid() forms a matrix of panels defined by row and column facetting variables. It is most useful when you have two discrete variables, and all combinations of the variables exist in the data. The code chunk below plots a trellis plot using facet_grid().\n\nggplot(data = exam_data,\n       aes(x = MATHS)) + \n  geom_histogram(bins = 25) + \n  facet_grid(~ CLASS)"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#changing-the-x-and-y-axis-range",
+    "href": "Hands-on_Ex/Hands-on_Ex01/Hands-on_Ex01.html#changing-the-x-and-y-axis-range",
+    "title": "Hands-on Exercise 1",
+    "section": "Changing the x and y-axis range",
+    "text": "Changing the x and y-axis range\nThe scatter plot below is slightly misleading because the y-axis and x-axis range are not equal.\n\nggplot(data = exam_data,\n       aes(x = MATHS, y = ENGLISH)) +\n  geom_point() +\n  geom_smooth(method = lm, linewidth=0.5)\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\nThe code chunk below fixed both the y-axis and x-axis range from 0-100.\n\nggplot(data = exam_data,\n       aes(x = MATHS, y = ENGLISH)) +\n  geom_point() +\n  geom_smooth(method = lm, linewidth=0.5) +\n  coord_cartesian(xlim = c(0, 100),\n                  ylim = c(0, 100))\n\n`geom_smooth()` using formula = 'y ~ x'"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
     "section": "",
-    "text": "In the code chunk below, p_load() of pacman package is used to load tidyverse family of packages.\n\npacman::p_load(tidyverse)\n\n\nrealis &lt;- read_csv(\"data/realis2019.csv\")\n\n\nrealis.csv &lt;- read.csv(\"data/realis2019.csv\")\n\n\nggplot(data = realis,\n       aes(x = `Unit Price ($ psm)`)) +\n  geom_histogram()"
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
   },
   {
     "objectID": "Hands-on_Ex/Hands-on_Ex02/Hands-on_Ex02.html",
@@ -245,153 +392,6 @@
     "text": "Reference\n\nPatchwork R package goes nerd viral\nggrepel\nggthemes\nhrbrthemes\nggplot tips: Arranging plots\nggplot2 Theme Elements Demonstration\nggplot2 Theme Elements Reference Sheet"
   },
   {
-    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
-    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",
-    "title": "Take-home Exercise 1",
-    "section": "",
-    "text": "There are two major residential property market in Singapore, namely public and private housing. Public housing aims to meet the basic need of the general public with monthly household income less than or equal to S$14,000. For families with monthly household income more than S$14,000, they need to turn to the private residential market.\n\n\n\nAssuming the role of a graphical editor of a median company, this post aims to reveal the insights from private residential market and sub-markets of Singapore for the 1st quarter of 2024.\n\n\n\nTo accomplish the task, transaction data of REALIS will be used. A complete set of the private residential property transaction data from 1st January 2023 to 31st March 2024 will be used.\n\n\n\nThe data is processed by using appropriate tidyverse family of packages and the statistical graphics are prepared using ggplot2 and its extensions."
-  },
-  {
-    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#overview",
-    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#overview",
-    "title": "Take-home Exercise 1",
-    "section": "",
-    "text": "There are two major residential property market in Singapore, namely public and private housing. Public housing aims to meet the basic need of the general public with monthly household income less than or equal to S$14,000. For families with monthly household income more than S$14,000, they need to turn to the private residential market.\n\n\n\nAssuming the role of a graphical editor of a median company, this post aims to reveal the insights from private residential market and sub-markets of Singapore for the 1st quarter of 2024.\n\n\n\nTo accomplish the task, transaction data of REALIS will be used. A complete set of the private residential property transaction data from 1st January 2023 to 31st March 2024 will be used.\n\n\n\nThe data is processed by using appropriate tidyverse family of packages and the statistical graphics are prepared using ggplot2 and its extensions."
-  },
-  {
-    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#loading-packages",
-    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#loading-packages",
-    "title": "Take-home Exercise 1",
-    "section": "2 Loading Packages",
-    "text": "2 Loading Packages\n\npacman::p_load(ggrepel, patchwork, ggthemes, ggridges, hrbrthemes, colorspace,ggdist, tidyr, tidyverse, htmltools)"
-  },
-  {
-    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#reading-data",
-    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#reading-data",
-    "title": "Take-home Exercise 1",
-    "section": "3 Reading Data",
-    "text": "3 Reading Data\n\nrealis_data_2023Q1 &lt;- read_csv(\"data/ResidentialTransaction20240308160536.csv\")\nrealis_data_2023Q1 &lt;- mutate(realis_data_2023Q1, Quarter='2023-Q1')\nrealis_data_2023Q2 &lt;- read_csv(\"data/ResidentialTransaction20240308160736.csv\")\nrealis_data_2023Q2 &lt;- mutate(realis_data_2023Q2, Quarter='2023-Q2')\nrealis_data_2023Q3 &lt;- read_csv(\"data/ResidentialTransaction20240308161009.csv\")\nrealis_data_2023Q3 &lt;- mutate(realis_data_2023Q3, Quarter='2023-Q3')\nrealis_data_2023Q4 &lt;- read_csv(\"data/ResidentialTransaction20240308161109.csv\")\nrealis_data_2023Q4 &lt;- mutate(realis_data_2023Q4, Quarter='2023-Q4')\nrealis_data_2024Q1 &lt;- read_csv(\"data/ResidentialTransaction20240414220633.csv\")\nrealis_data_2024Q1 &lt;- mutate(realis_data_2024Q1, Quarter='2024-Q1')\n\n\nrealis_data &lt;- rbind(realis_data_2023Q1, realis_data_2023Q2, realis_data_2023Q3, realis_data_2023Q4, realis_data_2024Q1)\nrealis_data$Month &lt;- substr(realis_data$`Sale Date`,3,6)\n\n\n3.1 Identify Duplicates\n\nsum(duplicated(realis_data))\n\n[1] 0\n\n\n\n\n3.2 Identify Missing Values\n\nsum(is.na(realis_data))\n\n[1] 6\n\n\nRemoving the identified records with missing values.\n\nrealis_data &lt;- realis_data %&gt;% \n  drop_na()\nsum(is.na(realis_data))\n\n[1] 0"
-  },
-  {
-    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#visualising-data",
-    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#visualising-data",
-    "title": "Take-home Exercise 1",
-    "section": "4 Visualising data",
-    "text": "4 Visualising data\nPreparing the data\n\nrealis_private_qoq &lt;- realis_data %&gt;%\ngroup_by(Quarter) %&gt;%\n  summarize(Market = sum(`Transacted Price ($)`))\n\n\nrealis_private_qoq_type &lt;- realis_data %&gt;%\ngroup_by(Quarter,`Type of Sale`) %&gt;%\n  summarize(Market = sum(`Transacted Price ($)`),.groups = 'drop')\nrealis_private_qoq_type\n\n# A tibble: 15 × 3\n   Quarter `Type of Sale`     Market\n   &lt;chr&gt;   &lt;chr&gt;               &lt;dbl&gt;\n 1 2023-Q1 New Sale       3391423709\n 2 2023-Q1 Resale         7383492683\n 3 2023-Q1 Sub Sale        362201200\n 4 2023-Q2 New Sale       4898898068\n 5 2023-Q2 Resale         7647611866\n 6 2023-Q2 Sub Sale        415885987\n 7 2023-Q3 New Sale       4755810600\n 8 2023-Q3 Resale         7216726086\n 9 2023-Q3 Sub Sale        538401704\n10 2023-Q4 New Sale       2973468195\n11 2023-Q4 Resale         6827797714\n12 2023-Q4 Sub Sale        615608458\n13 2024-Q1 New Sale       3301367339\n14 2024-Q1 Resale         6539279089\n15 2024-Q1 Sub Sale        457977458\n\n\n\nrealis_private_qoq &lt;- realis_private_qoq %&gt;% mutate(PercentDiff = (`Market` - lag(`Market`)) / lag(`Market`) * 100)\nrealis_private_qoq_type &lt;- realis_private_qoq %&gt;% mutate(PercentDiff = (`Market` - lag(`Market`)) / lag(`Market`) * 100)\n\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\nThe plotThe code\n\n\n\n# | echo: false \nggplot(realis_data,        \n       aes(x = Quarter, fill =`Type of Sale`)) +   \n  geom_bar() +   \n  theme_minimal() + \n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  \n  facet_wrap(~`Property Type`,scales = \"free_y\") +  \n  ggtitle(label = \"Number of properties sold for each type per quarter\") +    ylab(\"Number of properties sold\") + xlab(\"Quarter\")\n\n\n\n\n\n\n\n# | eval: false \nggplot(realis_data, aes(x = Quarter, fill =`Type of Sale`)) + \n  geom_bar() +  \n  theme_minimal() + \n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  \n  facet_wrap(~`Property Type`,scales = \"free_y\") + \n  ggtitle(label = \"Number of properties sold for each type per quarter\") +    ylab(\"Number of properties sold\") + xlab(\"Quarter\")\n\n\n\n\n\n\n\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\np1 &lt;- ggplot(data = realis_data,\n             aes(colour = `Type of Area`,x = `Unit Price ($ PSF)`)) +\n  geom_density(alpha = 0.3) +\n  facet_wrap(~ `Type of Sale`, scales = \"free_y\", nrow = 3)\np2 &lt;- ggplot(data = realis_data,\n       aes(x = `Type of Sale`,y = `Unit Price ($ PSM)`)) +\n  geom_boxplot() +\n  #stat_summary(geom = \"point\", fun = \"mean\", size=3, colour = \"red\")\n  coord_cartesian(ylim=c(500,7000))\np3 &lt;- ggplot(data = realis_data,\n       aes(x = `Type of Sale`,y = `Unit Price ($ PSF)`,fill = `Type of Area`)) +\n  geom_boxplot()\np2 / (p1 | p3)\n\n\n\n\n\nThe plotThe code\n\n\n\np1 &lt;- ggplot(data = realis_data,\n             aes(x = `Planning Region`, fill= `Type of Sale`)) +\n  geom_bar()\np2 &lt;- ggplot(data = realis_data,\n       aes(x = `Unit Price ($ PSF)`,\n           y = `Quarter`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +\n  scale_fill_viridis_c(name = \"Tail probability\", direction = -1) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", calc_ecdf = TRUE) +\n  facet_wrap(~`Property Type`)\np3 &lt;- ggplot(data = realis_data,\n       aes(x = `Unit Price ($ PSF)`,\n           y = `Property Type`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +\n  scale_fill_viridis_c(name = \"Tail probability\", direction = -1) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", calc_ecdf = TRUE)\np2\n\n\n\n\n\n\n\n\n\n\n\nThe plotThe code\n\n\n\n# | echo: false\nggplot(realis_data,\n       aes(x = Quarter, fill =`Type of Sale`)) +\n  geom_bar() +\n  theme_minimal() +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +\n  facet_wrap(~`Property Type`,scales = \"free_y\") +\n  ggtitle(label = \"Number of properties sold for each type per quarter\") + \n  ylab(\"Number of properties sold\") + xlab(\"Quarter\")\n\n\n\n\n\n\n\n# | eval: false\nggplot(realis_data,\n       aes(x = Quarter, fill =`Type of Sale`)) +\n  geom_bar() +\n  theme_minimal() +\n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +\n  facet_wrap(~`Property Type`,scales = \"free_y\") +\n  ggtitle(label = \"Number of properties sold for each type per quarter\") + \n  ylab(\"Number of properties sold\") + xlab(\"Quarter\")\n\n\n\n\n\n\n\n\nThe plotThe code\n\n\n\n# Set the size of the plot\noptions(repr.plot.width = 40, repr.plot.height = 100)\np1 &lt;- ggplot(realis_data_2024Q1, \n       aes(x = `Planning Region`, \n           y = `Unit Price ($ PSM)`, fill=`Type of Sale`)) +\n  stat_halfeye(adjust = 7,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA,\n               alpha = 0.5) +\n  geom_boxplot(width = .50,\n               outlier.shape = NA, aes(x = `Planning Region`, \n           y = `Unit Price ($ PSM)`, fill=`Type of Sale`), alpha = 0.5 ) +\n  coord_flip() +\n  theme_minimal()\np2 &lt;- ggplot(realis_data_2024Q1, \n       aes(y = `Planning Region`, x = `Unit Price ($ PSM)`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +\nscale_fill_viridis_c(name = \"Tail probability\", direction = -1) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", calc_ecdf = TRUE,quantiles = 4, quantile_lines = TRUE)\np1\n\n\n\n\n\n\n\np &lt;- ggplot(realis_data_2024Q1, \n       aes(y = `Property Type`, x = `Unit Price ($ PSM)`,fill = 0.5 - abs(0.5 - stat(ecdf)))) +\nscale_fill_viridis_c(name = \"Tail probability\", direction = -1) +\n  stat_density_ridges(geom = \"density_ridges_gradient\", calc_ecdf = TRUE,quantiles = 4, quantile_lines = TRUE)\np"
-  },
-  {
-    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
-    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html",
-    "title": "In-class Exercise 2",
-    "section": "",
-    "text": "pacman::p_load(tidyverse, ggdist, ggridges, colorspace, ggthemes)"
-  },
-  {
-    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#loading-r-packages",
-    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#loading-r-packages",
-    "title": "In-class Exercise 2",
-    "section": "",
-    "text": "pacman::p_load(tidyverse, ggdist, ggridges, colorspace, ggthemes)"
-  },
-  {
-    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#reading-data",
-    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#reading-data",
-    "title": "In-class Exercise 2",
-    "section": "Reading data",
-    "text": "Reading data\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")"
-  },
-  {
-    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#visualizing-distribution",
-    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#visualizing-distribution",
-    "title": "In-class Exercise 2",
-    "section": "Visualizing Distribution",
-    "text": "Visualizing Distribution\n\nggplot(exam_data,\n       aes(x = ENGLISH)) +\n  geom_density(\n    color = \"#1696d2\",\n    adjust = 0.65,\n    alpha = 0.6\n  )"
-  },
-  {
-    "objectID": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#alternative-design",
-    "href": "In-class_Ex/In-class_Ex02/In-class_Ex02.html#alternative-design",
-    "title": "In-class Exercise 2",
-    "section": "Alternative Design",
-    "text": "Alternative Design\n\nmedian_eng &lt;- median(exam_data$ENGLISH)\nmean_eng &lt;- mean(exam_data$ENGLISH)\nstd_eng &lt;- sd(exam_data$ENGLISH)\nggplot(exam_data,\n       aes(x = ENGLISH)) +\n  geom_density(\n    color = \"#1696d2\",\n    adjust = 0.65,\n    alpha = 0.6) +\n  stat_function(\n    fun = dnorm,\n    args= list(mean = mean_eng,\n               sd = std_eng),\n    col = \"grey30\",\n    size = 0.8) +\n  geom_vline(\n    aes(xintercept = mean_eng),\n    colour = \"#4d5887\",\n    linewidth = 0.6,\n    linetype = \"dashed\") +\n  annotate(geom = \"text\",\n           x = mean_eng - 8,\n           y = 0.04,\n           label = paste0(\"Mean ENGLISH: \",\n                          round((mean_eng), 2)),\n           color = \"#4d5887\") +\n  geom_vline(\n    aes(xintercept = median_eng),\n    colour = \"#4d4677\",\n    linewidth = 0.6,\n    linetype = \"dashed\") +\n  annotate(geom = \"text\",\n           x = mean_eng + 8,\n           y = 0.04,\n           label = paste0(\"Median ENGLISH: \",\n                          round((median_eng), 2)),\n           color = \"#4d4677\")"
-  },
-  {
-    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#the-code-2",
-    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#the-code-2",
-    "title": "Take-home Exercise 1",
-    "section": "The code",
-    "text": "The code\n\noptions(repr.plot.width = 40, repr.plot.height = 100)\np1 &lt;- ggplot(realis_data_2024Q1, \n       aes(x = `Planning Region`, \n           y = `Unit Price ($ PSM)`, fill=`Type of Sale`)) +\n  stat_halfeye(adjust = 7,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA,\n               alpha = 0.5) +\n  geom_boxplot(width = .50,\n               outlier.shape = NA, aes(x = `Planning Region`, \n           y = `Unit Price ($ PSM)`, fill=`Type of Sale`), alpha = 0.5 ) +\n  coord_flip() +\n  theme_minimal() _\nggtitle(label=\"Distribution of Price of properties across various regions and Type of Sale\")\np1"
-  },
-  {
-    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#deriving-insights-based-on-visual-analysis",
-    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#deriving-insights-based-on-visual-analysis",
-    "title": "Take-home Exercise 1",
-    "section": "4 Deriving insights based on Visual Analysis",
-    "text": "4 Deriving insights based on Visual Analysis\n\n4.1 Number of Properties sold for each type with previous quarters.\nAs our objective is to analyse property market in 2024 Q1, let us first compare the number of properties sold for each property type. We attempt to answer the questions: “Have the number of properties sold increased or decreased compared to the same period previous year? What about the previous quarter?”\nWe do this by creating faceted bar chart. First the ggplot(), geom_plot() are used to create a bar chart indicating number of properties of each type of sale(Sub Sale, Resale, New Sale) sold. Then we use the facet_wrap() function and passing in Property type to generate the faceted bar chart. The ggtitle(), theme(), xlab(), and ylab() functions in the ggplot2 package are then used to make aesthetic adjustments to the plot.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n# | eval: false \nggplot(realis_data, aes(x = Quarter, fill =`Type of Sale`)) + \n  geom_bar() +  \n  theme_minimal() + \n  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +  \n  facet_wrap(~`Property Type`,scales = \"free_y\") + \n  ggtitle(label = \"Number of properties sold for each type per quarter\") +    ylab(\"Number of properties sold\") + xlab(\"Quarter\")\n\n\n\n\n\n\n\nObservation: Based on the plot we observe that, for semi-detached houses and terrace houses the number of properties sold in 2024 Q1 is almost same as the same period last year(2023 Q1) with slight increase compared to 2023-Q4. For executive condos there has been a significant jump of almost 300 in number of properties sold in 2024-Q1 compared to 2023-Q1. This rise can be attributed to more number of new sales as the resale and sub sales almost remained the same. For detached houses, the number of properties dropped from roughly 60 to 40. The drop was majorly due to fewer number of Resale properties sold. For Condos the number of properties in 2024-Q1 dropped to around 1900 compared to 2200 in 2023-Q1. The drop was majorly due to lower new sales. For Apartments, there was a slight rise in number of properties sold compared to 2023-Q1 due to higher new sales.\n\n\n4.2 Visualizing distribution of Unit Price of properties based on Type of Sale and Type of Area.\nAs our objective is to analyse property market in 2024 Q1, let us compare the unit price of properties based on the type of area and the type of sale. We attempt to answer the questions: “Are properties on land more expensive as compared to strata? How about comparison of prices within subsale, resale and new sales”\nWe do this by creating half eye plot. First the ggplot(), stat_halfeye(), geom_boxplot() are used to create a half eye plot and boxplot of price of properties with each type of sale. We use type of Area as fill to see how area plays a part. The ggtitle(), theme(), xlab(), and ylab() functions in the ggplot2 package are then used to make aesthetic adjustments to the plot.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\np1 &lt;- ggplot(data = realis_data_2024Q1,\n             aes(y = `Type of Sale`,x = `Unit Price ($ PSM)`, fill = `Type of Area`)) +\n  stat_halfeye(adjust = 5,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA,alpha = 0.5) +\n  geom_boxplot(width = .20,\n               outlier.shape = NA,alpha = 0.5) +\n  ggtitle(label= \"Distribution of Price of properties with Type of Area and Type of Sale\") + \n  theme_minimal()\np1\n\n\n\n\nObservation: Based on the plot, we see that the median and mode of the distrbutions clearly indicate thatNew Sales are the most expensive followed by Sub Sale and Resales being the least expensive in terms of buying property. Sub sale properties are available only on Strata. In general, the median unit price of properties on land is higher than median unit price of properties on strata. This holds both for New Sales as well as Resales. The median unit price of New Sales for strata is higher than both strata and land properties for Resale. There are properties priced above 25000 $ PSM on Strata for New sale. These properties are more expensive than the ones on land for New sale.\n\n\n4.3 Distribution of Property Prices across regions in Singapore\nAs our objective is to analyse property market in 2024 Q1, let us compare the unit price of properties across regions in Singapore and the type of sale. We attempt to answer the questions: “Which regions are the most expensive and least expensive in terms of unit prices to buy properties in? How do the unit prices compare across regions and type of sale?”\nWe do this by creating half eye plot. First the ggplot(), stat_halfeye(), geom_boxplot() are used to create a half eye plot and boxplot of price of properties with different regions. We use Type of Sale as fill to see how prices vary with type of sale. The ggtitle(), theme(), xlab(), and ylab() functions in the ggplot2 package are then used to make aesthetic adjustments to the plot.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\noptions(repr.plot.width = 40, repr.plot.height = 100)\np1 &lt;- ggplot(realis_data_2024Q1, \n       aes(x = `Planning Region`, \n           y = `Unit Price ($ PSM)`, fill=`Type of Sale`)) +\n  stat_halfeye(adjust = 7,\n               justification = -0.2,\n               .width = 0,\n               point_colour = NA,\n               alpha = 0.5) +\n  geom_boxplot(width = .50,\n               outlier.shape = NA, aes(x = `Planning Region`, \n           y = `Unit Price ($ PSM)`, fill=`Type of Sale`), alpha = 0.5 ) +\n  coord_flip() +\n  theme_minimal() +\n  ggtitle(label= \"Distribution of Price of properties with Regions in Signapore and Type of Sale for 2024 Q1\")\np1\n\n\n\n\nObservation: Based on the plot, we see that the median and mode of the distributions clearly indicate that properties in the Central region are most expensive in terms of Unit Price ($ PSM) in terms of types of New Sale and Resale. The Sub sale properties in the Western region have a higher median unit price than the ones in all other regions. Also the Subsale median price here is higher than the New Sale median price. This needs to be investigated further. Properties in the North region are the least expensive based on the median prices for New sale and Resale. Deeper dive based on median and mode shows that purchasing a new property in the northern region might actually be cheaper than purchasing a resale property in the Central, Western or North-eastern region. There is a higher variation in the price of properties in the price of properties in the central region compared to all other regions."
-  },
-  {
-    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#summary",
-    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#summary",
-    "title": "Take-home Exercise 1",
-    "section": "5 Summary",
-    "text": "5 Summary\nOur analysis of the private property market for Singapore based on Regions, Type of Sale, Area of Sale, yielded several insights. Overall, our analysis revealed uneven distributions of unit prices with different regions, type of sale, area of sale. Our analysis also revealed how many properties of each property type were sold in 2024 Q1 compared to 2023 Q1 and other quarters.\nKey Findings:\n\nThere has been a gradual reduction in number of properties of Detached houses sold in every quarter. The reason behind this needs to be investigated.\nThe number of properties of executive condos sold has grown significantly in 2024 Q1 as compared to 2023 Q1. A deeper study into the reasoning could reveal further insights.\nUnit Prices of properties on Land are higher as compared to prices on Strata in 2024 Q1.\nUnit Prices for New Sales are higher than Sub sales which in turn are higher than resales in 2024 Q1.\nUnit Prices of properties are highest in Central Region whereas they are lowest in the North region. Sub sale prices in the Western Region are surprisingly higher than New Sales in the region and highest overall among other regions.\nThere is a correlation between prices of private properties across various regions, across various types of sale and type of area of the property.\n\nRecommendations for future research:\n\nConfirmatory data analysis: Future studies should incorporate statistical tests to validate the findings from this exploratory data analysis and establish more definitive correlations and causation.\nExploring Additional Variables: A more exhaustive analysis that includes a wider range of variables could yield deeper insights into private property market. Understanding factors that drive prices of properties could help gain more insights and recommend a property to a particular class of purchasers based on demographics the appropriate property type.\nUnderstanding customer demographics: Understanding the customer demographics like age, income, gender, educational purpose will help reveal what type of customers will purchase a specific type of property in a region and how they would react to changes in market prices.\n\nBy addressing these areas, future research can provide a more comprehensive understanding of the various factors that contribute to price variation in private property market in Singapore and customer behavior."
-  },
-  {
-    "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#references-and-inspiration",
-    "href": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html#references-and-inspiration",
-    "title": "Take-home Exercise 1",
-    "section": "6 References and inspiration",
-    "text": "6 References and inspiration\n\nURA releases flash estimate of 1st Quarter 2024 private residential property price index\nUnsold private housing stock on the rise ahead of ramp-up in new launches in 2024\nHDB resale prices rise 1.7%; private home prices up 1.5% in first quarter: Flash estimates"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html",
-    "title": "Hands-on Exercise 3",
-    "section": "",
-    "text": "In this hands-on exercise, you will learn how to create interactive data visualisation by using functions provided by ggiraph and plotlyr packages."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#learning-outcome",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#learning-outcome",
-    "title": "Hands-on Exercise 3",
-    "section": "",
-    "text": "In this hands-on exercise, you will learn how to create interactive data visualisation by using functions provided by ggiraph and plotlyr packages."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#getting-started",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#getting-started",
-    "title": "Hands-on Exercise 3",
-    "section": "3.2 Getting Started",
-    "text": "3.2 Getting Started\nFirst, write a code chunk to check, install and launch the following R packages:\n\npacman::p_load(ggiraph, plotly, patchwork, DT, tidyverse)"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#importing-data",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#importing-data",
-    "title": "Hands-on Exercise 3",
-    "section": "3.3 Importing Data",
-    "text": "3.3 Importing Data\nIn this section, Exam_data.csv provided will be used. Using read_csv() of readr package, import Exam_data.csv into R.\nThe code chunk below read_csv() of readr package is used to import Exam_data.csv data file into R and save it as an tibble data frame called exam_data.\n\nexam_data &lt;- read_csv(\"data/Exam_data.csv\")"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactive-data-visualisation---ggiraph-methods",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactive-data-visualisation---ggiraph-methods",
-    "title": "Hands-on Exercise 3",
-    "section": "3.4 Interactive Data Visualisation - ggiraph methods",
-    "text": "3.4 Interactive Data Visualisation - ggiraph methods\nggiraph is an htmlwidget and a ggplot2 extension. It allows ggplot graphics to be interactive.\nInteractive is made with ggplot geometries that can understand three arguments:\n\nTooltip: a column of data-sets that contain tooltips to be displayed when the mouse is over elements.\nOnclick: a column of data-sets that contain a JavaScript function to be executed when elements are clicked.\nData_id: a column of data-sets that contain an id to be associated with elements.\n\nIf it used within a shiny application, elements associated with an id (data_id) can be selected and manipulated on client and server sides. Refer to this article for more detail explanation.\n\n3.4.1 Tooltip effect with tooltip aesthetic\nBelow shows a typical code chunk to plot an interactive statistical graph by using ggiraph package. Notice that the code chunk consists of two parts. First, an ggplot object will be created. Next, girafe() of ggiraph will be used to create an interactive svg object.\n\np &lt;- ggplot(data = exam_data,\n            aes(x = MATHS)) +\n  geom_dotplot_interactive(\n    aes(tooltip = ID),\n    stackgroups = TRUE,\n    binwidth = 1,\n    method = \"histodot\") +\n  scale_y_continuous(NULL, breaks= NULL)\ngirafe(\n  ggobj = p,\n  width_svg = 6,\n  height_svg = 6*0.618\n)\n\nNotice that two steps are involved. First, an interactive version of ggplot2 geom (i.e. geom_dotplot_interactive()) will be used to create the basic graph. Then, girafe() will be used to generate an svg object to be displayed on an html page."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity",
-    "title": "Hands-on Exercise 3",
-    "section": "3.5 Interactivity",
-    "text": "3.5 Interactivity\nBy hovering the mouse pointer on an data point of interest, the student’s ID will be displayed.\n\n\n\n\n\n\n\n3.5.1 Displaying multiple information on tooltip\nThe content of the tooltip can be customised by including a list object as shown in the code chunk below.\n\nexam_data$tooltip &lt;- c(paste0(     \n  \"Name = \", exam_data$ID,         \n  \"\\n Class = \", exam_data$CLASS))\np &lt;- ggplot(data=exam_data,\n            aes(x=MATHS)) +\n  geom_dotplot_interactive(\n    aes(tooltip = exam_data$tooltip),\n    stackgroups = TRUE,\n    binwidth = 1,\n    method = \"histodot\"\n  ) + \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p,\n  width_svg = 8,\n  height_svg = 8*0.618 \n)\n\nThe first three lines of codes in the code chunk create a new field called tooltip. At the same time, it populates text in ID and CLASS fields into the newly created field. Next, this newly created field is used as tooltip field as shown in the code of line 7."
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity-1",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03.html#interactivity-1",
-    "title": "Hands-on Exercise 3",
-    "section": "3.6 Interactivity",
-    "text": "3.6 Interactivity\nBy hovering the mouse pointer on an data point of interest, the student’s ID and Class will be displayed.\n\n\n\n\n\n\n\n3.6.1 Customising Tooltip style\nCode chunk below uses opts_tooltip() of ggiraph to customize tooltip rendering by add css declarations.\n\ntooltip_css &lt;- \"background-color:white;font-style:bold;\n color:black;\"\nexam_data$tooltip &lt;- c(paste0(     \n  \"Name = \", exam_data$ID,         \n  \"\\n Class = \", exam_data$CLASS))\np &lt;- ggplot(data=exam_data,\n            aes(x=MATHS)) +\n  geom_dotplot_interactive(\n    aes(tooltip = exam_data$tooltip),\n    stackgroups = TRUE,\n    binwidth = 1,\n    method = \"histodot\"\n  ) + \n  scale_y_continuous(NULL, breaks = NULL)\ngirafe(\n  ggobj = p,\n  width_svg = 8,\n  height_svg = 8*0.618,\n  options = list(\n      opts_tooltip(\n        css = tooltip_css))\n)\n\nNotice that the background colour of the tooltip is black and the font colour is white and bold."
-  },
-  {
     "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_parta.html",
     "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_parta.html",
     "title": "Hands-on Exercise 3: Part A",
@@ -448,45 +448,24 @@
     "text": "3.7 Interactive Data Visualisation - plotly methods\nThere are two ways to create interactive graph by using plotly, they are:\n\nby using plot_ly(), and\nby using ggplotly()\n\n\n3.7.1 Creating an interactive scatter plot: plot_ly() method\nThe tabset below shows an example a basic interactive plot created by using plot_ly().\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n\nplot_ly(data = exam_data,\n        x = ~MATHS,\n        y = ~ENGLISH)\n\n\n\n\n\n\n3.7.2 Working with visual variable: plot_ly() method\nIn the code chunk below, color argument is mapped to a qualitative visual variable (i.e. RACE).\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n\nplot_ly(data = exam_data,\n        x = ~MATHS,\n        y = ~ENGLISH,\n        color = ~RACE)\n\n\n\n\n\n\n3.7.3 Creating an interactive scatter plot: ggplotly() method\nThe code chunk below plots an interactive scatter plot by using ggplotly().\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n\np &lt;- ggplot(data=exam_data, \n            aes(x = MATHS,\n                y = ENGLISH)) +\n  geom_point(size=1) +\n  coord_cartesian(xlim=c(0,100),\n                  ylim=c(0,100))\nggplotly(p)"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html",
-    "title": "Hands-on Exercise 3: Part B",
+    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
+    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html",
+    "title": "In-class Exercise 1",
     "section": "",
-    "text": "In this hands-on exercise, we will learn how to create animated data visualisation by using gganimate and plotly r packages. At the same time, we will also (i) reshape data by using tidyr package, and (ii) process, wrangle and transform data by using dplyr package.\n\n\nWhen creating animations, the plot does not actually move. Instead, many individual plots are built and then stitched together as movie frames, just like an old-school flip book or cartoon. Each frame is a different plot when conveying motion, which is built using some relevant subset of the aggregate data. The subset drives the flow of the animation when stitched back together.\n\n\n\n\nBefore we dive into the steps for creating an animated statistical graph, it’s important to understand some of the key concepts and terminology related to this type of visualization.\n\nFrame: In an animated line graph, each frame represents a different point in time or a different category. When the frame changes, the data points on the graph are updated to reflect the new data.\nAnimation Attributes: The animation attributes are the settings that control how the animation behaves. For example, you can specify the duration of each frame, the easing function used to transition between frames, and whether to start the animation from the current frame or from the beginning."
+    "text": "In the code chunk below, p_load() of pacman package is used to load tidyverse family of packages.\n\npacman::p_load(tidyverse)\n\n\nrealis &lt;- read_csv(\"data/realis2019.csv\")\n\n\nrealis.csv &lt;- read.csv(\"data/realis2019.csv\")\n\n\nggplot(data = realis,\n       aes(x = `Unit Price ($ psm)`)) +\n  geom_histogram()"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#overview",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#overview",
-    "title": "Hands-on Exercise 3: Part B",
+    "objectID": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
+    "href": "In-class_Ex/In-class_Ex01/In-class_Ex01.html#loading-r-packages",
+    "title": "In-class Exercise 1",
     "section": "",
-    "text": "In this hands-on exercise, we will learn how to create animated data visualisation by using gganimate and plotly r packages. At the same time, we will also (i) reshape data by using tidyr package, and (ii) process, wrangle and transform data by using dplyr package.\n\n\nWhen creating animations, the plot does not actually move. Instead, many individual plots are built and then stitched together as movie frames, just like an old-school flip book or cartoon. Each frame is a different plot when conveying motion, which is built using some relevant subset of the aggregate data. The subset drives the flow of the animation when stitched back together.\n\n\n\n\nBefore we dive into the steps for creating an animated statistical graph, it’s important to understand some of the key concepts and terminology related to this type of visualization.\n\nFrame: In an animated line graph, each frame represents a different point in time or a different category. When the frame changes, the data points on the graph are updated to reflect the new data.\nAnimation Attributes: The animation attributes are the settings that control how the animation behaves. For example, you can specify the duration of each frame, the easing function used to transition between frames, and whether to start the animation from the current frame or from the beginning."
+    "text": "In the code chunk below, p_load() of pacman package is used to load tidyverse family of packages.\n\npacman::p_load(tidyverse)\n\n\nrealis &lt;- read_csv(\"data/realis2019.csv\")\n\n\nrealis.csv &lt;- read.csv(\"data/realis2019.csv\")\n\n\nggplot(data = realis,\n       aes(x = `Unit Price ($ psm)`)) +\n  geom_histogram()"
   },
   {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#getting-started",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#getting-started",
-    "title": "Hands-on Exercise 3: Part B",
-    "section": "4.2 Getting Started",
-    "text": "4.2 Getting Started\n\n4.2.1 Loading the R packages\n\npacman::p_load(readxl, gifski, gapminder,\n               plotly, gganimate, tidyverse)\n\n\n\n4.2.2 Importing the data\nIn this hands-on exercise, the Data worksheet from GlobalPopulation Excel workbook will be used.\nThe code below imports Data worksheet from GlobalPopulation Excel workbook by using appropriate R package from tidyverse family.\n\ncol &lt;- c(\"Country\", \"Continent\")\nglobalPop &lt;- read_xls(\"data/GlobalPopulation.xls\",\n                      sheet=\"Data\") %&gt;%\n  mutate(across(col, as.factor)) %&gt;%\n  mutate(Year = as.integer(Year))"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#animated-data-visualisation-gganimate-methods",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#animated-data-visualisation-gganimate-methods",
-    "title": "Hands-on Exercise 3: Part B",
-    "section": "4.3 Animated Data Visualisation: gganimate methods",
-    "text": "4.3 Animated Data Visualisation: gganimate methods\ngganimate extends the grammar of graphics as implemented by ggplot2 to include the description of animation. It does this by providing a range of new grammar classes that can be added to the plot object in order to customise how it should change with time.\n\ntransition_*() defines how the data should be spread out and how it relates to itself across time.\nview_*() defines how the positional scales should change along the animation.\nshadow_*() defines how data from other points in time should be presented in the given point in time.\nenter_*()/exit_*() defines how new data should appear and how old data should disappear during the course of the animation.\nease_aes() defines how different aesthetics should be eased during transitions.\n\n\n4.3.1 Building a static population bubble plot\nIn the code chunk below, the basic ggplot2 functions are used to create a static bubble plot.\n\nggplot(globalPop,\n       aes(x = Old, y = Young, \n                      size = Population, \n                      colour = Country)) +\n  geom_point(alpha = 0.7, \n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(title = 'Year: {frame_time}', \n       x = '% Aged', \n       y = '% Young') \n\n\n\n\n\n\n4.3.2 Building the animated bubble plot\nIn the code chunk below,\n\ntransition_time() of gganimate is used to create transition through distinct states in time (i.e. Year).\nease_aes() is used to control easing of aesthetics. The default is linear. Other methods are: quadratic, cubic, quartic, quintic, sine, circular, exponential, elastic, back, and bounce.\n\n\nggplot(globalPop,\n       aes(x = Old, y = Young,\n           size = Population, colour = Country)) +\n  geom_point(alpha = 0.7, show.legend = FALSE) +\n  scale_colour_manual(values= country_colors) +\n  scale_size(range = c(2,12)) +\n  labs(title = 'Year:{frame_time}',\n       x = '% Aged',\n       y = '% Young') +\n  transition_time(Year) +\n  ease_aes('linear')"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#animated-data-visualisation-plotly",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#animated-data-visualisation-plotly",
-    "title": "Hands-on Exercise 3: Part B",
-    "section": "4.4 Animated Data Visualisation: plotly",
-    "text": "4.4 Animated Data Visualisation: plotly\nIn Plotly R package, both ggplotly() and plot_ly() support key frame animations through the frame argument/aesthetic. They also support an ids argument/aesthetic to ensure smooth transitions between objects with the same id (which helps facilitate object constancy).\n\n4.4.1 Building an animated bubble plot: ggplotly() method\nIn this sub-section, you will learn how to create an animated bubble plot by using ggplotly() method.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n\ngg &lt;- ggplot(globalPop,\n             aes(x = Old, y = Young,\n                 size = Population,\n                 colour = Country)) +\n  geom_point(aes(size = Population,\n                 frame = Year),\n             alpha = 0.7,\n             show.legend = FALSE) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2,12)) +\n  labs(x = '% Aged', \n       y = '% Young')\nggplotly(gg)\n\n\n\n\nNotice that although show.legend = FALSE argument was used, the legend still appears on the plot. To overcome this problem, theme(legend.position='none') should be used as shown in the plot and code chunk below.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n\ngg &lt;- ggplot(globalPop, \n       aes(x = Old, \n           y = Young, \n           size = Population, \n           colour = Country)) +\n  geom_point(aes(size = Population,\n                 frame = Year),\n             alpha = 0.7) +\n  scale_colour_manual(values = country_colors) +\n  scale_size(range = c(2, 12)) +\n  labs(x = '% Aged', \n       y = '% Young') + \n  theme(legend.position='none')\n\nggplotly(gg)\n\n\n\n\n\n\n4.4.2 Building an animated bubble plot: plot_ly() method\nIn this sub-section, you will learn how to create an animated bubble plot by using plot_ly() method.\n\nThe plotThe code\n\n\n\n\n\n\n\n\n\n\n\nbp &lt;- globalPop %&gt;%\n  plot_ly(x = ~Old,\n          y = ~Young,\n          size = ~Population,\n          color = ~Continent,\n          sizes = c(2,100),\n          frame = ~Year,\n          text = ~Country,\n          hoverinfo = \"text\",\n          type = 'scatter',\n          mode = 'markers') %&gt;%\n          layout(show.legend = FALSE)\nbp"
-  },
-  {
-    "objectID": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#reference",
-    "href": "Hands-on_Ex/Hands-on_Ex03/Hands-on_Ex03_partb.html#reference",
-    "title": "Hands-on Exercise 3: Part B",
-    "section": "4.5 Reference",
-    "text": "4.5 Reference\n\nGetting Started\nBuilding an animation step-by-step with gganimate.\nCreating a composite gif with multiple gganimate panels"
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "ISSS608-VAA",
+    "section": "",
+    "text": "Welcome to my learning journey of ISSS608 Visual Analytics and Applications"
   }
 ]

@@ -1,0 +1,33 @@
+---
+title: "Hands-on Exercise 3: Part B"
+author: "Sarthak Nagapurkar"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+  freeze: true
+---
+
+## **4.1 Overview**
+
+In this hands-on exercise, we will learn how to create animated data visualisation by using **gganimate** and **plotly r** packages. At the same time, we will also (i) reshape data by using **tidyr** package, and (ii) process, wrangle and transform data by using **dplyr** package.
+
+### **4.1.1 Basic concepts of animation**
+
+When creating animations, the plot does not actually move. Instead, many individual plots are built and then stitched together as movie frames, just like an old-school flip book or cartoon. Each frame is a different plot when conveying motion, which is built using some relevant subset of the aggregate data. The subset drives the flow of the animation when stitched back together.
+
+### **4.1.2 Terminology**
+
+Before we dive into the steps for creating an animated statistical graph, it’s important to understand some of the key concepts and terminology related to this type of visualization.
+
+1.  **Frame**: In an animated line graph, each frame represents a different point in time or a different category. When the frame changes, the data points on the graph are updated to reflect the new data.
+2.  **Animation Attributes**: The animation attributes are the settings that control how the animation behaves. For example, you can specify the duration of each frame, the easing function used to transition between frames, and whether to start the animation from the current frame or from the beginning.
+
+## **4.2 Getting Started**
+
+### **4.2.1 Loading the R packages**
+
+```{r}
+pacman::p_load(readxl, gifski, gapminder,
+               plotly, gganimate, tidyverse)
+```

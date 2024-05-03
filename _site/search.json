@@ -481,5 +481,33 @@
     "title": "Hands-on Exercise 3: Part A",
     "section": "3.9 Reference",
     "text": "3.9 Reference\n\n3.9.1 ggiraph\nThis link provides online version of the reference guide and several useful articles. Use this link to download the pdf version of the reference guide.\n\nHow to Plot With Ggiraph\nInteractive map of France with ggiraph\nCustom interactive sunbursts with ggplot in R\nThis link provides code example on how ggiraph is used to interactive graphs for Swiss Olympians - the solo specialists.\n\n\n\n3.9.2 plotly for R\n\nGetting Started with Plotly in R\nA collection of plotly R graphs are available via this link.\nCarson Sievert (2020) Interactive web-based data visualization with R, plotly, and shiny, Chapman and Hall/CRC is the best resource to learn plotly for R. The online version is available via this link\nPlotly R Figure Reference provides a comprehensive discussion of each visual representations.\nPlotly R Library Fundamentals is a good place to learn the fundamental features of Plotly’s R API.\nGetting Started\nVisit this link for a very interesting implementation of gganimate by your senior.\nBuilding an animation step-by-step with gganimate.\nCreating a composite gif with multiple gganimate panels"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04/Hands_on_Ex04_parta.html",
+    "href": "Hands-on_Ex/Hands-on_Ex04/Hands_on_Ex04_parta.html",
+    "title": "Hands-on Exercise 4: Part A",
+    "section": "",
+    "text": "In this hands-on exercise, we will gain hands-on experience on using:\n\nggstatsplot package to create visual graphics with rich statistical information,\nperformance package to visualise model diagnostics, and\nparameters package to visualise model parameters"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04/Hands_on_Ex04_parta.html#learning-outcome",
+    "href": "Hands-on_Ex/Hands-on_Ex04/Hands_on_Ex04_parta.html#learning-outcome",
+    "title": "Hands-on Exercise 4: Part A",
+    "section": "",
+    "text": "In this hands-on exercise, we will gain hands-on experience on using:\n\nggstatsplot package to create visual graphics with rich statistical information,\nperformance package to visualise model diagnostics, and\nparameters package to visualise model parameters"
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04/Hands_on_Ex04_parta.html#visual-statistical-analysis-with-ggstatsplot",
+    "href": "Hands-on_Ex/Hands-on_Ex04/Hands_on_Ex04_parta.html#visual-statistical-analysis-with-ggstatsplot",
+    "title": "Hands-on Exercise 4: Part A",
+    "section": "4.2 Visual Statistical Analysis with ggstatsplot",
+    "text": "4.2 Visual Statistical Analysis with ggstatsplot\nggstatsplot  is an extension of ggplot2 package for creating graphics with details from statistical tests included in the information-rich plots themselves."
+  },
+  {
+    "objectID": "Hands-on_Ex/Hands-on_Ex04/Hands_on_Ex04_parta.html#getting-started",
+    "href": "Hands-on_Ex/Hands-on_Ex04/Hands_on_Ex04_parta.html#getting-started",
+    "title": "Hands-on Exercise 4: Part A",
+    "section": "4.3 Getting Started",
+    "text": "4.3 Getting Started\n\n10.3.1 Installing and launching R packages\nIn this exercise, ggstatsplot and tidyverse will be used.\n\npacman::p_load(ggstatsplot, tidyverse)\n\npackage 'ggstatsplot' successfully unpacked and MD5 sums checked\n\nThe downloaded binary packages are in\n    C:\\Users\\DELL\\AppData\\Local\\Temp\\Rtmpkjdemy\\downloaded_packages\n\n\n\n\n4.3.2 Importing data\n\nexam = read_csv(\"data/Exam_data.csv\")\n\n\n\n4.3.3 One-sample test: gghistostats() method\n4.3.4"
   }
 ]

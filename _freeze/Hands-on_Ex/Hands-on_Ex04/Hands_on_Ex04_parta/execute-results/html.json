@@ -1,0 +1,14 @@
+{
+  "hash": "7d884343024ea1a00f84d08b2acad6bb",
+  "result": {
+    "markdown": "---\ntitle: \"Hands-on Exercise 4: Part A\"\nauthor: \"Sarthak Nagapurkar\"\ndate: \"May 03, 2024\"\ndate-modified: \"last-modified\"\nexecute: \n  eval: true\n  echo: true\n  warning: false\n  freeze: true\n---\n\n\n## **4.1 Learning Outcome**\n\nIn this hands-on exercise, we will gain hands-on experience on using:\n\n-   ggstatsplot package to create visual graphics with rich statistical information,\n-   performance package to visualise model diagnostics, and\n-   parameters package to visualise model parameters\n\n## **4.2 Visual Statistical Analysis with ggstatsplot**\n\n[**ggstatsplot**](https://indrajeetpatil.github.io/ggstatsplot/)  is an extension of [**ggplot2**](https://ggplot2.tidyverse.org/) package for creating graphics with details from statistical tests included in the information-rich plots themselves.\n\n## **4.3 Getting Started**\n\n### **10.3.1 Installing and launching R packages**\n\nIn this exercise, **ggstatsplot** and **tidyverse** will be used.\n\n\n::: {.cell}\n\n```{.r .cell-code}\npacman::p_load(ggstatsplot, tidyverse)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\npackage 'ggstatsplot' successfully unpacked and MD5 sums checked\n\nThe downloaded binary packages are in\n\tC:\\Users\\DELL\\AppData\\Local\\Temp\\Rtmpkjdemy\\downloaded_packages\n```\n:::\n:::\n\n\n### **4.3.2 Importing data**\n\n\n::: {.cell}\n\n```{.r .cell-code}\nexam = read_csv(\"data/Exam_data.csv\")\n```\n:::\n\n\n### **4.3.3 One-sample test: *gghistostats()* method**\n\n4.3.4\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

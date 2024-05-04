@@ -1,0 +1,18 @@
+---
+title: "Take-home Exercise 2"
+author: "Sarthak Nagapurkar"
+format: revealjs
+date: "May 04, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+  freeze: true
+---
+
+## 1. Overview
+
+This exercise aims to provide critique and improvements to visualizations created by peer in Take-home Exercise 1 using R. This will be done based on clarity and aesthetics. The original design will then be remade using data visualization design principles and best practices using `ggplot2`, its extensions, and `tidyverse` packages.
+
+The original dataset consisted of transaction data of [REALIS](https://www.ura.gov.sg/reis/index). A complete set of the private residential property transaction data of Singapore from 1st January 2023 to 31st March 2024 was used.

@@ -1,7 +1,6 @@
 ---
 title: "Take-home Exercise 2"
 author: "Sarthak Nagapurkar"
-format: revealjs
 date: "May 04, 2024"
 date-modified: "last-modified"
 execute: 

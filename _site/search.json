@@ -3,8 +3,8 @@
     "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#overview",
     "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html#overview",
     "title": "Take-home Exercise 2",
-    "section": "1. Overview",
-    "text": "1. Overview\nThis exercise aims to provide critique and improvements to visualizations created by peer in Take-home Exercise 1 using R. This will be done based on clarity and aesthetics. The original design will then be remade using data visualization design principles and best practices using ggplot2, its extensions, and tidyverse packages.\nThe original dataset consisted of transaction data of REALIS. A complete set of the private residential property transaction data of Singapore from 1st January 2023 to 31st March 2024 was used."
+    "section": "",
+    "text": "This exercise aims to provide critique and improvements to visualizations created by peer in Take-home Exercise 1 using R. This will be done based on clarity and aesthetics. The original design will then be remade using data visualization design principles and best practices using ggplot2, its extensions, and tidyverse packages.\nThe original dataset consisted of transaction data of REALIS. A complete set of the private residential property transaction data of Singapore from 1st January 2023 to 31st March 2024 was used."
   },
   {
     "objectID": "index.html",
@@ -586,5 +586,12 @@
     "title": "Take-home Exercise 1",
     "section": "6 References and inspiration",
     "text": "6 References and inspiration\n\nURA releases flash estimate of 1st Quarter 2024 private residential property price index\nUnsold private housing stock on the rise ahead of ramp-up in new launches in 2024\nHDB resale prices rise 1.7%; private home prices up 1.5% in first quarter: Flash estimates"
+  },
+  {
+    "objectID": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html",
+    "href": "Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html",
+    "title": "Take-home Exercise 2",
+    "section": "",
+    "text": "This exercise aims to provide critique and improvements to visualizations created by peer in Take-home Exercise 1 using R. This will be done based on clarity and aesthetics. The original design will then be remade using data visualization design principles and best practices using ggplot2, its extensions, and tidyverse packages.\nThe original dataset consisted of transaction data of REALIS. A complete set of the private residential property transaction data of Singapore from 1st January 2023 to 31st March 2024 was used."
   }
 ]

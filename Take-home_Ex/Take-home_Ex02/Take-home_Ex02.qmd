@@ -15,3 +15,256 @@ execute:
 This exercise aims to provide critique and improvements to visualizations created by peer in Take-home Exercise 1 using R. This will be done based on clarity and aesthetics. The original design will then be remade using data visualization design principles and best practices using `ggplot2`, its extensions, and `tidyverse` packages.
 
 The original dataset consisted of transaction data of [REALIS](https://www.ura.gov.sg/reis/index). A complete set of the private residential property transaction data of Singapore from 1st January 2023 to 31st March 2024 was used.
+
+## 2. Data Visualization Critique
+
+```{r}
+pacman::p_load(ggrepel, patchwork, ggthemes, ggridges, hrbrthemes, colorspace,ggdist, tidyr, tidyverse, htmltools, viridis)
+```
+
+```{r}
+realis_data_2023Q1 <- read_csv("data/ResidentialTransaction20240308160536.csv")
+realis_data_2023Q1 <- mutate(realis_data_2023Q1, Quarter='2023-Q1')
+realis_data_2023Q2 <- read_csv("data/ResidentialTransaction20240308160736.csv")
+realis_data_2023Q2 <- mutate(realis_data_2023Q2, Quarter='2023-Q2')
+realis_data_2023Q3 <- read_csv("data/ResidentialTransaction20240308161009.csv")
+realis_data_2023Q3 <- mutate(realis_data_2023Q3, Quarter='2023-Q3')
+realis_data_2023Q4 <- read_csv("data/ResidentialTransaction20240308161109.csv")
+realis_data_2023Q4 <- mutate(realis_data_2023Q4, Quarter='2023-Q4')
+realis_data_2024Q1 <- read_csv("data/ResidentialTransaction20240414220633.csv")
+realis_data_2024Q1 <- mutate(realis_data_2024Q1, Quarter='2024-Q1')
+df <- rbind(realis_data_2023Q1, realis_data_2023Q2, realis_data_2023Q3, realis_data_2023Q4, realis_data_2024Q1)
+
+df <- df %>%
+  mutate_if(is.character, as.factor)
+```
+
+```{r}
+df$`Sale Date` = as.Date(df$`Sale Date`, format = "%d %b %Y")
+```
+
+### 2.1 Original Design
+
+```{r}
+#| fig-width: 6
+#| fig-height: 6
+df %>%
+  filter(`Number of Units` > 1) %>%
+  arrange(desc(`Number of Units`)) 
+df.c <- df %>%
+  filter(!grepl('ENBLOC', df$Address))
+df.c <- df.c %>%
+  filter(`Number of Units` <= 1)
+df.c_median <- df.c %>%
+  select(`Transacted Price ($)`, `Type of Area`, `Property Type`) %>%
+  group_by(`Property Type`, `Type of Area`) %>%
+  summarise(`Median Transaction Price ($)` = median(`Transacted Price ($)`, .groups = 'drop'))
+  ggplot(df.c_median, aes(x = `Property Type`, 
+             y = `Median Transaction Price ($)`, 
+             color = `Type of Area`)) +  # Adding color aesthetic based on Type of Area
+  geom_point() +
+  theme_economist() +
+  theme(axis.text.x = element_text(size = 8, angle = 90, vjust = 0.5, hjust=1)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(color = "Type of Area")
+```
+
+###  2.2 Critique: Clarity and Aesthetics
+
+*Clarity*
+
+-   Lack of a title makes it difficult to understand what the plot is about.
+
+-   Dot plot is being used to represent discrete data. The differences are between prices are a bit difficult to understand as dots are not a very good way to represent discrete data.
+
+-   As a person who wants to understand more from the data, he will be interested in knowing the distribution of data along with the median prices as well. Just the median prices would be insufficient to derive a conclusion about the larger dataset without knowing the distribution of data.
+
+-   Lack of caption makes it hard to know about the source of the data.
+
+```{r}
+#| fig-width: 10
+#| fig-height: 8
+ 
+```
+
+```{r}
+#| fig-width:  11
+#| fig-height: 13 
+custom_palette <- c("orange", "steelblue")
+p <- ggplot(df.c_median, aes(x = `Property Type`, 
+             y = `Median Transaction Price ($)`, 
+             fill = `Type of Area`)) +
+  geom_bar(stat = "identity", position = "dodge", alpha = 0.9) +
+  theme(axis.text.x = element_text(size = 10, vjust = 0.5, hjust=1),
+        axis.text.y = element_text(size = 10, vjust = 0.5, hjust=1),
+        axis.title.x = element_text(size = 12),
+        axis.title.y = element_text(size = 12),
+        plot.title = element_text(size = 25, face = "bold")) +
+ scale_fill_manual(values = custom_palette) +
+  labs(color = "Type of Area", title = "Sale Prices of Private Property types  with Type of Area") + 
+  scale_x_discrete(drop = FALSE)
+
+df_terracehouse <- df.c %>% filter(`Property Type` == 'Terrace House')
+p1 <- ggplot(df_terracehouse, 
+             aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`)) + stat_halfeye(aes(justification = ifelse(`Type of Area` == "Land", 1.2, 0),
+               side = ifelse(`Type of Area` == "Land", "left", "right")),
+               adjust = 8,
+               .width = 0,
+               point_colour = NA, alpha = 0.9) +
+  labs(x = "Terrace Houses",caption = "Source: REALIS, URA") + scale_fill_manual(values = custom_palette) +
+  ylim(0, 15000000) +
+  geom_boxplot(aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`),
+               outlier.shape = NA, 
+               alpha = .5, 
+               width = .2, 
+               colour = "black") +
+  theme(
+    legend.direction = "horizontal",
+    legend.position="none",
+    plot.title = element_text(size =12, face = "bold"),
+    plot.subtitle = element_text(size = rel(0.8)),
+    plot.caption = element_text(size = rel(0.8)),
+    axis.text.x = element_text(size = rel(0.9)),
+    axis.title.x = element_text(size = rel(0.9)),
+    axis.text.y = element_blank(),
+    axis.title.y = element_blank(),
+    plot.background=element_rect(fill="white",colour="white"))
+
+df_semidetached <- df.c %>% filter(`Property Type` == 'Semi-Detached House')
+
+p2 <- ggplot(df_semidetached, 
+             aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`)) + stat_halfeye(aes(justification = ifelse(`Type of Area` == "Land", 1.2, 0),
+               side = ifelse(`Type of Area` == "Land", "left", "right")),
+               adjust = 8,
+               .width = 0,
+               point_colour = NA, alpha = 0.9) +
+  labs(x = "Semi-Detached Houses") + scale_fill_manual(values = custom_palette) +
+  ylim(0, 15000000) + geom_boxplot(aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`),
+               outlier.shape = NA, 
+               alpha = .5, 
+               width = .2, 
+               colour = "black") +
+  theme(
+    legend.direction = "horizontal",
+    legend.position="none",
+    plot.title = element_text(size =12, face = "bold"),
+    plot.subtitle = element_text(size = rel(0.8)),
+    plot.caption = element_text(size = rel(0.8)),
+    axis.text.x = element_text(size = rel(0.9)),
+    axis.title.x = element_text(size = rel(0.9)),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    plot.background=element_rect(fill="white",colour="white"))
+  
+df_execcondo <- df.c %>% filter(`Property Type` == 'Executive Condominium')
+
+p3 <- ggplot(df_execcondo, 
+             aes(x= `Type of Area`, y = `Transacted Price ($)`,fill = `Type of Area`)) + stat_halfeye(aes(justification = ifelse(`Type of Area` == "Land", 1.2, 0),
+               side = ifelse(`Type of Area` == "Land", "left", "right")),
+               adjust = 8,
+               .width = 0,
+               point_colour = NA, alpha = 0.9) +
+  labs(x = "Executive Condominium") + scale_fill_manual(values = "steelblue") +
+  ylim(0, 15000000) + geom_boxplot(aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`),
+               outlier.shape = NA, 
+               alpha = .5, 
+               width = .2, 
+               colour = "black") +
+  scale_x_discrete(drop = FALSE) +
+  theme(
+    legend.direction = "horizontal",
+    legend.position="none",
+    plot.title = element_text(size =12, face = "bold"),
+    plot.subtitle = element_text(size = rel(0.8)),
+    plot.caption = element_text(size = rel(0.8)),
+    axis.text.x = element_text(size = rel(0.9)),
+    axis.title.x = element_text(size = rel(0.9)),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    plot.background=element_rect(fill="white",colour="white"))
+  
+  
+df_detachedhouse <- df.c %>% filter(`Property Type` == 'Detached House')
+
+p4 <- ggplot(df_detachedhouse, 
+             aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`)) + stat_halfeye(aes(justification = ifelse(`Type of Area` == "Land", 1.2, 0),
+               side = ifelse(`Type of Area` == "Land", "left", "right")),
+               adjust = 8,
+               .width = 0,
+               point_colour = NA, alpha = 0.9) +
+  labs(x = "Detached house") + scale_fill_manual(values = custom_palette) +
+  ylim(0, 15000000) + geom_boxplot(aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`),
+               outlier.shape = NA, 
+               alpha = .5, 
+               width = .2, 
+               colour = "black") +
+  theme(
+    legend.direction = "horizontal",
+    legend.position="none",
+    plot.title = element_text(size =12, face = "bold"),
+    plot.subtitle = element_text(size = rel(0.8)),
+    plot.caption = element_text(size = rel(0.8)),
+    axis.text.x = element_text(size = rel(0.9)),
+    axis.title.x = element_text(size = rel(0.9)),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    plot.background=element_rect(fill="white",colour="white"))
+
+df_condo <- df.c %>% filter(`Property Type` == 'Condominium')
+
+p5 <- ggplot(df_condo, 
+             aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`)) + stat_halfeye(aes(justification = ifelse(`Type of Area` == "Land", 1.2, 0),
+               side = ifelse(`Type of Area` == "Land", "left", "right")),
+               adjust = 8,
+               .width = 0,
+               point_colour = NA, alpha = 0.9) +
+  labs(x = "Condominium") + scale_fill_manual(values = "steelblue") +
+  ylim(0, 15000000) + geom_boxplot(aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`),
+               outlier.shape = NA, 
+               alpha = .5, 
+               width = .2, 
+               colour = "black") + 
+  scale_x_discrete(drop = FALSE) +
+  theme(
+    legend.direction = "horizontal",
+    legend.position="none",
+    plot.title = element_text(size =12, face = "bold"),
+    plot.subtitle = element_text(size = rel(0.8)),
+    plot.caption = element_text(size = rel(0.8)),
+    axis.text.x = element_text(size = rel(0.9)),
+    axis.title.x = element_text(size = rel(0.9)),
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+    plot.background=element_rect(fill="white",colour="white"))
+
+df_apartment <- df.c %>% filter(`Property Type` == 'Apartment')
+
+p6 <- ggplot(df_apartment, 
+             aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`)) + stat_halfeye(aes(justification = ifelse(`Type of Area` == "Land", 1.2, 0),
+               side = ifelse(`Type of Area` == "Land", "left", "right")),
+               adjust = 8,
+               .width = 0,
+               point_colour = NA, alpha = 0.9) +
+  labs(x = "Apartment") + scale_fill_manual(values = custom_palette) +
+  ylim(0, 15000000) + geom_boxplot(aes(x= `Type of Area`, y = `Transacted Price ($)`, fill = `Type of Area`),
+               outlier.shape = NA, 
+               alpha = .5, 
+               width = .2, 
+               colour = "black") +
+  theme(
+    legend.direction = "horizontal",
+    legend.position="none",
+    plot.title = element_text(size =12, face = "bold"),
+    plot.subtitle = element_text(size = rel(0.8)),
+    plot.caption = element_text(size = rel(0.8)),
+    axis.text.x = element_text(size = rel(0.9)),
+    axis.title.x = element_text(size = rel(0.9)),
+    axis.title.y = element_text(size = rel(1.2)),
+    axis.text.y = element_text(size = rel(0.9)),
+    
+    plot.background=element_rect(fill="white",colour="white"))
+
+p7 <- p / (p6 |  p5 | p4 | p3 | p2 | p1)
+p7
+
+```

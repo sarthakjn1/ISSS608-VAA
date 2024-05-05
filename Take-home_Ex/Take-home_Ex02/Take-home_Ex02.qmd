@@ -89,7 +89,7 @@ df.c_median <- df.c %>%
 -   The Type of Area has been placed at the top of the graph(in turn replacing the title). This is slightly misleading for the reader.
 -   A lighter colour could have been chosen for the background. This would have made the visualization stand out more clearly.
 
-### 3. Makeover Design
+## 3. Makeover Design
 
 ::: panel-tabset
 ## The plot
@@ -461,3 +461,13 @@ p7
 
 ```
 :::
+
+## 4. Learning Points
+
+This take-home exercise adds a dimension of critique and makeover of peer works which helps to embed best practices in data visualization. The key takeaways are:
+
+-   It is very important to pay attention to detail
+
+-   There is no best visualization as there might be some trade-offs between clarity and aesthetics. Adding horizontal (y-axis) grid lines in this chart presented me with a dilemma as it reduces aesthetics (by cluttering the plots), but adds additional clarity, assisting the audience to refer to the age group. This is particularly important for static visualization like this.
+
+-   Learning to critique other peer’s works help to identify pain points, to understand best practices, and to awaken new ideas that were not surfaced during Take-home Exercise 1.

@@ -71,9 +71,11 @@ df.c_median <- df.c %>%
   labs(color = "Type of Area")
 ```
 
+**The link for the peers work:** <https://va24-ry.netlify.app/take-home%20exercise/take-home_ex01/take-home_ex01#identifying-the-sub-markets>
+
 ### 2.3 Critique: Clarity and Aesthetics
 
-#### ***2.2.1 Clarity***
+#### **2.2.1 Clarity**
 
 -   Lack of a title makes it difficult to understand what the plot is about.
 -   Dot plot is being used to represent discrete data. The differences between prices are a bit difficult to understand as dot plots are not a very good way to represent discrete data.
@@ -81,7 +83,7 @@ df.c_median <- df.c %>%
 -   Lack of subtitle makes it difficult for the person viewing the visualization to understand the message the analyst wants to convey through the visualization. In turn, it makes it difficult to understand the analyst's intention behind construction of the visualization
 -   Lack of caption makes it hard to know about the source of the data.
 
-#### ***2.2.2 Aesthetics***
+#### **2.2.2 Aesthetics**
 
 -   The colour of dots for Strata matches closely with the background theme. This makes it slightly difficult to separate out.
 -   The x axis labels are at 90 degrees to the usual view. This makes it uncomfortable for the reader to read the x-axis labels.
@@ -90,6 +92,8 @@ df.c_median <- df.c %>%
 -   A lighter colour could have been chosen for the background. This would have made the visualization stand out more clearly.
 
 ## 3. Makeover Design
+
+The intention behind the makover is to give a more detailed version of distribution of private property prices(based on property types) with area. This makeover adds in the distribution as well. This is because just the median prices won't give the reader a complete view of the property prices. Also to derive any conclusion from the visualization, it is necessary to know the distribution of data.
 
 ::: panel-tabset
 ## The plot
@@ -107,9 +111,11 @@ p <- ggplot(df.c_median, aes(x = `Property Type`,
         axis.text.y = element_text(size = 9),
         axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12),
-        plot.title = element_text(size = 25, face = "bold")) +
+        plot.title = element_text(size = 25, face = "bold"),
+        plot.subtitle = element_text(size=18)) +
  scale_fill_manual(values = custom_palette) +
-  labs(color = "Type of Area", title = "Sale Prices of Private Property types with Type of Area") + 
+  labs(color = "Type of Area", title = "Sale Prices of Private Property types with Type of Area",
+       subtitle = "Higher Sale Prices of Private Properties on Land as compared to Strata ") + 
   scale_x_discrete(drop = FALSE)
 
 df_terracehouse <- df.c %>% filter(`Property Type` == 'Terrace House')
@@ -291,9 +297,11 @@ p <- ggplot(df.c_median, aes(x = `Property Type`,
         axis.text.y = element_text(size = 9),
         axis.title.x = element_text(size = 12),
         axis.title.y = element_text(size = 12),
-        plot.title = element_text(size = 25, face = "bold")) +
+        plot.title = element_text(size = 25, face = "bold"),
+        plot.title = element_text(size = 18)) +
  scale_fill_manual(values = custom_palette) +
-  labs(color = "Type of Area", title = "Sale Prices of Private Property types with Type of Area") + 
+  labs(color = "Type of Area", title = "Sale Prices of Private Property types with Type of Area",
+       subtitle = "Higher prices for Properties on Land as compared to Strata") + 
   scale_x_discrete(drop = FALSE)
 
 df_terracehouse <- df.c %>% filter(`Property Type` == 'Terrace House')
@@ -462,12 +470,22 @@ p7
 ```
 :::
 
+::: callout-tip
+## Observations from the  Makeover Visualization
+
+-   In general, the sale prices of properties on Land are higher than those on Strata for the same property type.
+
+-   The differences between median sale prices of Terrace houses and Semi-detached houses is slightly lower than Apartments and Detached houses.
+
+-   The detached houses and semi-detached houses have a higher variation in sale prices for Land Properties as compared to the Apartments and Terrace houses.
+
+-   The median sale prices for Condos and Executive Condos are lower than the others.
+:::
+
 ## 4. Learning Points
 
 This take-home exercise adds a dimension of critique and makeover of peer works which helps to embed best practices in data visualization. The key takeaways are:
 
--   It is very important to pay attention to detail
+-   It is very important to pay attention to detail while critiquing a visualization. Aspects like the title, subtitle, captions, axes labels, legends, colour schemes play a very important role in getting an understanding of the visualiziation.
 
--   There is no best visualization as there might be some trade-offs between clarity and aesthetics. Adding horizontal (y-axis) grid lines in this chart presented me with a dilemma as it reduces aesthetics (by cluttering the plots), but adds additional clarity, assisting the audience to refer to the age group. This is particularly important for static visualization like this.
-
--   Learning to critique other peer’s works help to identify pain points, to understand best practices, and to awaken new ideas that were not surfaced during Take-home Exercise 1.
+-   Trying to understand the intention of the analyst behind constructing the visualization is of prime importance. As a reader, if the intention behind plotting the visualization is not understood then the reading and understanding of the visualization is incomplete.

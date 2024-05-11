@@ -1,0 +1,33 @@
+---
+title: "In-class Exercise 5"
+author: "Sarthak Nagapurkar"
+format: html
+editor: visual
+---
+
+```{r}
+pacman::p_load(tidyverse, readtext, quanteda, tidytext)
+```
+
+```{r}
+text_data <- readtext("data/articles/*")
+```
+
+```{r}
+usenet_words <- text_data %>%
+  unnest_tokens(word, text) %>%
+  filter(str_detect(word, "[a-z']$"), !word %in% stop_words$word)
+```
+
+```{r}
+usenet_words %>%
+  count(word, sort= TRUE)
+```
+
+```{r}
+text_data_splitted <- text_data %>%
+  separate_wider_delim("doc_id",
+                       delim = "__0__",
+                       names = c("X", "Y"),
+                       too_few = "align_end")
+```

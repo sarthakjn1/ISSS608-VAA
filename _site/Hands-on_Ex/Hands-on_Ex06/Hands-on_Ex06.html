@@ -276,6 +276,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#a-framed-facet-graph" id="toc-a-framed-facet-graph" class="nav-link" data-scroll-target="#a-framed-facet-graph">27.6.3 A framed facet graph</a></li>
   <li><a href="#working-with-facet_nodes" id="toc-working-with-facet_nodes" class="nav-link" data-scroll-target="#working-with-facet_nodes">27.6.4 Working with <em>facet_nodes()</em></a></li>
   </ul></li>
+  <li><a href="#network-metrics-analysis" id="toc-network-metrics-analysis" class="nav-link" data-scroll-target="#network-metrics-analysis"><strong>27.7 Network Metrics Analysis</strong></a>
+  <ul class="collapse">
+  <li><a href="#computing-centrality-indices" id="toc-computing-centrality-indices" class="nav-link" data-scroll-target="#computing-centrality-indices"><strong>27.7.1 Computing centrality indices</strong></a></li>
+  <li><a href="#visualising-network-metrics" id="toc-visualising-network-metrics" class="nav-link" data-scroll-target="#visualising-network-metrics">27.7.2 Visualising network metrics</a></li>
+  <li><a href="#visualising-community" id="toc-visualising-community" class="nav-link" data-scroll-target="#visualising-community"><strong>27.7.3 Visualising Community</strong></a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -865,6 +871,89 @@ Thing to learn from the code chunk above:
 <div>
 <figure class="figure">
 <p><img src="Hands-on_Ex06_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="network-metrics-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="network-metrics-analysis"><strong>27.7 Network Metrics Analysis</strong></h2>
+<section id="computing-centrality-indices" class="level3">
+<h3 class="anchored" data-anchor-id="computing-centrality-indices"><strong>27.7.1 Computing centrality indices</strong></h3>
+<p>Centrality measures are a collection of statistical indices use to describe the relative important of the actors are to a network. There are four well-known centrality measures, namely: degree, betweenness, closeness and eigenvector. It is beyond the scope of this hands-on exercise to cover the principles and mathematics of these measure here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> GAStech_graph <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">betweenness_centrality =</span> <span class="fu">centrality_betweenness</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggraph</span>(<span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="fu">aes</span>(<span class="at">width =</span> Weight),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_edge_width</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> Department,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                      <span class="at">size =</span> betweenness_centrality))</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>g <span class="sc">+</span> <span class="fu">theme_graph</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Hands-on_Ex06_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Things to learn from the code chunk above:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><em>mutate()</em> of <strong>dplyr</strong> is used to perform the computation.</li>
+<li>the algorithm used, on the other hand, is the <em>centrality_betweenness()</em> of <strong>tidygraph</strong>.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="visualising-network-metrics" class="level3">
+<h3 class="anchored" data-anchor-id="visualising-network-metrics">27.7.2 Visualising network metrics</h3>
+<p>It is important to note that from <strong>ggraph v2.0</strong> onward tidygraph algorithms such as centrality measures can be accessed directly in ggraph calls. This means that it is no longer necessary to precompute and store derived node and edge centrality measures on the graph in order to use them in a plot.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">ggraph</span>(GAStech_graph, <span class="at">layout=</span><span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="fu">aes</span>(<span class="at">width =</span> Weight), <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_edge_width</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> Department,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">size =</span> <span class="fu">centrality_betweenness</span>()))</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>g <span class="sc">+</span> <span class="fu">theme_graph</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Hands-on_Ex06_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualising-community" class="level3">
+<h3 class="anchored" data-anchor-id="visualising-community"><strong>27.7.3 Visualising Community</strong></h3>
+<p>tidygraph package inherits many of the community detection algorithms imbedded into igraph and makes them available to us, including <em>Edge-betweenness (group_edge_betweenness)</em>, <em>Leading eigenvector (group_leading_eigen)</em>, <em>Fast-greedy (group_fast_greedy)</em>, <em>Louvain (group_louvain)</em>, <em>Walktrap (group_walktrap)</em>, <em>Label propagation (group_label_prop)</em>, <em>InfoMAP (group_infomap)</em>, <em>Spinglass (group_spinglass)</em>, and <em>Optimal (group_optimal)</em>. Some community algorithms are designed to take into account direction or weight, while others ignore it. Use this <a href="https://tidygraph.data-imaginist.com/reference/group_graph.html">link</a> to find out more about community detection functions provided by tidygraph,</p>
+<p>In the code chunk below <em>group_edge_betweenness()</em> is used.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> GAStech_graph <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">community =</span> <span class="fu">as.factor</span>(<span class="fu">group_edge_betweenness</span>(<span class="at">weights =</span> Weight, <span class="at">directed =</span> <span class="cn">TRUE</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggraph</span>(<span class="at">layout =</span> <span class="st">"fr"</span>) <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="fu">aes</span>(<span class="at">width =</span> Weight),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_edge_width</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.1</span>,<span class="dv">5</span>)) <span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> community))</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>g <span class="sc">+</span> <span class="fu">theme_graph</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Hands-on_Ex06_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

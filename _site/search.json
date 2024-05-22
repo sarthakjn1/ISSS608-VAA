@@ -42,6 +42,20 @@
     "text": "Welcome to my learning journey of ISSS608 Visual Analytics and Applications"
   },
   {
+    "objectID": "In-class_Ex/In-class_Ex06/In-class_Ex06.html",
+    "href": "In-class_Ex/In-class_Ex06/In-class_Ex06.html",
+    "title": "In-class Exercise 6",
+    "section": "",
+    "text": "pacman::p_load(tidyverse, readtext, corporaexplorer, quanteda, stringi,\n               rvest, tidytext)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex06/In-class_Ex06.html#reading-data",
+    "href": "In-class_Ex/In-class_Ex06/In-class_Ex06.html#reading-data",
+    "title": "In-class Exercise 6",
+    "section": "Reading data",
+    "text": "Reading data\n\nbible &lt;- readr::read_lines(\"http://www.gutenberg.org/cache/epub/10/pg10.txt\")\n\n\n# Collapsing into one string.\nbible &lt;- paste(bible, collapse = \"\\n\")\n\n# Identifying the beginning and end of the Bible / stripping PJ metadata\n # (technique borrowed from https://quanteda.io/articles/pkgdown/replication/digital-humanities.html).\nstart_v &lt;- stri_locate_first_fixed(bible, \"The First Book of Moses: Called Genesis\")[1]\nend_v &lt;- stri_locate_last_fixed(bible, \"Amen.\")[2]\nbible &lt;- stri_sub(bible, start_v, end_v)\n\n# In the file, every book in the bible is preceded by five newlines,\n  # which we use to split our string into a vector where each element is a book.\nbooks &lt;- stri_split_regex(bible, \"\\n{5}\") %&gt;%\n    unlist %&gt;%\n    .[-40]  # Removing the heading \"The New Testament of the King James Bible\",\n              # which also was preceded by five newlines.\n\n# Because of the structure of the text in the file:\n  # Replacing double or more newlines with two newlines, and a single newline with space.\nbooks &lt;- str_replace_all(books, \"\\n{2,}\", \"NEW_PARAGRAPH\") %&gt;%\n    str_replace_all(\"\\n\", \" \") %&gt;%\n    str_replace_all(\"NEW_PARAGRAPH\", \"\\n\\n\")\nbooks &lt;- books[3:68]  # The two first elements are not books\n\n# Identifying new chapters within each book and split the text into chapters.\n# (The first characters in chapter 2 will e.g. be 2:1)\nchapters &lt;- str_replace_all(books, \"(\\\\d+:1 )\", \"NEW_CHAPTER\\\\1\") %&gt;%\n    stri_split_regex(\"NEW_CHAPTER\")\n\n# Removing the chapter headings from the text (we want them as metadata).\nchapters &lt;- lapply(chapters, function(x) x[-1])\n\n\n# We are not quite happy with the long book titles in the King James Bible,\n  # so we retrieve shorter versions from esv.org which will take up less\n  # space in the corpus map plot.\nbook_titles &lt;- read_html(\"https://www.esv.org/resources/esv-global-study-bible/list-of-abbreviations\") %&gt;%\n  html_nodes(\"td:nth-child(1)\") %&gt;%\n  html_text() %&gt;%\n  .[13:78]  # Removing irrelevant elements after manual inspection.\n\n# We add a column indicating whether a book belongs to the Old or New Testament,\n#   knowing that they contain respectively 39 and 27 books.\ntestament &lt;- c(rep(\"Old\", 39), rep(\"New\", 27))\n\n\n# Data frame with one book as one row.\nbible_df &lt;- tibble::tibble(Text = chapters,\n                           Book = book_titles,\n                           Testament = testament)\n\n# We want each chapter to be one row, but keep the metadata (book and which testament).\nbible_df &lt;- tidyr::unnest(bible_df, Text)\n\n\n# As this is a corpus which is not organised by date,\n  # we set `date_based_corpus` to `FALSE`.\n# Because we want to organise our exploration around the books in the Bible,\n  # we pass `\"Book\"` to the `grouping_variable` argument.\n# We specify which metadata columns we want to be displayed in the\n  # \"Document information\" tab, using the `columns_doc_info` argument.\nKJB &lt;- prepare_data(dataset = bible_df,\n                    date_based_corpus = FALSE,\n                    grouping_variable = \"Book\",\n                    columns_doc_info = c(\"Testament\", \"Book\"))\n\n\nexplore(KJB)\n\nShiny applications not supported in static R Markdown documents"
+  },
+  {
     "objectID": "In-class_Ex/In-class_Ex05/In-class_Ex05.html",
     "href": "In-class_Ex/In-class_Ex05/In-class_Ex05.html",
     "title": "In-class Exercise 5",
@@ -698,6 +712,20 @@
     "title": "In-class Exercise 5: B",
     "section": "",
     "text": "pacman:: p_load(jsonlite, tidyverse)\n\n\nmc1_data &lt;- fromJSON(\"data/mc1.json\")"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex06/In-class_Ex06_partb.html",
+    "href": "In-class_Ex/In-class_Ex06/In-class_Ex06_partb.html",
+    "title": "In-class Exercise 6: Part B",
+    "section": "",
+    "text": "pacman::p_load(jsonlite, tidygraph, ggraph,\n               visNetwork, graphlayouts, tidyverse)"
+  },
+  {
+    "objectID": "In-class_Ex/In-class_Ex06/In-class_Ex06_partb.html#reading-data",
+    "href": "In-class_Ex/In-class_Ex06/In-class_Ex06_partb.html#reading-data",
+    "title": "In-class Exercise 6: Part B",
+    "section": "Reading data",
+    "text": "Reading data\n\nmc3_data &lt;- fromJSON(\"data/MC3.json\")\n\n\nclass(mc3_data)\n\n[1] \"list\"\n\n\n\nmc3_edges &lt;-\n  as_tibble(mc3_data$links) %&gt;%\n  distinct() %&gt;%\n  mutate(source =\n           as.character(source),\n         target=\n           as.character(target),\n         type = as.character(type)) %&gt;%\n  group_by(source, target, type) %&gt;%\n  summarise(weights = n()) %&gt;%\n  filter(source != target) %&gt;%\n  ungroup()\n\n\nmc3_nodes &lt;- as_tibble(mc3_data$nodes) %&gt;%\n  mutate(country = as.character(country),\n         id = as.character(id),\n         product_services = as.character(product_services),\n         revenue_omu = as.numeric(as.character(revenue_omu)),\n         type = as.character(type)) %&gt;%\n  select(id, country, type, revenue_omu, product_services)\n\n\nid1 &lt;- mc3_edges %&gt;%\n  select(source) %&gt;%\n  rename(id = source)\nid2 &lt;- mc3_edges %&gt;%\n  select(target) %&gt;%\n  rename(id = target)\nmc3_nodes1 &lt;- rbind(id1, id2) %&gt;%\n  distinct() %&gt;%\n  left_join(mc3_nodes,\n            unmatched = \"drop\")\n\n\nmc3_graph &lt;- tbl_graph(nodes = mc3_nodes1,\n                       edges = mc3_edges,\n                       directed = FALSE) %&gt;%\n  mutate(betweenness_centrality = centrality_betweenness(),\n         closeness_centrality = centrality_closeness())\n\n\nmc3_graph %&gt;%\n  filter(betweenness_centrality &gt;= 300000) %&gt;%\n  ggraph(layout = \"fr\") +\n  geom_edge_link(aes(alpha = 0.5)) +\n  geom_node_point(aes(\n    size = betweenness_centrality,\n    colors = 'lightblue',\n    alpha = 0.5)) +\n  scale_size_continuous(range=c(1,10)) +\n  theme_graph()"
   },
   {
     "objectID": "Take-home_Ex/Take-home_Ex01/Take-home_Ex01.html",

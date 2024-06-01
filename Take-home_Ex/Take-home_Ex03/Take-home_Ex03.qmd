@@ -1,0 +1,179 @@
+---
+title: "Take-home Exercise 3"
+author: "Sarthak Nagapurkar"
+date: "May 22, 2024"
+date-modified: "last-modified"
+execute: 
+  eval: true
+  echo: true
+  warning: false
+  freeze: true
+---
+
+Installing Packages
+
+```{r}
+pacman::p_load(jsonlite, tidygraph, ggraph,
+               visNetwork, graphlayouts, tidyverse, sf, leaflet)
+```
+
+```{r}
+mc2_data <- fromJSON("data/MC2.json")
+```
+
+```{r}
+mc2_ping <-
+  as_tibble(mc2_data$links) %>%
+  distinct() %>%
+  mutate(source =
+           as.character(source),
+         target=
+           as.character(target),
+         type = as.character(type),
+         time = as.character(time),
+         arrivaldate = as.character(as.Date(time, format = "%Y-%m-%dT%H:%M:%S"))
+  ) %>%
+  filter((source != target) & type == 'Event.TransportEvent.TransponderPing') %>%
+  select(source, target, type, time, dwell, arrivaldate)
+```
+
+```{r}
+mc2_portstayping <-
+  as_tibble(mc2_data$links) %>%
+  distinct() %>%
+  mutate(source =
+           as.character(source),
+         target=
+           as.character(target),
+         type = as.character(type),
+         dwell = as.double(as.character(dwell)),
+        time = as.character(time),
+        arrivaldate = as.character(as.Date(time, format = "%Y-%m-%dT%H:%M:%S"))
+  ) %>%
+  mutate(month = substr(arrivaldate, 6 , 7)) %>%
+  group_by(source, target, type, month) %>%
+  #summarise(dwellmax = max(dwell)) %>%
+  filter((source != target) & (dwell == max(dwell))) %>%
+  select(source, target, type, dwell, time, arrivaldate, month)
+```
+
+```{r}
+mc2_transaction <-
+  as_tibble(mc2_data$links) %>%
+  distinct() %>%
+  mutate(source =
+           as.character(source),
+         target=
+           as.character(target),
+         type = as.character(type),
+         date = as.character(date)
+  ) %>%
+  group_by(source, target, type) %>%
+  filter((source != target) & type == 'Event.Transaction') %>%
+  select(source, target, type, date)
+```
+
+```{r}
+mc2_harborreport <-
+  as_tibble(mc2_data$links) %>%
+  distinct() %>%
+  mutate(source =
+           as.character(source),
+         target=
+           as.character(target),
+         type = as.character(type),
+         date = as.character(date)
+  ) %>%
+  group_by(source, target, type) %>%
+  filter((source != target) & type == 'Event.HarborReport') %>%
+  select(source, target, type, date)
+```
+
+```{r}
+mc2_nodes <- as_tibble(mc2_data$nodes) %>%
+  mutate(name = as.character(name),
+         id = as.character(id),
+         type = as.character(type),
+         date = as.character(as.Date(date)),
+         qty = as.character(as.double(qty_tons))) %>%
+  select(id, name, type, date, qty)
+```
+
+```{r}
+mc2_deliveryreport <- mc2_nodes %>% filter(type == 'Entity.Document.DeliveryReport')
+mc2_fish <- mc2_nodes %>% filter(type == 'Entity.Commodity.Fish')
+mc2_loc <- mc2_nodes %>% filter(type == 'Entity.Location.City')
+mc2_cargovessels <- mc2_nodes %>% filter(type == 'Entity.Vessel.CargoVessel' |
+                                           type == 'Entity.Vessel.Ferry.Cargo')
+```
+
+```{r}
+mc2_transaction_loc <- inner_join(mc2_loc, mc2_transaction, by = c("id" = "target"))
+mc2_transaction_fish <- inner_join(mc2_fish, mc2_transaction, by = c("id" = "target"))
+mc2_transaction_loc <- inner_join(mc2_transaction_fish, mc2_transaction_loc, by = c("source" = "source"))
+mc2_transaction_loc <- inner_join(mc2_transaction_loc, mc2_deliveryreport, by = c("source" = "id"))
+```
+
+```{r}
+mc2_transaction_loc <- mc2_transaction_loc %>%
+  mutate(suspect_arrival = as.character(as.Date(date,format = "%Y-%m-%d") - 1),
+         suspect_arrival2 = as.character(as.Date(date,format = "%Y-%m-%d")))
+```
+
+```{r}
+mc2_cargoping <- inner_join(mc2_ping, mc2_cargovessels, by = c("target" = "id"))
+```
+
+```{r}
+mc2_ping_transaction_loc <- right_join(mc2_cargoping, mc2_transaction_loc, by = c("source" = "id.y", "arrivaldate" = "suspect_arrival"))
+mc2_ping_transaction_loc <- mc2_ping_transaction_loc %>% filter(dwell != 0.000)
+```
+
+```{r}
+mc2_ping_transaction_loc2 <- right_join(mc2_cargoping, mc2_transaction_loc, by = c("source" = "id.y", "arrivaldate" = "suspect_arrival2"))
+mc2_ping_transaction_loc2 <- mc2_ping_transaction_loc2 %>% filter(dwell != 0.000)
+```
+
+```{r}
+#finaljoin <- rbind(mc2_ping_transaction_loc, mc2_ping_transaction_loc2)
+
+```
+
+```{r}
+write.csv(mc2_cargoping, 'ping.csv')
+#write.csv(finaljoin, 'transactionping.csv')
+```
+
+```{r}
+geog <- st_read("data/Oceanus Geography.geojson")
+centroids <- st_centroid(geog)
+geog$centroid_x <- st_coordinates(centroids)[, 1]
+geog$centroid_y <- st_coordinates(centroids)[, 2]
+```
+
+```{r}
+#| fig-height: 12
+#| fig-width: 12
+ggplot(data = centroids) +
+  geom_sf(color = "darkblue") +
+  geom_sf_text(aes(label = Name, fill = type), size = 5, color = "black") +
+  theme_minimal() +
+  labs(title = "Region Plot with Labels", x = "Longitude", y = "Latitude")
+```
+
+```{r}
+vessel_sf <- mc2_ping %>%
+  left_join(centroids, by = c("source" = "Name"))
+```
+
+```{r}
+#| fig-height: 12
+#| fig-width: 12
+vessel_sf <- vessel_sf %>% filter(target == "perchplundererbc0")
+ggplot(data = vessel_sf) +
+  geom_sf(data = geog, fill = "lightgray", color = "white") +
+  geom_sf_text(aes(label = Name), size = 4, color = "black") +
+  geom_sf(data = vessel_sf, aes(geometry = geometry), size = 3) +
+  theme_minimal() +
+  labs(title = "Vessel Movements by Arrival Date", color = "Arrival Date", x = "Longitude", y = "Latitude")
+```

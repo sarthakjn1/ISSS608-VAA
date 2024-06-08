@@ -10,16 +10,21 @@ execute:
   freeze: true
 ---
 
-Installing Packages
+### Installing Packages
 
 ```{r}
 pacman::p_load(jsonlite, tidygraph, ggraph,
-               visNetwork, graphlayouts, tidyverse, sf, leaflet)
+               visNetwork, graphlayouts, tidyverse, sf, leaflet, plotly, gganimate,
+               gifski)
 ```
+
+### Importing the data
 
 ```{r}
 mc2_data <- fromJSON("data/MC2.json")
 ```
+
+### Data Preparation
 
 ```{r}
 mc2_ping <-
@@ -95,8 +100,10 @@ mc2_nodes <- as_tibble(mc2_data$nodes) %>%
          id = as.character(id),
          type = as.character(type),
          date = as.character(as.Date(date)),
-         qty = as.character(as.double(qty_tons))) %>%
-  select(id, name, type, date, qty)
+         qty = as.character(as.double(qty_tons),
+         company = as.character(company)
+                            )) %>%
+  select(id, name, type, date, qty, company)
 ```
 
 ```{r}
@@ -117,7 +124,31 @@ mc2_transaction_loc <- inner_join(mc2_transaction_loc, mc2_deliveryreport, by = 
 ```{r}
 mc2_transaction_loc <- mc2_transaction_loc %>%
   mutate(suspect_arrival = as.character(as.Date(date,format = "%Y-%m-%d") - 1),
-         suspect_arrival2 = as.character(as.Date(date,format = "%Y-%m-%d")))
+         suspect_arrival2 = as.character(as.Date(date,format = "%Y-%m-%d")),
+         month = month(date))
+mc2_portoffload <- mc2_transaction_loc %>%
+  group_by(month, id.y, id.x) %>%
+  summarize(totalqty = sum(as.double(qty)),
+            totalcalls = n()) %>%
+  select(id.y, id.x, month, totalqty, totalcalls)
+```
+
+```{r}
+ggplot(data = mc2_portoffload,
+       aes(x = month, y = totalqty, color = id.x)) +
+  facet_wrap(~id.y) +
+  geom_line(marker = '.')
+```
+
+```{r}
+
+```
+
+```{r}
+ggplot(data = mc2_portoffload,
+       aes(x = month, y = totalcalls, color = id.x)) +
+  facet_wrap(~id.y) +
+  geom_line(marker = '.')
 ```
 
 ```{r}
@@ -130,8 +161,8 @@ mc2_ping_transaction_loc <- mc2_ping_transaction_loc %>% filter(dwell != 0.000)
 ```
 
 ```{r}
-mc2_ping_transaction_loc2 <- right_join(mc2_cargoping, mc2_transaction_loc, by = c("source" = "id.y", "arrivaldate" = "suspect_arrival2"))
-mc2_ping_transaction_loc2 <- mc2_ping_transaction_loc2 %>% filter(dwell != 0.000)
+#mc2_ping_transaction_loc2 <- right_join(mc2_cargoping, mc2_transaction_loc, by = c("source" = "id.y", "arrivaldate" = "suspect_arrival2"))
+#mc2_ping_transaction_loc2 <- mc2_ping_transaction_loc2 %>% filter(dwell != 0.000)
 ```
 
 ```{r}
@@ -140,40 +171,175 @@ mc2_ping_transaction_loc2 <- mc2_ping_transaction_loc2 %>% filter(dwell != 0.000
 ```
 
 ```{r}
-write.csv(mc2_cargoping, 'ping.csv')
+#write.csv(mc2_cargoping, 'ping.csv')
 #write.csv(finaljoin, 'transactionping.csv')
 ```
 
 ```{r}
 geog <- st_read("data/Oceanus Geography.geojson")
-centroids <- st_centroid(geog)
-geog$centroid_x <- st_coordinates(centroids)[, 1]
-geog$centroid_y <- st_coordinates(centroids)[, 2]
+geog <- geog %>%
+  mutate(Name = if_else(type == 'Entity.Location.City',paste("City of",Name),Name))
+geog <- st_centroid(geog)
+geog$centroid_x <- st_coordinates(geog)[, 1]
+geog$centroid_y <- st_coordinates(geog)[, 2]
 ```
 
 ```{r}
 #| fig-height: 12
 #| fig-width: 12
-ggplot(data = centroids) +
-  geom_sf(color = "darkblue") +
+ggplot(data = geog) +
+  geom_sf(color = "darkblue", size = 10) +
   geom_sf_text(aes(label = Name, fill = type), size = 5, color = "black") +
   theme_minimal() +
   labs(title = "Region Plot with Labels", x = "Longitude", y = "Latitude")
 ```
 
 ```{r}
+
+```
+
+```{r}
 vessel_sf <- mc2_ping %>%
-  left_join(centroids, by = c("source" = "Name"))
+  left_join(geog, by = c("source" = "Name"))
+```
+
+```{r}
+mc2_vessels <- mc2_nodes %>% filter(type == 'Entity.Vessel.CargoVessel' |
+                                           type == 'Entity.Vessel.Ferry.Cargo' |
+                                      type == 'Entity.Vessel.FishingVessel' |
+                                      type == 'Entity.Vessel.Research' |
+                                      type == 'Entity.Vessel.Tour' |
+                                      type == 'Entity.Vessel.Other')
+mc2_vessels_ping <- mc2_vessels %>%
+  inner_join(mc2_ping, by = c("id" = "target"))
+mc2_vessels_ping <- mc2_vessels_ping %>%
+  mutate(month = month(arrivaldate))
+mc2_southsea_pings <- mc2_vessels_ping %>% filter(company == 'SouthSeafood Express Corp')
+```
+
+```{r}
+mc2_southsea_calls <- mc2_southsea_pings %>%
+  group_by(id, month) %>%
+  summarise(totalcalls = n()) %>%
+  select(id, month, totalcalls)
+```
+
+```{r}
+ggplot(data = mc2_southsea_calls,
+       aes(x = month, y = totalcalls, color = id)) +
+  geom_line()
+```
+
+```{r}
+mc2_southsea <- inner_join(mc2_southsea_pings, geog,
+                           by = c("source" = "Name"))
+mc2_southsea_illegalact <- mc2_southsea %>% filter((X.Kind != 'city') &
+                                          (X.Kind != 'Fishing Ground') )
+mc2_southsea_susp_calls <- mc2_southsea %>%
+  group_by(id, month, source) %>%
+  summarise(totalcalls = n()) %>%
+  select(id, month, source, totalcalls)
+```
+
+```{r}
+ggplot(data = mc2_southsea_susp_calls,
+       aes(x = month, y = totalcalls, color = id)) +
+  facet_wrap(~ source) + 
+  geom_line()
+```
+
+```{r}
+mc2_all <- inner_join(mc2_vessels_ping, geog,
+                                   by = c("source" = "Name"))
+mc2_possible_illegalact <- mc2_all %>% filter((X.Kind != 'city') &
+                                          (X.Kind != 'Fishing Ground') & type.x =='Entity.Vessel.FishingVessel')
+mc2_possible_illegalact <- mc2_possible_illegalact %>% filter(dwell > 200000)
+```
+
+```{r}
+mc2_possible_illegal_calls <- mc2_all %>%
+  group_by(id, month, source) %>%
+  summarise(totalcalls = n()) %>%
+  select(id, month, source, totalcalls)
+mc2_possible_illegal_calls <- mc2_possible_illegal_calls %>% filter(totalcalls > 50)
+```
+
+```{r}
+Wrasse_fishes <- geog %>% filter(Name == "Wrasse Beds")
+Wrasse_fishes <- Wrasse_fishes$fish_species_present
+```
+
+```{r}
+mc2_possible_illegalact <- mc2_possible_illegalact %>% filter((X.Kind == 'Ecological Preserve') & (type.x == 'Entity.Vessel.FishingVessel') &
+ dwell > 100000)
 ```
 
 ```{r}
 #| fig-height: 12
 #| fig-width: 12
-vessel_sf <- vessel_sf %>% filter(target == "perchplundererbc0")
-ggplot(data = vessel_sf) +
-  geom_sf(data = geog, fill = "lightgray", color = "white") +
-  geom_sf_text(aes(label = Name), size = 4, color = "black") +
-  geom_sf(data = vessel_sf, aes(geometry = geometry), size = 3) +
+snatchervessel <- mc2_southsea %>% filter(id == 'snappersnatcher7be') %>%
+  mutate(time = ymd_hms(time))
+data_sf <- snatchervessel %>%
+  st_as_sf(coords = c("centroid_x", "centroid_y"), crs = 4326) %>%
+  mutate(geometry = st_cast(geometry, "POINT"))
+
+g <- ggplot(data = data_sf) +
+  geom_sf(aes(size = 5, color = "blue",geometry = geometry, frame = arrivaldate)) +
+  geom_sf_text(aes(label = source, geometry = geometry, size = 5, frame = arrivaldate)) +
   theme_minimal() +
-  labs(title = "Vessel Movements by Arrival Date", color = "Arrival Date", x = "Longitude", y = "Latitude")
+  labs(title = "Region Plot with Labels", x = "Longitude", y = "Latitude")
+
+ggplotly(g)
+
+```
+
+```{r}
+mc2_arcticgray <- mc2_all %>%
+  group_by(id, month, source) %>%
+  summarise(totalcalls = n()) %>%
+  select(id, month, source, totalcalls)
+mc2_arcticgray <- mc2_arcticgray %>% filter(id == 'arcticgraylingangler094')
+```
+
+```{r}
+ggplot(data = mc2_arcticgray,
+       aes(x = month, y = totalcalls, color = id)) +
+  facet_wrap(~ source) + 
+  geom_line()
+```
+
+```{r}
+mc2_cargovessels_highstay <- inner_join(mc2_possible_illegalact, mc2_cargoping, by = c("source" = "source", "arrivaldate" = "arrivaldate")) 
+
+```
+
+```{r}
+mc2_vessel_mov <- mc2_ping %>%
+  left_join(geog,
+            by = c("source" = "Name"))
+vessel_movement_sf <- mc2_vessel_mov %>%
+  st_as_sf(coords = c("centroid_x", "centroid_y"), 
+           crs = 4326)
+vessel_movement_sf <- vessel_movement_sf %>%
+  arrange(target, time)
+```
+
+```{r}
+vessel_trajectory <- vessel_movement_sf %>%
+  group_by(target) %>%
+  summarize(do_union = FALSE) %>%
+  st_cast("LINESTRING")
+vessel_trajectory_selected <- vessel_trajectory %>%
+  filter(target == "albacoreangler47d")
+```
+
+```{r}
+ggplot() +
+  geom_sf(data = geog) +
+  geom_sf(data = vessel_trajectory_selected, 
+          aes(color = factor(target)), 
+          size = 1) +
+  theme_minimal() +
+  labs(title = "Trajectories of albacoreangler47d", 
+  x = "Longitude", y = "Latitude", color = "ID")
 ```

@@ -471,7 +471,7 @@ p7
 :::
 
 ::: callout-tip
-## Observations from the  Makeover Visualization
+## Observations from the Makeover Visualization
 
 -   In general, the sale prices of properties on Land are higher than those on Strata for the same property type.
 

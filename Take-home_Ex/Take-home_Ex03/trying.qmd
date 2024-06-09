@@ -1,0 +1,11 @@
+---
+title: "Just trying"
+author: "Sarthak"
+---
+
+```{r}
+mc2_cargovessels <- mc2_data$nodes %>% filter(type == "Entity.Vessel.CargoVessel" | type == "Entity.Vessel.Ferry.Cargo")
+mc2_cargoping <- inner_join(mc2_ping, mc2_cargovessels)
+mc2_ping_transaction_loc <- right_join(mc2_cargoping, mc2_transaction_loc, by = c("source" = "id.y", "arrivaldate" = "suspect_arrival"))
+mc2_ping_transaction_loc <- mc2_ping_transaction_loc %>% filter(dwell != 0.000)
+```

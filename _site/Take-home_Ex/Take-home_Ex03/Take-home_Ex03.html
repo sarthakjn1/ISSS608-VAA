@@ -235,6 +235,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="../../Take-home_Ex/Take-home_Ex02/Take-home_Ex02.html">
  <span class="dropdown-text">Take-home Exercise 2</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="../../Take-home_Ex/Take-home_Ex03/Take-home_Ex03.html">
+ <span class="dropdown-text">Take-home Exercise 3</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -280,14 +284,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#investigating-fishing-vessels-at-nemo-reef-and-ghoti-preserve" id="toc-investigating-fishing-vessels-at-nemo-reef-and-ghoti-preserve" class="nav-link" data-scroll-target="#investigating-fishing-vessels-at-nemo-reef-and-ghoti-preserve">Investigating Fishing Vessels at Nemo Reef and Ghoti Preserve</a>
   <ul class="collapse">
+  <li><a href="#observing-anomalies-in-port-offloading-records" id="toc-observing-anomalies-in-port-offloading-records" class="nav-link" data-scroll-target="#observing-anomalies-in-port-offloading-records">Observing anomalies in Port Offloading records</a></li>
   <li><a href="#histogram-of-cargo-offload-transactions" id="toc-histogram-of-cargo-offload-transactions" class="nav-link" data-scroll-target="#histogram-of-cargo-offload-transactions">Histogram of Cargo Offload Transactions</a></li>
   </ul></li>
   <li><a href="#plotting-the-cargo-offload-for-various-ports-by-time" id="toc-plotting-the-cargo-offload-for-various-ports-by-time" class="nav-link" data-scroll-target="#plotting-the-cargo-offload-for-various-ports-by-time">Plotting the Cargo offload for various ports by time</a>
   <ul class="collapse">
   <li><a href="#diving-deep-into-cargo-offload-as-per-fish-species" id="toc-diving-deep-into-cargo-offload-as-per-fish-species" class="nav-link" data-scroll-target="#diving-deep-into-cargo-offload-as-per-fish-species">Diving deep into Cargo offload as per Fish species</a></li>
-  <li><a href="#investigating-the-illegal-activities-and-the-time-when-they-were-caught.-1" id="toc-investigating-the-illegal-activities-and-the-time-when-they-were-caught.-1" class="nav-link" data-scroll-target="#investigating-the-illegal-activities-and-the-time-when-they-were-caught.-1">Investigating the illegal activities and the time when they were caught.</a></li>
-  <li><a href="#investigating-region-wise-calls-for-southseafood-corp-vessels-1" id="toc-investigating-region-wise-calls-for-southseafood-corp-vessels-1" class="nav-link" data-scroll-target="#investigating-region-wise-calls-for-southseafood-corp-vessels-1">Investigating region-wise calls for SouthSeaFood Corp Vessels</a></li>
   </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -498,6 +502,22 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Snappersnatcher7be has made some visits to Ghoti Preserve and looking at the dwell time spent from the dataset there it clearly shows that a higher amount of time was spent there. Hence it could possibly be a suspicious illegal fishing activity carried out at Ghoti Preserve by snappersnatcher7be.</p></li>
+<li><p>Roachrobberdb6 has made frequent visits to Wrasse Beds and Nav C. This is a suspicious behaviour as the fish caught at Wrasse Beds isn’t seeming to go to the port directly for offloading but is going to Nav C and it seems it is going to be offloaded to another vessel at Nav C. This indicates a possible transshipment hapenning at point Nav C.</p></li>
+</ul>
+</div>
+</div>
 <section id="prepare-data-for-plotting-paths-of-vessels" class="level3">
 <h3 class="anchored" data-anchor-id="prepare-data-for-plotting-paths-of-vessels">Prepare data for plotting paths of vessels</h3>
 <div class="cell">
@@ -597,6 +617,21 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Roachrobberdb6 which visits Nav C and Wrasse Beds at a very high frequency suggests that these two locations should be geographically close for it to carry out possible suspicious activities. From the vessel path we can already confirm that these points are geographically close.</li>
+</ul>
+</div>
+</div>
 </section>
 <section id="investigating-the-illegal-activities-and-the-time-when-they-were-caught." class="level3">
 <h3 class="anchored" data-anchor-id="investigating-the-illegal-activities-and-the-time-when-they-were-caught.">Investigating the illegal activities and the time when they were caught.</h3>
@@ -672,6 +707,22 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>There are no pings by both SouthSeaFood Corp Vessels to any ports after month of May(05). This indicates a very clear possibility that SouthSeaFood Corp was caught in May.</p></li>
+<li><p>Roachrobberdb6 has made an irregularly high number of pings in Feb and March indicating that a high number of the suspicious activities were made by it during Feb and March.</p></li>
+</ul>
+</div>
+</div>
 </section>
 <section id="investigating-region-wise-calls-for-southseafood-corp-vessels" class="level3">
 <h3 class="anchored" data-anchor-id="investigating-region-wise-calls-for-southseafood-corp-vessels">Investigating region-wise calls for SouthSeaFood Corp Vessels</h3>
@@ -706,12 +757,29 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>Investigating region wise calls validates findings from the network graph as well as the time based plots plotted earlier. There seems to be an abnormally high number of pings by Roachrobberdb6 to Wrasse Beds and Nav C during February and March. The number of pings reduced thereafter in months of April and May.</p></li>
+<li><p>Another insight is snappersnatcher7be visited and spent an abnormally high amount of time at Ghoti Preserve only in Feb and March. Later months of April and May never saw any visits to Ghoti Preserve.</p></li>
+<li><p>This indicates the possibility of illegal and suspicious fishing activities occuring in Feb and March for both the SouthSeaFood Corp Vessels.</p></li>
+</ul>
+</div>
+</div>
 </section>
 </section>
 <section id="investigating-fishing-vessels-at-nemo-reef-and-ghoti-preserve" class="level2">
 <h2 class="anchored" data-anchor-id="investigating-fishing-vessels-at-nemo-reef-and-ghoti-preserve">Investigating Fishing Vessels at Nemo Reef and Ghoti Preserve</h2>
 <p>From this initial analysis of Snappersnatcher7be, we find that it is pinging Ghoti Preserve and spending a considerable amount of time there. This is suspicious because Ghoti Preserve is an ecological preserve and fishing here is illegal.</p>
-<p>Following a similar line of thought, let us identify the fishing vessels that spent a considerable amount of time at ecological preserves indicating that they might be possibly engaged in illegal fishing.</p>
+<p>Following a similar line of thought, let us identify the fishing vessels that spent a considerable amount of time(dwell &gt; 200000) at ecological preserves indicating that they might be possibly engaged in illegal fishing.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-3-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-1" role="tab" aria-controls="tabset-3-1" aria-selected="true">Nemo Reef</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-3-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-3-2" role="tab" aria-controls="tabset-3-2" aria-selected="false">Ghoti Preserve</a></li></ul>
 <div class="tab-content">
@@ -807,7 +875,29 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 </div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>barracudabandit836, solesseker47a, redfishraider677, sailfishseeker8d5 all seem to spend a considerable amount of time at Nemo Reef. Hence these fishing vessels and the companies they belong to are the most suspicious. The behaviour of these fishing vessels need to be investigated further.</p></li>
+<li><p>brilliantbandit0a1,seabassbandit9ad, fishfinderb9d, salmonsnatcher19d and several others seem to be suspicious as identified by the Network Graph based on their higher dwell times at Ghoti Preserve.</p></li>
+<li><p>As such the network cllearly helps us identify vessels and companies that are suspicious by looking at higher dwell time at the ecological preserves Ghoti Preserve and Nemo Reef. Further insights can be obtained by looking at the network graph.</p></li>
+</ul>
+</div>
+</div>
+<section id="observing-anomalies-in-port-offloading-records" class="level3">
+<h3 class="anchored" data-anchor-id="observing-anomalies-in-port-offloading-records">Observing anomalies in Port Offloading records</h3>
+<p>Preparing the data for investigating port offloading records</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>mc2_nodes <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(mc2_data<span class="sc">$</span>nodes) <span class="sc">%&gt;%</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">name =</span> <span class="fu">as.character</span>(name),</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">id =</span> <span class="fu">as.character</span>(id),</span>
@@ -831,8 +921,11 @@ Geodetic CRS:  WGS 84</code></pre>
 <span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(source, target, type) <span class="sc">%&gt;%</span></span>
 <span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>((source <span class="sc">!=</span> target) <span class="sc">&amp;</span> type <span class="sc">==</span> <span class="st">'Event.Transaction'</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(source, target, type, date)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>mc2_deliveryreport <span class="ot">&lt;-</span> mc2_nodes <span class="sc">%&gt;%</span> <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">'Entity.Document.DeliveryReport'</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>mc2_fish <span class="ot">&lt;-</span> mc2_nodes <span class="sc">%&gt;%</span> <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">'Entity.Commodity.Fish'</span>)</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>mc2_loc <span class="ot">&lt;-</span> mc2_nodes <span class="sc">%&gt;%</span> <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">'Entity.Location.City'</span>)</span>
@@ -843,40 +936,74 @@ Geodetic CRS:  WGS 84</code></pre>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>mc2_transaction_loc <span class="ot">&lt;-</span> mc2_transaction_loc <span class="sc">%&gt;%</span></span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">suspect_arrival =</span> <span class="fu">as.character</span>(<span class="fu">as.Date</span>(date,<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>) <span class="sc">-</span> <span class="dv">1</span>),</span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">suspect_arrival2 =</span> <span class="fu">as.character</span>(<span class="fu">as.Date</span>(date,<span class="at">format =</span> <span class="st">"%Y-%m-%d"</span>)),</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">month =</span> <span class="fu">month</span>(date))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">month =</span> <span class="fu">month</span>(date))</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>mc2_portoffloadtotal <span class="ot">&lt;-</span> mc2_transaction_loc <span class="sc">%&gt;%</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, id.y) <span class="sc">%&gt;%</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">totalqty =</span> <span class="fu">sum</span>(<span class="fu">as.double</span>(qty)),</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>            <span class="at">totalcalls =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id.y, month, totalqty, totalcalls)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>mc2_portoffload <span class="ot">&lt;-</span> mc2_transaction_loc <span class="sc">%&gt;%</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, id.y, name.x) <span class="sc">%&gt;%</span></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">totalqty =</span> <span class="fu">sum</span>(<span class="fu">as.double</span>(qty)),</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>            <span class="at">totalcalls =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id.y, name.x, month, totalqty, totalcalls)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>mc2_portoffloadtotal <span class="ot">&lt;-</span> mc2_transaction_loc <span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, id.y) <span class="sc">%&gt;%</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">totalqty =</span> <span class="fu">sum</span>(<span class="fu">as.double</span>(qty)),</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">totalcalls =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id.y, month, totalqty, totalcalls)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>mc2_portoffload <span class="ot">&lt;-</span> mc2_transaction_loc <span class="sc">%&gt;%</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(month, id.y, name.x) <span class="sc">%&gt;%</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">totalqty =</span> <span class="fu">sum</span>(<span class="fu">as.double</span>(qty)),</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">totalcalls =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id.y, name.x, month, totalqty, totalcalls)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</section>
 <section id="histogram-of-cargo-offload-transactions" class="level3">
 <h3 class="anchored" data-anchor-id="histogram-of-cargo-offload-transactions">Histogram of Cargo Offload Transactions</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>mc2_transaction_loc <span class="ot">&lt;-</span> mc2_transaction_loc <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">qty =</span> <span class="fu">as.double</span>(qty))</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate median</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>median_value <span class="ot">&lt;-</span> <span class="fu">median</span>(mc2_transaction_loc<span class="sc">$</span>qty)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Q3 and IQR</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>Q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(mc2_transaction_loc<span class="sc">$</span>qty, <span class="fl">0.75</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>IQR <span class="ot">&lt;-</span> <span class="fu">IQR</span>(mc2_transaction_loc<span class="sc">$</span>qty)</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>upper_whisker <span class="ot">&lt;-</span> Q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> IQR</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mc2_transaction_loc, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.double</span>(qty))) <span class="sc">+</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> median_value), <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> upper_whisker), <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Cargo offload transactions"</span>, <span class="at">x =</span> <span class="st">"Quantity"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> median_value, <span class="at">y =</span> <span class="cn">Inf</span>, <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"Median:"</span>, <span class="fu">round</span>(median_value, <span class="dv">2</span>)), <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> upper_whisker, <span class="at">y =</span> <span class="cn">Inf</span>, <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"Upper Whisker:"</span>, <span class="fu">round</span>(upper_whisker, <span class="dv">2</span>)), <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>mc2_transaction_loc <span class="ot">&lt;-</span> mc2_transaction_loc <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">qty =</span> <span class="fu">as.double</span>(qty))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate median</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>median_value <span class="ot">&lt;-</span> <span class="fu">median</span>(mc2_transaction_loc<span class="sc">$</span>qty)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Q3 and IQR</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>Q3 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(mc2_transaction_loc<span class="sc">$</span>qty, <span class="fl">0.75</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>IQR <span class="ot">&lt;-</span> <span class="fu">IQR</span>(mc2_transaction_loc<span class="sc">$</span>qty)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>upper_whisker <span class="ot">&lt;-</span> Q3 <span class="sc">+</span> <span class="fl">1.5</span> <span class="sc">*</span> IQR</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mc2_transaction_loc, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.double</span>(qty))) <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">5</span>, <span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> median_value), <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> upper_whisker), <span class="at">linetype =</span> <span class="st">"dotted"</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Histogram of Cargo offload transactions"</span>, <span class="at">x =</span> <span class="st">"Quantity"</span>, <span class="at">y =</span> <span class="st">"Frequency"</span>) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> median_value, <span class="at">y =</span> <span class="cn">Inf</span>, <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"Median:"</span>, <span class="fu">round</span>(median_value, <span class="dv">2</span>)), <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> upper_whisker, <span class="at">y =</span> <span class="cn">Inf</span>, <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"Upper Whisker:"</span>, <span class="fu">round</span>(upper_whisker, <span class="dv">2</span>)), <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li>Records above the Upper Whisker of Quantity 69 tonnes need to be investigated further as they seem to be outliers. There could be possible smuggling or suspicious transshipment which has caused the cargo qty to increase substantially.</li>
+</ul>
+</div>
+</div>
+</section>
+</section>
+<section id="plotting-the-cargo-offload-for-various-ports-by-time" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-the-cargo-offload-for-various-ports-by-time">Plotting the Cargo offload for various ports by time</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mc2_portoffloadtotal,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> totalqty)) <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>id.y) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -885,15 +1012,29 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="plotting-the-cargo-offload-for-various-ports-by-time" class="level2">
-<h2 class="anchored" data-anchor-id="plotting-the-cargo-offload-for-various-ports-by-time">Plotting the Cargo offload for various ports by time</h2>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights:
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>There is an abnormally high increase in the cargo offload quantity at City of Paackland, City of South Paackland and City of Lomark in the months August(08), September(09), October(10), November(11).</p></li>
+<li><p>This coincides after SouthSeaFood Corp vessels stop pinging them in May(05). So this is possibly a illegal activity after SouthSeaFoodCorp was caught.</p></li>
+</ul>
+</div>
+</div>
+<section id="diving-deep-into-cargo-offload-as-per-fish-species" class="level3">
+<h3 class="anchored" data-anchor-id="diving-deep-into-cargo-offload-as-per-fish-species">Diving deep into Cargo offload as per Fish species</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mc2_portoffloadtotal,</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> totalqty)) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mc2_portoffload,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> totalqty, <span class="at">fill =</span> name.x)) <span class="sc">+</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>id.y) <span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -903,97 +1044,29 @@ Geodetic CRS:  WGS 84</code></pre>
 </div>
 </div>
 </div>
-<section id="diving-deep-into-cargo-offload-as-per-fish-species" class="level3">
-<h3 class="anchored" data-anchor-id="diving-deep-into-cargo-offload-as-per-fish-species">Diving deep into Cargo offload as per Fish species</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mc2_portoffload,</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> totalqty, <span class="at">fill =</span> name.x)) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>id.y) <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>) <span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Insights:
 </div>
 </div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>mc2_cargovessels <span class="ot">&lt;-</span> mc2_data<span class="sc">$</span>nodes <span class="sc">%&gt;%</span> <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">"Entity.Vessel.CargoVessel"</span> <span class="sc">|</span> type <span class="sc">==</span> <span class="st">"Entity.Vessel.Ferry.Cargo"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>mc2_cargoping <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(mc2_ping, mc2_cargovessels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>mc2_ping_transaction_loc <span class="ot">&lt;-</span> <span class="fu">right_join</span>(mc2_cargoping, mc2_transaction_loc, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"source"</span> <span class="ot">=</span> <span class="st">"id.y"</span>, <span class="st">"arrivaldate"</span> <span class="ot">=</span> <span class="st">"suspect_arrival"</span>))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>mc2_ping_transaction_loc <span class="ot">&lt;-</span> mc2_ping_transaction_loc <span class="sc">%&gt;%</span> <span class="fu">filter</span>(dwell <span class="sc">!=</span> <span class="fl">0.000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#mc2_ping_transaction_loc2 &lt;- right_join(mc2_cargoping, mc2_transaction_loc, by = c("source" = "id.y", "arrivaldate" = "suspect_arrival2"))</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">#mc2_ping_transaction_loc2 &lt;- mc2_ping_transaction_loc2 %&gt;% filter(dwell != 0.000)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#finaljoin &lt;- rbind(mc2_ping_transaction_loc, mc2_ping_transaction_loc2)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(mc2_cargoping, 'ping.csv')</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(finaljoin, 'transactionping.csv')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="investigating-the-illegal-activities-and-the-time-when-they-were-caught.-1" class="level3">
-<h3 class="anchored" data-anchor-id="investigating-the-illegal-activities-and-the-time-when-they-were-caught.-1">Investigating the illegal activities and the time when they were caught.</h3>
-<div class="cell">
-<details class="code-fold">
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>mc2_vessels <span class="ot">&lt;-</span> mc2_nodes <span class="sc">%&gt;%</span> <span class="fu">filter</span>(type <span class="sc">==</span> <span class="st">'Entity.Vessel.CargoVessel'</span> <span class="sc">|</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                                           type <span class="sc">==</span> <span class="st">'Entity.Vessel.Ferry.Cargo'</span> <span class="sc">|</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                                      type <span class="sc">==</span> <span class="st">'Entity.Vessel.FishingVessel'</span> <span class="sc">|</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                                      type <span class="sc">==</span> <span class="st">'Entity.Vessel.Research'</span> <span class="sc">|</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                                      type <span class="sc">==</span> <span class="st">'Entity.Vessel.Tour'</span> <span class="sc">|</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                                      type <span class="sc">==</span> <span class="st">'Entity.Vessel.Other'</span>)</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>mc2_vessels_ping <span class="ot">&lt;-</span> mc2_vessels <span class="sc">%&gt;%</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(mc2_ping, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"target"</span>))</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>mc2_vessels_ping <span class="ot">&lt;-</span> mc2_vessels_ping <span class="sc">%&gt;%</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">month =</span> <span class="fu">month</span>(arrivaldate))</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>mc2_southsea_pings <span class="ot">&lt;-</span> mc2_vessels_ping <span class="sc">%&gt;%</span> <span class="fu">filter</span>(company <span class="sc">==</span> <span class="st">'SouthSeafood Express Corp'</span>)</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>mc2_southsea_calls <span class="ot">&lt;-</span> mc2_southsea_pings <span class="sc">%&gt;%</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id, month) <span class="sc">%&gt;%</span></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">totalcalls =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, month, totalcalls)</span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> mc2_southsea_calls,</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> totalcalls, <span class="at">fill =</span> id)) <span class="sc">+</span></span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>) <span class="sc">+</span> </span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Take-home_Ex03_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>The abnormal rise in cargo offload at City of Paackland, City of South Paackland and City of Lomark is primarily due to abnromal increase in Cod/Gadus n.specificatae and Beauvoir/Habeas pisces.</p></li>
+<li><p>These fish species and the vessels that possibly carry these fish species need to be investigated further.</p></li>
+</ul>
 </div>
 </div>
 </section>
-<section id="investigating-region-wise-calls-for-southseafood-corp-vessels-1" class="level3">
-<h3 class="anchored" data-anchor-id="investigating-region-wise-calls-for-southseafood-corp-vessels-1">Investigating region-wise calls for SouthSeaFood Corp Vessels</h3>
-<p>Prepare the data for region-wise calls for SouthSeaFood Corp Vessels.</p>
-<div class="cell">
-<details class="code-fold">
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>mc2_southsea <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(mc2_southsea_pings, geog,</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"source"</span> <span class="ot">=</span> <span class="st">"Name"</span>))</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>mc2_southsea_illegalact <span class="ot">&lt;-</span> mc2_southsea <span class="sc">%&gt;%</span> <span class="fu">filter</span>((X.Kind <span class="sc">!=</span> <span class="st">'city'</span>) <span class="sc">&amp;</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                                          (X.Kind <span class="sc">!=</span> <span class="st">'Fishing Ground'</span>) )</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>mc2_southsea_susp_calls <span class="ot">&lt;-</span> mc2_southsea <span class="sc">%&gt;%</span></span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(id, month, source) <span class="sc">%&gt;%</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">totalcalls =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(id, month, source, totalcalls)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>We have been able to identify some suspicious activities through this analysis. There needs to be further investigation on insights mentioned in the previous points to confirm the illegal activities and drill down on the kind of illegal activities.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

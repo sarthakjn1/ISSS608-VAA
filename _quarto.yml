@@ -33,6 +33,12 @@ website:
             href: "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08_partb.html"
           - text: "Hands-on Exercise 8: Part C"
             href: "Hands-on_Ex/Hands-on_Ex08/Hands-on_Ex08_partc.html"
+          - text: "Hands-on Exercise 9: Part A"
+            href: "Hands-on_Ex/Hands-on_Ex09/Hands-on_Ex09_parta.html"
+          - text: "Hands-on Exercise 9: Part B"
+            href: "Hands-on_Ex/Hands-on_Ex09/Hands-on_Ex09_partb.html"
+          - text: "Hands-on Exercise 9: Part C"
+            href: "Hands-on_Ex/Hands-on_Ex09/Hands-on_Ex09_partc.html"
       - text: "In-class Exercise"
         menu: 
           - text: "In-class Exercise 1"

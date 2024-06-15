@@ -10,13 +10,13 @@ execute:
   freeze: true
 ---
 
-## 13.1 Overview
+## 9.1 Overview
 
 Ternary plots are a way of displaying the distribution and variability of three-part compositional data. (For example, the proportion of aged, economy active and young population or sand, silt, and clay in soil.) It’s display is a triangle with sides scaled from 0 to 1. Each side represents one of the three components. A point is plotted so that a line drawn perpendicular from the point to each leg of the triangle intersect at the component values of the point.
 
 In this hands-on, you will learn how to build ternary plot programmatically using R for visualising and analysing population structure of Singapore.
 
-## 13.2 Installing and launching R packages
+## 9.2 Installing and launching R packages
 
 For this exercise, two main R packages will be used in this hands-on exercise, they are:
 
@@ -28,13 +28,13 @@ For this exercise, two main R packages will be used in this hands-on exercise, t
 pacman::p_load(plotly, ggtern, tidyverse)
 ```
 
-## 13.3 Data Preparation
+## 9.3 Data Preparation
 
-### 13.3.1 The data
+### 9.3.1 The data
 
 For the purpose of this hands-on exercise, the [Singapore Residents by Planning AreaSubzone, Age Group, Sex and Type of Dwelling, June 2000-2018](https://www.singstat.gov.sg/find-data/search-by-theme/population/geographic-distribution/latest-data) data will be used. The data set has been downloaded and included in the data sub-folder of the hands-on exercise folder. It is called *respopagsex2000to2018_tidy.csv* and is in csv file format.
 
-### 13.3.2 Importing Data
+### 9.3.2 Importing Data
 
 To important *respopagsex2000to2018_tidy.csv* into R, *read_csv()* function of readr package will be used.
 
@@ -43,7 +43,7 @@ To important *respopagsex2000to2018_tidy.csv* into R, *read_csv()* function of r
 pop_data <- read_csv("data/respopagsex2000to2018_tidy.csv") 
 ```
 
-### 13.3.3 Preparing the Data
+### 9.3.3 Preparing the Data
 
 Next, use the *mutate()* function of dplyr package to derive three new measures, namely: young, active, and old.
 
@@ -60,9 +60,9 @@ agpop_mutated <- pop_data %>%
   filter(TOTAL > 0)
 ```
 
-## 13.4 Plotting Ternary Diagram with R
+## 9.4 Plotting Ternary Diagram with R
 
-### 13.4.1 4.1 Plotting a static ternary diagram
+### 9.4.1 4.1 Plotting a static ternary diagram
 
 Use *ggtern()* function of ggtern package to create a simple ternary plot.
 
@@ -80,7 +80,7 @@ ggtern(data=agpop_mutated, aes(x=YOUNG,y=ACTIVE, z=OLD)) +
   theme_rgbw()
 ```
 
-### 13.4.2 Plotting an interactive ternary diagram
+### 9.4.2 Plotting an interactive ternary diagram
 
 The code below create an interactive ternary plot using *plot_ly()* function of Plotly R.
 

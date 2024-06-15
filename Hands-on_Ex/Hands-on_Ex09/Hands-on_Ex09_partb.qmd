@@ -10,7 +10,7 @@ execute:
   freeze: true
 ---
 
-## 6.1 Overview
+## 9.1 Overview
 
 Correlation coefficient is a popular statistic that use to measure the type and strength of the relationship between two variables. The values of a correlation coefficient ranges between -1.0 and 1.0. A correlation coefficient of 1 shows a perfect linear relationship between the two variables, while a -1.0 shows a perfect inverse relationship between the two variables. A correlation coefficient of 0.0 shows no linear relationship between the two variables.
 
@@ -32,7 +32,7 @@ When the data is large, both in terms of the number of observations and the numb
 
 In this hands-on exercise, you will learn how to plot data visualisation for visualising correlation matrix with R. It consists of three main sections. First, you will learn how to create correlation matrix using [*pairs()*](https://www.rdocumentation.org/packages/graphics/versions/3.6.0/topics/pairs) of R Graphics. Next, you will learn how to plot corrgram using corrplot package of R. Lastly, you will learn how to create an interactive correlation matrix using plotly R.
 
-## 6.2 Installing and Launching R Packages
+## 9.2 Installing and Launching R Packages
 
 Before you get started, you are required to open a new Quarto document. Keep the default html authoring format.
 
@@ -42,11 +42,11 @@ Next, you will use the code chunk below to install and launch corrplot, ggpubr, 
 pacman::p_load(corrplot, ggstatsplot, tidyverse)
 ```
 
-## 6.3 Importing and Preparing The Data Set
+## 9.3 Importing and Preparing The Data Set
 
-In this hands-on exercise, the [Wine Quality Data Set](https://archive.ics.uci.edu/ml/datasets/wine+quality) of UCI Machine Learning Repository will be used. The data set consists of 13 variables and 6497 observations. For the purpose of this exercise, we have combined the red wine and white wine data into one data file. It is called wine_quality and is in csv file format.
+In this hands-on exercise, the [Wine Quality Data Set](https://archive.ics.uci.edu/ml/datasets/wine+quality) of UCI Machine Learning Repository will be used. The data set consists of 13 variables and 9497 observations. For the purpose of this exercise, we have combined the red wine and white wine data into one data file. It is called wine_quality and is in csv file format.
 
-### 6.3.1 Importing Data
+### 9.3.1 Importing Data
 
 First, let us import the data into R by using *read_csv()* of readr package.
 
@@ -56,13 +56,13 @@ wine <- read_csv("data/wine_quality.csv")
 
 Notice that beside quality and type, the rest of the variables are numerical and continuous data type.
 
-## 6.4 Building Correlation Matrix: *pairs()* method
+## 9.4 Building Correlation Matrix: *pairs()* method
 
 There are more than one way to build scatterplot matrix with R. In this section, you will learn how to create a scatterplot matrix by using the *pairs* function of R Graphics.
 
 Before you continue to the next step, you should read the syntax description of [*pairs*](https://stat.ethz.ch/R-manual/R-devel/library/graphics/html/pairs.html)function.
 
-### 6.4.1 Building a basic correlation matrix
+### 9.4.1 Building a basic correlation matrix
 
 Figure below shows the scatter plot matrix of Wine Quality Data. It is a 11 by 11 matrix.
 
@@ -76,7 +76,7 @@ The required input of *pairs()* can be a matrix or data frame. The code chunk 
 pairs(wine[,2:12])
 ```
 
-### 6.4.2 Drawing the lower corner
+### 9.4.2 Drawing the lower corner
 
 *pairs* function of R Graphics provided many customisation arguments. For example, it is a common practice to show either the upper half or lower half of the correlation matrix instead of both. This is because a correlation matrix is symmetric.
 
@@ -92,7 +92,7 @@ Similarly, you can display the upper half of the correlation matrix by using the
 pairs(wine[,2:12], lower.panel = NULL)
 ```
 
-### 6.4.3 Including with correlation coefficients
+### 9.4.3 Including with correlation coefficients
 
 To show the correlation coefficient of each pair of variables instead of a scatter plot, [*panel.cor*](https://www.rdocumentation.org/packages/xcms/versions/1.48.0/topics/panel.cor) function will be used. This will also show higher correlations in a larger font.
 
@@ -102,7 +102,7 @@ usr <- par("usr")
 on.exit(par(usr))
 par(usr = c(0, 1, 0, 1))
 r <- abs(cor(x, y, use="complete.obs"))
-txt <- format(c(r, 0.123456789), digits=digits)[1]
+txt <- format(c(r, 0.123459789), digits=digits)[1]
 txt <- paste(prefix, txt, sep="")
 if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
 text(0.5, 0.5, txt, cex = cex.cor * (1 + r) / 2)
@@ -112,9 +112,9 @@ pairs(wine[,2:12],
       upper.panel = panel.cor)
 ```
 
-## 6.5 Visualising Correlation Matrix: ggcormat()
+## 9.5 Visualising Correlation Matrix: ggcormat()
 
-One of the major limitation of the correlation matrix is that the scatter plots appear very cluttered when the number of observations is relatively large (i.e. more than 500 observations). To over come this problem, Corrgram data visualisation technique suggested by D. J. Murdoch and E. D. Chow (1996) and Friendly, M (2002) and will be used.
+One of the major limitation of the correlation matrix is that the scatter plots appear very cluttered when the number of observations is relatively large (i.e. more than 500 observations). To over come this problem, Corrgram data visualisation technique suggested by D. J. Murdoch and E. D. Chow (1999) and Friendly, M (2002) and will be used.
 
 The are at least three R packages provide function to plot corrgram, they are:
 
@@ -126,7 +126,7 @@ On top that, some R package like ggstatsplot package also provides functions for
 
 In this section, you will learn how to visualising correlation matrix by using [*ggcorrmat()*](https://indrajeetpatil.github.io/ggstatsplot/reference/ggcorrmat.html) of [ggstatsplot](https://indrajeetpatil.github.io/ggstatsplot/) package.
 
-### 6.5.1 The basic plot
+### 9.5.1 The basic plot
 
 On of the advantage of using *ggcorrmat()* over many other methods to visualise a correlation matrix is it’s ability to provide a comprehensive and yet professional statistical report as shown in the figure below.
 

@@ -62,7 +62,7 @@ website:
           - text: "In-class Exercise 6: Part B"
             href: "In-class_Ex/In-class_Ex06/In-class_Ex06_partb.html"
           - text: "In-class Exercise 9"
-            href: "In-class_Ex/In-class_Ex04/In-class_Ex09.html"
+            href: "In-class_Ex/In-class_Ex09/In-class_Ex09.html"
             
       - text: "Take-home Exercise"
         menu: 

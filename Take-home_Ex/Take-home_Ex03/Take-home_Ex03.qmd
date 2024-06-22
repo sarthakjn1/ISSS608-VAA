@@ -7,7 +7,6 @@ execute:
   eval: true
   echo: true
   warning: false
-  freeze: true
 ---
 
 ## Project: VAST Challenge 2024 - Mini-Challenge 2
